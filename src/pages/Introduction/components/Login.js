@@ -13,6 +13,11 @@ import { green } from "@material-ui/core/colors";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Typography from "@material-ui/core/Typography";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
+import FormLabel from "@material-ui/core/FormLabel";
+import FormControl from "@material-ui/core/FormControl";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
 
 import { contentIntro } from "../../../utils/constants";
 
@@ -75,11 +80,17 @@ const Login = props => {
   });
   const history = useHistory();
   const {
-    isLoadingBtn,
     onPressLoginButton,
+    onChangeTechLabels,
+    onChangeAddLabels,
+    isLoadingBtn,
     isSuccessLogin,
     techLabels,
-    addLabels
+    addLabels,
+    isChooseTechOptions,
+    isChooseAddOptions,
+    techLabelsChoosing,
+    addLabelsChoosing
   } = props;
   const valueList = Object.values(userData);
   const hasValueEmptyProperty =
@@ -120,42 +131,98 @@ const Login = props => {
         />
       </ThemeProvider>
       <ThemeProvider theme={theme}>
-        <TextField
-          className={classes.fieldInputContainer}
-          label="Chuyên môn"
-          variant="outlined"
-          id="mui-theme-provider-outlined-input"
-          // value={userData.techKnowledge}
-          value={
-            techLabels.length > 0
-              ? `${techLabels[0]}, ${techLabels[1]}`
-              : userData.techKnowledge
-          }
-          onChange={({ target }) =>
-            setUserData({ ...userData, techKnowledge: target.value })
-          }
-          multiline
-          rows="3"
-        />
+        {isChooseTechOptions && (
+          <FormControl component="fieldset" className={classes.formControl}>
+            <FormLabel component="legend">
+              Vui lòng chọn nhóm chuyên môn
+            </FormLabel>
+            <FormGroup>
+              {techLabelsChoosing.map(labelName => (
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={techLabels.includes(labelName)}
+                      name={labelName}
+                      onChange={node =>
+                        onChangeTechLabels({
+                          name: node.target.name,
+                          checked: node.target.checked
+                        })
+                      }
+                    />
+                  }
+                  label={labelName}
+                />
+              ))}
+            </FormGroup>
+          </FormControl>
+        )}
+        {!isChooseTechOptions && (
+          <TextField
+            className={classes.fieldInputContainer}
+            label="Chuyên môn"
+            variant="outlined"
+            id="mui-theme-provider-outlined-input"
+            // value={userData.techKnowledge}
+            value={
+              techLabels.length > 0
+                ? `${techLabels[0]}, ${techLabels[1]}`
+                : userData.techKnowledge
+            }
+            onChange={({ target }) =>
+              setUserData({ ...userData, techKnowledge: target.value })
+            }
+            multiline
+            rows="3"
+          />
+        )}
       </ThemeProvider>
       <ThemeProvider theme={theme}>
-        <TextField
-          className={classes.fieldInputContainer}
-          label="Ngoài chuyên môn"
-          variant="outlined"
-          id="mui-theme-provider-outlined-input"
-          // value={userData.addKnowledge}
-          value={
-            addLabels.length > 0
-              ? `${addLabels[0]}, ${addLabels[1]}`
-              : userData.addKnowledge
-          }
-          onChange={({ target }) =>
-            setUserData({ ...userData, addKnowledge: target.value })
-          }
-          multiline
-          rows="3"
-        />
+        {isChooseAddOptions && (
+          <FormControl component="fieldset" className={classes.formControl}>
+            <FormLabel component="legend">
+              Vui lòng chọn nhóm ngoài chuyên môn
+            </FormLabel>
+            <FormGroup>
+              {addLabelsChoosing.map(labelName => (
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={addLabels.includes(labelName)}
+                      name={labelName}
+                      onChange={node =>
+                        onChangeAddLabels({
+                          name: node.target.name,
+                          checked: node.target.checked
+                        })
+                      }
+                    />
+                  }
+                  label={labelName}
+                />
+              ))}
+            </FormGroup>
+          </FormControl>
+        )}
+        {!isChooseAddOptions && (
+          <TextField
+            className={classes.fieldInputContainer}
+            label="Ngoài chuyên môn"
+            variant="outlined"
+            id="mui-theme-provider-outlined-input"
+            // value={userData.addKnowledge}
+            value={
+              addLabels.length > 0
+                ? `${addLabels[0]}, ${addLabels[1]}`
+                : userData.addKnowledge
+            }
+            onChange={({ target }) =>
+              setUserData({ ...userData, addKnowledge: target.value })
+            }
+            multiline
+            rows="3"
+          />
+        )}
       </ThemeProvider>
       <Button
         variant="contained"

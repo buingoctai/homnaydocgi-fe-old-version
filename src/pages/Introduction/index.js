@@ -32,13 +32,6 @@ const useStyles = makeStyles(theme => ({
 }));
 const Introduction = props => {
   const classes = useStyles();
-  const {
-    isLoadingBtn,
-    isSuccessLogin,
-    techLabels,
-    addLabels,
-    onPressLoginButton
-  } = props;
 
   return (
     <BasicLayout>
