@@ -19,6 +19,7 @@ import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 
+import DraggableDialog from "../../../components/Dialog";
 import { contentIntro } from "../../../utils/constants";
 
 const useStyles = makeStyles(theme => ({
@@ -70,8 +71,14 @@ const useStyles = makeStyles(theme => ({
   formControl: {
     margin: theme.spacing(3),
     display: "flex",
-    justifyContent: "flex-start"
+    justifyContent: "flex-start",
+    width: "100%"
   },
+  formLabel: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "row"
+  }
 }));
 const theme = createMuiTheme({
   palette: {
@@ -100,25 +107,46 @@ const Login = props => {
     isChooseAddOptions,
     techLabelsChoosing,
     addLabelsChoosing,
-    isKeepCurrentPage,
+    isKeepCurrentPage
   } = props;
 
   // Handle disable btn
-  const isDisabledTechField = isChooseTechOptions ? (userData.techKnowledge == "" || techLabels.length == 0) : (userData.techKnowledge == "" && techLabels.length == 0);
-  const isDisabledAddField = isChooseAddOptions ? (userData.addKnowledge == "" || addLabels.length == 0) : (userData.addKnowledge == "" && addLabels.length == 0);
-  const isDisabledBtn = (userData.userName == "") || (userData.fbUrl === "") || isDisabledTechField || isDisabledAddField || isLoadingBtn;
+  const isDisabledTechField = isChooseTechOptions
+    ? userData.techKnowledge === "" || techLabels.length === 0
+    : userData.techKnowledge === "" && techLabels.length === 0;
+  const isDisabledAddField = isChooseAddOptions
+    ? userData.addKnowledge === "" || addLabels.length === 0
+    : userData.addKnowledge === "" && addLabels.length === 0;
+  // Validation
+  const errUsernameProps = userData.userName.length > 5 && {
+    error: true,
+    id: "standard-error-helper-text",
+    helperText: "Độ dài tối đa là 5 ký tự"
+  };
+  const errFbUrlProps = userData.fbUrl.indexOf("facebook.com") === -1 && {
+    error: true,
+    id: "standard-error-helper-text",
+    helperText: "Phải chứa domain facebook.com"
+  };
+  const isDisabledBtn =
+    userData.userName === "" ||
+    userData.fbUrl === "" ||
+    isDisabledTechField ||
+    isDisabledAddField ||
+    errUsernameProps ||
+    errFbUrlProps ||
+    isLoadingBtn;
 
   useEffect(() => {
     if (isSuccessLogin) {
       history.push("/home");
     }
-  }, [isSuccessLogin === true]);
-
+  });
 
   return (
     <div className={classes.loginFormContainer}>
       {isKeepCurrentPage && (
-        <div>
+        <>
           <AssignmentIndIcon className={classes.iconContainer} />
           <span className={classes.title}>Đăng Nhập</span>
           <ThemeProvider theme={theme}>
@@ -131,24 +159,27 @@ const Login = props => {
               onChange={({ target }) =>
                 setUserData({ ...userData, userName: target.value })
               }
+              {...errUsernameProps}
             />
           </ThemeProvider>
           <ThemeProvider theme={theme}>
             <TextField
               className={classes.fieldInputContainer}
               label="Facebook URL"
+              placeholder=""
               variant="outlined"
               id="mui-theme-provider-outlined-input"
               value={userData.fbUrl}
               onChange={({ target }) =>
                 setUserData({ ...userData, fbUrl: target.value })
               }
+              {...errFbUrlProps}
             />
           </ThemeProvider>
           <ThemeProvider theme={theme}>
             {isChooseTechOptions && (
               <FormControl component="fieldset" className={classes.formControl}>
-                <FormLabel component="legend">
+                <FormLabel component="legend" className={classes.formLabel}>
                   Vui lòng chọn nhóm chuyên môn
                 </FormLabel>
                 <FormGroup>
@@ -195,7 +226,7 @@ const Login = props => {
           <ThemeProvider theme={theme}>
             {isChooseAddOptions && (
               <FormControl component="fieldset" className={classes.formControl}>
-                <FormLabel component="legend">
+                <FormLabel component="legend" className={classes.formLabel}>
                   Vui lòng chọn nhóm ngoài chuyên môn
                 </FormLabel>
                 <FormGroup>
@@ -252,7 +283,7 @@ const Login = props => {
               <LinearProgress color="primary" />
               <span style={{ fontWeight: "bold" }}>
                 Đang xử lý thông tin người dùng vừa nhập
-          </span>
+              </span>
             </div>
           )}
           <div>
@@ -262,21 +293,40 @@ const Login = props => {
               className={classes.contentHeaderWrap}
             >
               Tại sao cần cung cấp các thông tin trên?
-        </Typography>
+            </Typography>
             <ArrowDownwardIcon
               style={{ width: "40px", height: "50px", color: "green" }}
             />
             <p style={{ fontStyle: "italic" }}>{contentIntro.reasonFBLink}</p>
           </div>
-        </div>
+        </>
+      )}
+
+      {isChooseTechOptions && !isChooseAddOptions && (
+        <DraggableDialog
+          dialogContent="Thông tin người dùng vừa nhập, hệ thống không xác định được CHUYÊN MÔN. Vui
+            lòng chọn tùy chọn bên dưới."
+        />
+      )}
+      {isChooseAddOptions && !isChooseTechOptions && (
+        <DraggableDialog
+          dialogContent="Thông tin người dùng vừa nhập, hệ thống không xác định được NGOÀI CHUYÊN MÔN. Vui
+      lòng chọn tùy chọn bên dưới."
+        />
+      )}
+      {isChooseTechOptions && isChooseAddOptions && (
+        <DraggableDialog
+          dialogContent="Thông tin người dùng vừa nhập, hệ thống không xác định được CHUYÊN MÔN và NGOÀI CHUYÊN MÔN. Vui
+            lòng chọn tùy chọn bên dưới."
+        />
       )}
       {!isKeepCurrentPage && (
         <div className={classes.linearLoadingNavigatePage}>
-          <LinearProgress color="primary" style={{ height: "20px" }} />
-          <span style={{ fontWeight: "bold" }}>
-            Đang chuyển sang trang mới
-        </span>
-        </div>)}
+          <LinearProgress color="primary" style={{ height: "3px" }} />
+          <span style={{ fontWeight: "bold" }}>Đang chuyển sang trang mới</span>
+        </div>
+      )}
+      {}
     </div>
   );
 };

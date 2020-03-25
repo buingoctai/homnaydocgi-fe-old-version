@@ -117,7 +117,7 @@ const Blog = () => {
             <span className={classes.loadingMessage}>
               Đang tải bài viết. Vui lòng đợi!
             </span>
-            <LinearProgress color="primary" style={{ height: "5px" }} />
+            <LinearProgress color="primary" style={{ height: "3px" }} />
           </div>
         )}
         {!isLoadingTotalBlogContent && (

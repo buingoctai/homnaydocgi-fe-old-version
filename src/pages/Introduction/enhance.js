@@ -31,8 +31,14 @@ export default compose(
       } = props;
 
       if (!isChooseTechOptions && !isChooseAddOptions) {
-        setTimeout(() => setIsKeepCurrentPage(techLabels.length === 0 || addLabels.length === 0), 2000);
-        setTimeout(() => setIsSuccessLogin(true), 4000);
+        setTimeout(
+          () =>
+            setIsKeepCurrentPage(
+              techLabels.length === 0 || addLabels.length === 0
+            ),
+          3000
+        );
+        setTimeout(() => setIsSuccessLogin(true), 5000);
       }
     }
   }),
@@ -62,7 +68,7 @@ export default compose(
         setIsChooseAddOptions,
         checkingNavigatePage,
         techLabels,
-        addLabels,
+        addLabels
       } = props;
       const { userName, fbUrl, techKnowledge, addKnowledge } = fbLink;
 
@@ -75,15 +81,14 @@ export default compose(
           userName,
           fbUrl,
           techKnowledge: techLabels.length > 0 ? techLabels : techKnowledge,
-          addKnowledge: addLabels.length > 0 ? addLabels : addKnowledge,
+          addKnowledge: addLabels.length > 0 ? addLabels : addKnowledge
         }
       })
         .then(async ({ predictiveTech, predictiveAdd }) => {
-
           // Create fake respoonse
           const predictiveTechFake = {
             intentTech: {
-              confidence: 0.69,
+              confidence: 0.81,
               name: "greet"
             },
             intent_ranking: [
@@ -112,7 +117,7 @@ export default compose(
           };
           const predictiveAddFake = {
             intentAdd: {
-              confidence: 0.69,
+              confidence: 0.71,
               name: "greet"
             },
             intent_ranking: [
@@ -157,8 +162,6 @@ export default compose(
             await setAddLabels(["Marketing", "Leader"]);
             await checkingNavigatePage();
           }
-
-
         })
         .catch(error => console.log(error));
     }
