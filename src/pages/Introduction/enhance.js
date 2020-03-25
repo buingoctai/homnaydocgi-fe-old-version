@@ -18,15 +18,21 @@ export default compose(
     "Leader",
     "Sales"
   ]), // call api to get labels
+  withState("isKeepCurrentPage", "setIsKeepCurrentPage", true),
   withHandlers({
-    checkingNavigatePage: props => {
+    checkingNavigatePage: async props => {
       const {
         setIsSuccessLogin,
+        setIsKeepCurrentPage,
+        techLabels,
         isChooseTechOptions,
-        isChooseAddOptions
+        isChooseAddOptions,
+        addLabels
       } = props;
+
       if (!isChooseTechOptions && !isChooseAddOptions) {
-        setTimeout(() => setIsSuccessLogin(true), 3000);
+        setTimeout(() => setIsKeepCurrentPage(techLabels.length === 0 || addLabels.length === 0), 2000);
+        setTimeout(() => setIsSuccessLogin(true), 4000);
       }
     }
   }),
@@ -54,7 +60,9 @@ export default compose(
         setAddLabels,
         setIsChooseTechOptions,
         setIsChooseAddOptions,
-        checkingNavigatePage
+        checkingNavigatePage,
+        techLabels,
+        addLabels,
       } = props;
       const { userName, fbUrl, techKnowledge, addKnowledge } = fbLink;
 
@@ -66,14 +74,16 @@ export default compose(
         data: {
           userName,
           fbUrl,
-          techKnowledge,
-          addKnowledge
+          techKnowledge: techLabels.length > 0 ? techLabels : techKnowledge,
+          addKnowledge: addLabels.length > 0 ? addLabels : addKnowledge,
         }
       })
-        .then(async res => {
-          const fakeRes = {
-            intent: {
-              confidence: 0.79,
+        .then(async ({ predictiveTech, predictiveAdd }) => {
+
+          // Create fake respoonse
+          const predictiveTechFake = {
+            intentTech: {
+              confidence: 0.69,
               name: "greet"
             },
             intent_ranking: [
@@ -100,68 +110,55 @@ export default compose(
             ],
             text: "long time no meet."
           };
-          const { intent } = fakeRes;
-          const { confidence, name } = intent;
-          if (confidence < 0.7) {
-            await setIsChooseTechOptions(confidence < 0.7);
+          const predictiveAddFake = {
+            intentAdd: {
+              confidence: 0.69,
+              name: "greet"
+            },
+            intent_ranking: [
+              {
+                confidence: 0.9683540388643863,
+                name: "greet"
+              },
+              {
+                confidence: 0.0304360804949038,
+                name: "findRestaurantsByCity"
+              },
+              {
+                confidence: 0.0009200842500758811,
+                name: "negative"
+              },
+              {
+                confidence: 0.0002700520294281852,
+                name: "affirmative"
+              },
+              {
+                confidence: 0.0000197443612058981,
+                name: "bye"
+              }
+            ],
+            text: "long time no meet."
+          };
+          //-------------------------------
+          const { intentTech } = predictiveTechFake;
+          const { intentAdd } = predictiveAddFake;
+
+          if (intentTech.confidence < 0.7) {
+            await setIsChooseTechOptions(intentTech.confidence < 0.7);
           } else {
-            setTechLabels(["Back-End", "Front-End"]);
+            await setTechLabels(["Back-End", "Front-End"]);
           }
-        })
-        .catch(error => console.log(error));
 
-      await axios({
-        method: "post",
-        url: `http://localhost:8000/user/submitData`,
-        headers: {},
-        data: {
-          userName,
-          fbUrl,
-          techKnowledge,
-          addKnowledge
-        }
-      })
-        .then(async res => {
-          const fakeRes = {
-            intent: {
-              confidence: 0.99,
-              name: "greet"
-            },
-            intent_ranking: [
-              {
-                confidence: 0.9683540388643863,
-                name: "greet"
-              },
-              {
-                confidence: 0.0304360804949038,
-                name: "findRestaurantsByCity"
-              },
-              {
-                confidence: 0.0009200842500758811,
-                name: "negative"
-              },
-              {
-                confidence: 0.0002700520294281852,
-                name: "affirmative"
-              },
-              {
-                confidence: 0.0000197443612058981,
-                name: "bye"
-              }
-            ],
-            text: "long time no meet."
-          };
           await setIsLoadingBtn(false);
-          const { intent } = fakeRes;
-          const { confidence, name } = intent;
-
-          if (confidence < 0.7) {
-            await setIsChooseAddOptions(confidence < 0.7);
-            checkingNavigatePage();
+          if (intentAdd.confidence < 0.7) {
+            await setIsChooseAddOptions(intentAdd.confidence < 0.7);
+            await checkingNavigatePage();
           } else {
             await setAddLabels(["Marketing", "Leader"]);
-            checkingNavigatePage();
+            await checkingNavigatePage();
           }
+
+
         })
         .catch(error => console.log(error));
     }

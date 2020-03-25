@@ -51,18 +51,27 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: "#5fcfaf"
   },
 
-  linearLoading: {
+  linearLoadingHandleInput: {
     width: "100%",
     "& > * + *": {
       marginTop: theme.spacing(2)
     }
+  },
+  linearLoadingNavigatePage: {
+    width: "100%",
+    marginTop: "250px"
   },
   contentHeaderWrap: {
     borderBottom: "2px",
     fontStyle: "italic",
     fontWeight: "bold",
     color: "#5fcfaf"
-  }
+  },
+  formControl: {
+    margin: theme.spacing(3),
+    display: "flex",
+    justifyContent: "flex-start"
+  },
 }));
 const theme = createMuiTheme({
   palette: {
@@ -90,11 +99,14 @@ const Login = props => {
     isChooseTechOptions,
     isChooseAddOptions,
     techLabelsChoosing,
-    addLabelsChoosing
+    addLabelsChoosing,
+    isKeepCurrentPage,
   } = props;
-  const valueList = Object.values(userData);
-  const hasValueEmptyProperty =
-    valueList.filter(item => item === "").length > 0;
+
+  // Handle disable btn
+  const isDisabledTechField = isChooseTechOptions ? (userData.techKnowledge == "" || techLabels.length == 0) : (userData.techKnowledge == "" && techLabels.length == 0);
+  const isDisabledAddField = isChooseAddOptions ? (userData.addKnowledge == "" || addLabels.length == 0) : (userData.addKnowledge == "" && addLabels.length == 0);
+  const isDisabledBtn = (userData.userName == "") || (userData.fbUrl === "") || isDisabledTechField || isDisabledAddField || isLoadingBtn;
 
   useEffect(() => {
     if (isSuccessLogin) {
@@ -102,157 +114,169 @@ const Login = props => {
     }
   }, [isSuccessLogin === true]);
 
+
   return (
     <div className={classes.loginFormContainer}>
-      <AssignmentIndIcon className={classes.iconContainer} />
-      <span className={classes.title}>Đăng Nhập</span>
-      <ThemeProvider theme={theme}>
-        <TextField
-          className={classes.fieldInputContainer}
-          label="Tên hiển thị"
-          variant="outlined"
-          id="mui-theme-provider-outlined-input"
-          value={userData.userName}
-          onChange={({ target }) =>
-            setUserData({ ...userData, userName: target.value })
-          }
-        />
-      </ThemeProvider>
-      <ThemeProvider theme={theme}>
-        <TextField
-          className={classes.fieldInputContainer}
-          label="Facebook URL"
-          variant="outlined"
-          id="mui-theme-provider-outlined-input"
-          value={userData.fbUrl}
-          onChange={({ target }) =>
-            setUserData({ ...userData, fbUrl: target.value })
-          }
-        />
-      </ThemeProvider>
-      <ThemeProvider theme={theme}>
-        {isChooseTechOptions && (
-          <FormControl component="fieldset" className={classes.formControl}>
-            <FormLabel component="legend">
-              Vui lòng chọn nhóm chuyên môn
-            </FormLabel>
-            <FormGroup>
-              {techLabelsChoosing.map(labelName => (
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={techLabels.includes(labelName)}
-                      name={labelName}
-                      onChange={node =>
-                        onChangeTechLabels({
-                          name: node.target.name,
-                          checked: node.target.checked
-                        })
+      {isKeepCurrentPage && (
+        <div>
+          <AssignmentIndIcon className={classes.iconContainer} />
+          <span className={classes.title}>Đăng Nhập</span>
+          <ThemeProvider theme={theme}>
+            <TextField
+              className={classes.fieldInputContainer}
+              label="Tên hiển thị"
+              variant="outlined"
+              id="mui-theme-provider-outlined-input"
+              value={userData.userName}
+              onChange={({ target }) =>
+                setUserData({ ...userData, userName: target.value })
+              }
+            />
+          </ThemeProvider>
+          <ThemeProvider theme={theme}>
+            <TextField
+              className={classes.fieldInputContainer}
+              label="Facebook URL"
+              variant="outlined"
+              id="mui-theme-provider-outlined-input"
+              value={userData.fbUrl}
+              onChange={({ target }) =>
+                setUserData({ ...userData, fbUrl: target.value })
+              }
+            />
+          </ThemeProvider>
+          <ThemeProvider theme={theme}>
+            {isChooseTechOptions && (
+              <FormControl component="fieldset" className={classes.formControl}>
+                <FormLabel component="legend">
+                  Vui lòng chọn nhóm chuyên môn
+                </FormLabel>
+                <FormGroup>
+                  {techLabelsChoosing.map(labelName => (
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={techLabels.includes(labelName)}
+                          name={labelName}
+                          onChange={node =>
+                            onChangeTechLabels({
+                              name: node.target.name,
+                              checked: node.target.checked
+                            })
+                          }
+                        />
                       }
+                      label={labelName}
                     />
-                  }
-                  label={labelName}
-                />
-              ))}
-            </FormGroup>
-          </FormControl>
-        )}
-        {!isChooseTechOptions && (
-          <TextField
-            className={classes.fieldInputContainer}
-            label="Chuyên môn"
-            variant="outlined"
-            id="mui-theme-provider-outlined-input"
-            // value={userData.techKnowledge}
-            value={
-              techLabels.length > 0
-                ? `${techLabels[0]}, ${techLabels[1]}`
-                : userData.techKnowledge
-            }
-            onChange={({ target }) =>
-              setUserData({ ...userData, techKnowledge: target.value })
-            }
-            multiline
-            rows="3"
-          />
-        )}
-      </ThemeProvider>
-      <ThemeProvider theme={theme}>
-        {isChooseAddOptions && (
-          <FormControl component="fieldset" className={classes.formControl}>
-            <FormLabel component="legend">
-              Vui lòng chọn nhóm ngoài chuyên môn
-            </FormLabel>
-            <FormGroup>
-              {addLabelsChoosing.map(labelName => (
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={addLabels.includes(labelName)}
-                      name={labelName}
-                      onChange={node =>
-                        onChangeAddLabels({
-                          name: node.target.name,
-                          checked: node.target.checked
-                        })
+                  ))}
+                </FormGroup>
+              </FormControl>
+            )}
+            {!isChooseTechOptions && (
+              <TextField
+                className={classes.fieldInputContainer}
+                label="Chuyên môn"
+                variant="outlined"
+                id="mui-theme-provider-outlined-input"
+                // value={userData.techKnowledge}
+                value={
+                  techLabels.length > 0
+                    ? `${techLabels[0]}, ${techLabels[1]}`
+                    : userData.techKnowledge
+                }
+                onChange={({ target }) =>
+                  setUserData({ ...userData, techKnowledge: target.value })
+                }
+                multiline
+                rows="3"
+              />
+            )}
+          </ThemeProvider>
+          <ThemeProvider theme={theme}>
+            {isChooseAddOptions && (
+              <FormControl component="fieldset" className={classes.formControl}>
+                <FormLabel component="legend">
+                  Vui lòng chọn nhóm ngoài chuyên môn
+                </FormLabel>
+                <FormGroup>
+                  {addLabelsChoosing.map(labelName => (
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={addLabels.includes(labelName)}
+                          name={labelName}
+                          onChange={node =>
+                            onChangeAddLabels({
+                              name: node.target.name,
+                              checked: node.target.checked
+                            })
+                          }
+                        />
                       }
+                      label={labelName}
                     />
-                  }
-                  label={labelName}
-                />
-              ))}
-            </FormGroup>
-          </FormControl>
-        )}
-        {!isChooseAddOptions && (
-          <TextField
-            className={classes.fieldInputContainer}
-            label="Ngoài chuyên môn"
-            variant="outlined"
-            id="mui-theme-provider-outlined-input"
-            // value={userData.addKnowledge}
-            value={
-              addLabels.length > 0
-                ? `${addLabels[0]}, ${addLabels[1]}`
-                : userData.addKnowledge
-            }
-            onChange={({ target }) =>
-              setUserData({ ...userData, addKnowledge: target.value })
-            }
-            multiline
-            rows="3"
-          />
-        )}
-      </ThemeProvider>
-      <Button
-        variant="contained"
-        className={classes.buttonContainer}
-        disabled={hasValueEmptyProperty || isLoadingBtn}
-        onClick={() => onPressLoginButton(userData)}
-      >
-        <span style={{ fontWeight: "bold" }}>BẮT ĐẦU</span>
-      </Button>
-      {isLoadingBtn && (
-        <div className={classes.linearLoading}>
-          <LinearProgress color="primary" />
-          <span style={{ fontWeight: "bold" }}>
-            Đang xử lý thông tin người dùng vừa nhập
+                  ))}
+                </FormGroup>
+              </FormControl>
+            )}
+            {!isChooseAddOptions && (
+              <TextField
+                className={classes.fieldInputContainer}
+                label="Ngoài chuyên môn"
+                variant="outlined"
+                id="mui-theme-provider-outlined-input"
+                // value={userData.addKnowledge}
+                value={
+                  addLabels.length > 0
+                    ? `${addLabels[0]}, ${addLabels[1]}`
+                    : userData.addKnowledge
+                }
+                onChange={({ target }) =>
+                  setUserData({ ...userData, addKnowledge: target.value })
+                }
+                multiline
+                rows="3"
+              />
+            )}
+          </ThemeProvider>
+          <Button
+            variant="contained"
+            className={classes.buttonContainer}
+            disabled={isDisabledBtn}
+            onClick={() => onPressLoginButton(userData)}
+          >
+            <span style={{ fontWeight: "bold" }}>BẮT ĐẦU</span>
+          </Button>
+          {isLoadingBtn && (
+            <div className={classes.linearLoadingHandleInput}>
+              <LinearProgress color="primary" />
+              <span style={{ fontWeight: "bold" }}>
+                Đang xử lý thông tin người dùng vừa nhập
           </span>
+            </div>
+          )}
+          <div>
+            <Typography
+              variant="h5"
+              component="h6"
+              className={classes.contentHeaderWrap}
+            >
+              Tại sao cần cung cấp các thông tin trên?
+        </Typography>
+            <ArrowDownwardIcon
+              style={{ width: "40px", height: "50px", color: "green" }}
+            />
+            <p style={{ fontStyle: "italic" }}>{contentIntro.reasonFBLink}</p>
+          </div>
         </div>
       )}
-      <div>
-        <Typography
-          variant="h5"
-          component="h6"
-          className={classes.contentHeaderWrap}
-        >
-          Tại sao cần cung cấp các thông tin trên?
-        </Typography>
-        <ArrowDownwardIcon
-          style={{ width: "40px", height: "50px", color: "green" }}
-        />
-        <p style={{ fontStyle: "italic" }}>{contentIntro.reasonFBLink}</p>
-      </div>
+      {!isKeepCurrentPage && (
+        <div className={classes.linearLoadingNavigatePage}>
+          <LinearProgress color="primary" style={{ height: "20px" }} />
+          <span style={{ fontWeight: "bold" }}>
+            Đang chuyển sang trang mới
+        </span>
+        </div>)}
     </div>
   );
 };

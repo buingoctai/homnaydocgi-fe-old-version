@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import React from "react";
 import { Helmet } from "react-helmet";
-import { Route, BrowserRouter as Router, Link, Switch } from "react-router-dom";
+import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 
 import Introduction from "../Introduction";
 import Blog from "../Blog";
@@ -11,7 +10,7 @@ const App = () => {
     <div>
       <Helmet
         titleTemplate="%s - React.js Boilerplate"
-        defaultTitle="THE BEST CONTENT WRITING COLLECTION"
+        defaultTitle="DỰ ÁN NGUYÊN CỨU CÁ NHÂN"
       >
         <meta
           name="description"
