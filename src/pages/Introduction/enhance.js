@@ -84,84 +84,24 @@ export default compose(
           addKnowledge: addLabels.length > 0 ? addLabels : addKnowledge
         }
       })
-        .then(async ({ predictiveTech, predictiveAdd }) => {
-          // Create fake respoonse
-          const predictiveTechFake = {
-            intentTech: {
-              confidence: 0.81,
-              name: "greet"
-            },
-            intent_ranking: [
-              {
-                confidence: 0.9683540388643863,
-                name: "greet"
-              },
-              {
-                confidence: 0.0304360804949038,
-                name: "findRestaurantsByCity"
-              },
-              {
-                confidence: 0.0009200842500758811,
-                name: "negative"
-              },
-              {
-                confidence: 0.0002700520294281852,
-                name: "affirmative"
-              },
-              {
-                confidence: 0.0000197443612058981,
-                name: "bye"
-              }
-            ],
-            text: "long time no meet."
-          };
-          const predictiveAddFake = {
-            intentAdd: {
-              confidence: 0.71,
-              name: "greet"
-            },
-            intent_ranking: [
-              {
-                confidence: 0.9683540388643863,
-                name: "greet"
-              },
-              {
-                confidence: 0.0304360804949038,
-                name: "findRestaurantsByCity"
-              },
-              {
-                confidence: 0.0009200842500758811,
-                name: "negative"
-              },
-              {
-                confidence: 0.0002700520294281852,
-                name: "affirmative"
-              },
-              {
-                confidence: 0.0000197443612058981,
-                name: "bye"
-              }
-            ],
-            text: "long time no meet."
-          };
-          //-------------------------------
-          const { intentTech } = predictiveTechFake;
-          const { intentAdd } = predictiveAddFake;
+        .then(async (res) => {
+          const { techHandler, addHandler } = res.data;
 
-          if (intentTech.confidence < 0.7) {
-            await setIsChooseTechOptions(intentTech.confidence < 0.7);
+          if (techHandler.classified) {
+            await setIsChooseTechOptions(false);
+            await setTechLabels(techHandler.labels);
           } else {
-            await setTechLabels(["Back-End", "Front-End"]);
+            await setIsChooseTechOptions(true);
           }
 
+          if (addHandler.classified) {
+            await setIsChooseAddOptions(false);
+            await setAddLabels(addHandler.labels);
+          } else {
+            await setIsChooseAddOptions(true);
+          }
           await setIsLoadingBtn(false);
-          if (intentAdd.confidence < 0.7) {
-            await setIsChooseAddOptions(intentAdd.confidence < 0.7);
-            await checkingNavigatePage();
-          } else {
-            await setAddLabels(["Marketing", "Leader"]);
-            await checkingNavigatePage();
-          }
+          checkingNavigatePage();
         })
         .catch(error => console.log(error));
     }

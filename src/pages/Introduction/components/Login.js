@@ -212,7 +212,7 @@ const Login = props => {
                 // value={userData.techKnowledge}
                 value={
                   techLabels.length > 0
-                    ? `${techLabels[0]}, ${techLabels[1]}`
+                    ? techLabels.toString()
                     : userData.techKnowledge
                 }
                 onChange={({ target }) =>
@@ -259,7 +259,7 @@ const Login = props => {
                 // value={userData.addKnowledge}
                 value={
                   addLabels.length > 0
-                    ? `${addLabels[0]}, ${addLabels[1]}`
+                    ? addLabels.toString()
                     : userData.addKnowledge
                 }
                 onChange={({ target }) =>
