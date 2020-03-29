@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
@@ -8,6 +9,8 @@ import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
+import Avatar from "@material-ui/core/Avatar";
+import Chip from "@material-ui/core/Chip";
 
 const useStyles = makeStyles(theme => ({
   toolbar: {
@@ -28,11 +31,27 @@ const useStyles = makeStyles(theme => ({
 
 export default function Header(props) {
   const classes = useStyles();
-  const { sections, title } = props;
+  const { sections, title, currentUser } = props;
+  const history = useHistory();
 
+  useEffect(() => {
+    if (!currentUser) {
+      history.push("/");
+    }
+  });
   return (
     <React.Fragment>
       <Toolbar className={classes.toolbar}>
+        <Chip
+          avatar={
+            <Avatar
+              alt="Natacha"
+              src="https://scontent-xsp1-1.xx.fbcdn.net/v/t1.0-9/83190373_1035991570101293_2405762880734494720_n.jpg?_nc_cat=103&_nc_sid=85a577&_nc_ohc=u5VXAhvHIkoAX_uTZqD&_nc_ht=scontent-xsp1-1.xx&oh=275aa5773f4f126e9f4a36537d725081&oe=5EA6C59B"
+            />
+          }
+          label={currentUser}
+          style={{ marginLeft: "10px", backgroundColor: "#fafafa" }}
+        />
         <Button size="small">Subscribe</Button>
         <Typography
           component="h2"

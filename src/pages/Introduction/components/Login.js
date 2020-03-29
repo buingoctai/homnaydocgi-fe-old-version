@@ -87,7 +87,6 @@ const theme = createMuiTheme({
 });
 const Login = props => {
   const classes = useStyles();
-  const { reasonFBLink } = contentIntro;
   const [userData, setUserData] = useState({
     userName: "",
     fbUrl: "",
@@ -123,7 +122,7 @@ const Login = props => {
     id: "standard-error-helper-text",
     helperText: "Độ dài tối đa là 5 ký tự"
   };
-  const errFbUrlProps = userData.fbUrl.indexOf("facebook.com") === -1 && {
+  const errFbUrlProps = userData.fbUrl.indexOf("facebook.com/") === -1 && {
     error: true,
     id: "standard-error-helper-text",
     helperText: "Phải chứa domain facebook.com"
@@ -139,7 +138,7 @@ const Login = props => {
 
   useEffect(() => {
     if (isSuccessLogin) {
-      history.push("/home");
+      history.push("/home", { currentUser: userData.userName });
     }
   });
 

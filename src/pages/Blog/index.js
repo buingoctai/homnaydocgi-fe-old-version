@@ -97,7 +97,7 @@ const sidebar = {
   ]
 };
 
-const Blog = () => {
+const Blog = props => {
   const classes = useStyles();
   const [isLoadingTotalBlogContent, setIsLoadingTotalBlogContent] = useState(
     true
@@ -111,7 +111,11 @@ const Blog = () => {
     <React.Fragment>
       <CssBaseline />
       <Container maxWidth="lg">
-        <Header title="DỰ ÁN NGUYÊN CỨU CÁ NHÂN" sections={sections} />
+        <Header
+          title="THE CONTENT WRITING COLLECTION"
+          sections={sections}
+          {...props}
+        />
         {isLoadingTotalBlogContent && (
           <div className={classes.totalContentLoadingWrap}>
             <span className={classes.loadingMessage}>

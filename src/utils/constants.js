@@ -7,7 +7,7 @@ const authorBrielf = {
 };
 
 const skillGroup = {
-  programmer: "Progarmmer",
+  programmer: "Developer",
   writer: "Writer",
   sharer: "Sharer",
   linkedin: "Linkedin"
@@ -21,7 +21,7 @@ const skillDescribe = {
 
 const contentIntro = {
   reasonFBLink:
-    "Các thông tin cup cấp có thể thay đổi theo thời gian tùy thuộc vào system core. Hướng đến 70% auto, 30% manaual system",
+    "Các thông tin cung cấp bên trên giúp hệ thống xác định được chủ đề bài viết phù hợp cho người dùng. Mục tiêu giai đoạn đầu 70% manaual system, giai đoạn sau 70% automative system",
   appFunctional_1:
     "Tương lai gần, xây dựng hệ thống cá nhân hóa cây thông tin người dùng. Một phần hệ thống là tự động, một phần thủ công nhằm đảm bảo chất lượng bài viết.",
   appFunctional_2:
