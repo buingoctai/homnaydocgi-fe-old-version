@@ -28,4 +28,8 @@ const contentIntro = {
     "Tương lai xa, khi đã nhiều dữ liệu về cả định lượng và định tính, hệ thống hướng đến là RECOMMENDER SYSTEM và CHATBOT tích hợp Machine learning/Deep learning giúp người dùng tìm mạng lưới người chia sẻ phù hợp."
 };
 
-export { authorBrielf, skillGroup, skillDescribe, contentIntro };
+const COOKIE_NAMES = {
+  ACCESS_TOKEN: "idToken"
+};
+
+export { authorBrielf, skillGroup, skillDescribe, contentIntro, COOKIE_NAMES };

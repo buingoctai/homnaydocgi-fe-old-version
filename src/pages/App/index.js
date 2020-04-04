@@ -22,6 +22,7 @@ const App = props => {
       <Router>
         <Switch>
           <Route exact path="/" component={Introduction} />
+          <Route path="/home/:userName" component={Blog} />
           <Route path="/home" component={Blog} />
           <Route path="/admin" component={AdminPage} />
           <Route path="/front-end" component={Blog} />

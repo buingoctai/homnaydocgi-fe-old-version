@@ -8,7 +8,7 @@ const BasicLayout = props => {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container maxWidth="xl">
+      <Container fixed maxWidth="xl">
         <Typography
           component="div"
           style={{

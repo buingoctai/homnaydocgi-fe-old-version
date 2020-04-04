@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
@@ -8,6 +9,7 @@ import FacebookIcon from "@material-ui/icons/Facebook";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
+import DraggableDialog from "../../components/Dialog";
 import Header from "./Header";
 import MainFeaturedPost from "./PostWrap/MainFeaturedPost";
 import FeaturedPost from "./PostWrap/FeaturedPost";
@@ -102,9 +104,13 @@ const Blog = props => {
   const [isLoadingTotalBlogContent, setIsLoadingTotalBlogContent] = useState(
     true
   );
+  const { isNavigateSubmitPageNotifi } = props;
 
   useEffect(() => {
-    setTimeout(() => setIsLoadingTotalBlogContent(false), 3000);
+    async function checking() {
+      setTimeout(() => setIsLoadingTotalBlogContent(false), 3000);
+    }
+    checking();
   });
 
   return (
@@ -142,6 +148,12 @@ const Blog = props => {
               />
             </Grid>
           </main>
+        )}
+        {isNavigateSubmitPageNotifi && (
+          <DraggableDialog
+            dialogContent="Để có trải nghiệm tốt nhất, vui lòng cung cấp thông tin cần thiết!"
+            showTime={3000}
+          />
         )}
       </Container>
       <Footer description="Mọi sao chép nội dung bài viết không ghi rõ nguồn đều vi phạm quyền sở hữu" />

@@ -20,16 +20,16 @@ function PaperComponent(props) {
 }
 
 const DraggableDialog = props => {
-  const { dialogContent } = props;
+  const { dialogContent, showTime = 5000 } = props;
   const [open, setOpen] = React.useState(true);
   const handleClose = () => {
     setOpen(false);
   };
   useEffect(() => {
     if (open === true) {
-      setTimeout(() => setOpen(false), 5000);
+      setTimeout(() => setOpen(false), showTime);
     }
-  }, [open === true]);
+  }, []);
 
   return (
     <div>

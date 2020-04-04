@@ -1,5 +1,5 @@
 import React from "react";
-
+import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
@@ -10,8 +10,10 @@ import Login from "./components/Login";
 import Application from "./components/Application";
 import enhance from "./enhance";
 
+import { saveToken } from "../../store/actions";
+
 const useStyles = makeStyles(theme => ({
-  root: {
+  introContainer: {
     flexGrow: 1,
     padding: "50px 20px",
     display: "flex",
@@ -32,10 +34,9 @@ const useStyles = makeStyles(theme => ({
 }));
 const Introduction = props => {
   const classes = useStyles();
-
   return (
     <BasicLayout>
-      <div className={classes.root}>
+      <div className={classes.introContainer}>
         <Grid container spacing={3}>
           <Grid item xs={4}>
             <Paper className={classes.paper}>
@@ -57,5 +58,17 @@ const Introduction = props => {
     </BasicLayout>
   );
 };
-
-export default enhance(Introduction);
+const mapStateToProps = state => {
+  return {
+    id_token: state.id_token
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    saveTokenDispatch: payload => saveToken(payload)
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(enhance(Introduction));

@@ -117,10 +117,10 @@ const Login = props => {
     ? userData.addKnowledge === "" || addLabels.length === 0
     : userData.addKnowledge === "" && addLabels.length === 0;
   // Validation
-  const errUsernameProps = userData.userName.length > 5 && {
+  const errUsernameProps = userData.userName.length > 15 && {
     error: true,
     id: "standard-error-helper-text",
-    helperText: "Độ dài tối đa là 5 ký tự"
+    helperText: "Độ dài tối đa là 15 ký tự"
   };
   const errFbUrlProps = userData.fbUrl.indexOf("facebook.com/") === -1 && {
     error: true,
@@ -138,7 +138,7 @@ const Login = props => {
 
   useEffect(() => {
     if (isSuccessLogin) {
-      history.push("/home", { currentUser: userData.userName });
+      history.push("/home");
     }
   });
 
@@ -285,7 +285,7 @@ const Login = props => {
               </span>
             </div>
           )}
-          <div>
+          {/* <div>
             <Typography
               variant="h5"
               component="h6"
@@ -297,7 +297,7 @@ const Login = props => {
               style={{ width: "40px", height: "50px", color: "green" }}
             />
             <p style={{ fontStyle: "italic" }}>{contentIntro.reasonFBLink}</p>
-          </div>
+          </div> */}
         </>
       )}
 

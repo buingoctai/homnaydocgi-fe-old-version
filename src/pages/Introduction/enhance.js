@@ -20,8 +20,9 @@ export default compose(
   ]), // call api to get labels
   withState("isKeepCurrentPage", "setIsKeepCurrentPage", true),
   withHandlers({
-    checkingNavigatePage: async props => {
+    checkingNavigatePage: props => async token => {
       const {
+        saveTokenDispatch,
         setIsSuccessLogin,
         setIsKeepCurrentPage,
         techLabels,
@@ -31,6 +32,7 @@ export default compose(
       } = props;
 
       if (!isChooseTechOptions && !isChooseAddOptions) {
+        await saveTokenDispatch(token);
         setTimeout(
           () =>
             setIsKeepCurrentPage(
@@ -84,8 +86,8 @@ export default compose(
           addKnowledge: addLabels.length > 0 ? addLabels : addKnowledge
         }
       })
-        .then(async (res) => {
-          const { techHandler, addHandler } = res.data;
+        .then(async res => {
+          const { techHandler, addHandler, token } = res.data;
 
           if (techHandler.classified) {
             await setIsChooseTechOptions(false);
@@ -101,7 +103,7 @@ export default compose(
             await setIsChooseAddOptions(true);
           }
           await setIsLoadingBtn(false);
-          checkingNavigatePage();
+          checkingNavigatePage(token);
         })
         .catch(error => console.log(error));
     }
