@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
 
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -13,64 +14,35 @@ import DraggableDialog from "../../components/Dialog";
 import Header from "./Header";
 import MainFeaturedPost from "./PostWrap/MainFeaturedPost";
 import FeaturedPost from "./PostWrap/FeaturedPost";
+import DetailPost from "./PostWrap/DetailPost";
 import Main from "./Main";
 import SideBar from "./SideBar";
 import Footer from "./Footer";
+
 import enhance from "./enhance";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   mainGrid: {
-    marginTop: theme.spacing(3)
+    marginTop: theme.spacing(3),
   },
   totalContentLoadingWrap: {
     height: "100%",
     width: "100%",
     marginTop: "200px",
     marginBottom: "200px",
-    alignItems: "center"
+    alignItems: "center",
   },
   loadingMessage: {
     display: "flex",
     justifyContent: "center",
     fontSize: "20px",
-    fontWeight: "bold"
-  }
+    fontWeight: "bold",
+  },
 }));
 
 const sections = [
-  { title: "FRONT END", url: "front-end" },
-  { title: "BACK END", url: "back-end" },
-  { title: "AI/ML/DL", url: "ai-ml-dl" },
-  { title: "NGOÀI CHUYÊN MÔN", url: "ngoai-chuyen-mon" },
-  { title: "KẾ HOẠCH SX", url: "ke-hoach-sx" }
-];
-
-const mainFeaturedPost = {
-  title: "Title of a longer featured blog post",
-  description:
-    "Multiple lines of text that form the lede, informing new readers quickly and efficiently about what's most interesting in this post's contents.",
-  image: "https://source.unsplash.com/random",
-  imgText: "main image description",
-  linkText: "Continue reading…"
-};
-
-const featuredPosts = [
-  {
-    title: "Featured post",
-    date: "Nov 12",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    image: "https://source.unsplash.com/random",
-    imageText: "Image Text"
-  },
-  {
-    title: "Post title",
-    date: "Nov 11",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    image: "https://source.unsplash.com/random",
-    imageText: "Image Text"
-  }
+  { title: "CHUYÊN MÔN", url: "chuyen-mon-list" },
+  { title: "NGOÀI CHUYÊN MÔN", url: "ngoai-chuyen-mon-list" },
 ];
 
 const posts = ["post1", "post2", "post3"];
@@ -90,39 +62,47 @@ const sidebar = {
     { title: "July 1999", url: "#" },
     { title: "June 1999", url: "#" },
     { title: "May 1999", url: "#" },
-    { title: "April 1999", url: "#" }
+    { title: "April 1999", url: "#" },
   ],
   social: [
     { name: "GitHub", icon: GitHubIcon },
     { name: "Twitter", icon: TwitterIcon },
-    { name: "Facebook", icon: FacebookIcon }
-  ]
+    { name: "Facebook", icon: FacebookIcon },
+  ],
 };
 
-const Blog = props => {
+const Blog = (props) => {
   const classes = useStyles();
-  const [isLoadingTotalBlogContent, setIsLoadingTotalBlogContent] = useState(
-    true
-  );
-  const { isNavigateSubmitPageNotifi } = props;
-
-  useEffect(() => {
-    async function checking() {
-      setTimeout(() => setIsLoadingTotalBlogContent(false), 3000);
-    }
-    checking();
-  });
+  const {
+    isAdmin,
+    isLoadingPage,
+    isOpenDetaiContainer,
+    isSubscribeNotifiBot,
+    isSuggestSendArticle,
+    isNavigateSubmitPageNotifi,
+    currentUser,
+    showingPost,
+    mainPosts,
+    featuredPosts,
+    onHandleNavigateAdminPage,
+    onHandleSubscribeNotifiByBot,
+    onHandleSuggestSendArticle,
+    onHandleOpenDetailContainer,
+  } = props;
 
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container maxWidth="lg">
+      <Container maxWidth="false">
         <Header
-          title="THE CONTENT WRITING COLLECTION"
+          title="HÔM NAY ĐỌC GÌ?"
           sections={sections}
-          {...props}
+          currentUser={currentUser}
+          onHandleNavigateAdminPage={onHandleNavigateAdminPage}
+          onHandleSubscribeNotifiByBot={onHandleSubscribeNotifiByBot}
+          onHandleSuggestSendArticle={onHandleSuggestSendArticle}
         />
-        {isLoadingTotalBlogContent && (
+        {isLoadingPage && (
           <div className={classes.totalContentLoadingWrap}>
             <span className={classes.loadingMessage}>
               Đang tải bài viết. Vui lòng đợi!
@@ -130,16 +110,24 @@ const Blog = props => {
             <LinearProgress color="primary" style={{ height: "3px" }} />
           </div>
         )}
-        {!isLoadingTotalBlogContent && (
+        {!isLoadingPage && (
           <main>
-            <MainFeaturedPost post={mainFeaturedPost} />
+            <MainFeaturedPost
+              post={mainPosts}
+              onHandleOpenDetailContainer={onHandleOpenDetailContainer}
+            />
             <Grid container spacing={4}>
-              {featuredPosts.map(post => (
-                <FeaturedPost key={post.title} post={post} />
-              ))}
+              {featuredPosts.data &&
+                featuredPosts.data.map((post) => (
+                  <FeaturedPost
+                    key={post.Title}
+                    post={post}
+                    onHandleOpenDetailContainer={onHandleOpenDetailContainer}
+                  />
+                ))}
             </Grid>
             <Grid container spacing={5} className={classes.mainGrid}>
-              <Main title="From the firehose" posts={posts} />
+              <Main title="Tất cả bài viết" posts={posts} />
               <SideBar
                 title={sidebar.title}
                 description={sidebar.description}
@@ -149,9 +137,35 @@ const Blog = props => {
             </Grid>
           </main>
         )}
+        {isOpenDetaiContainer && (
+          <DetailPost
+            post={showingPost}
+            isOpenDetaiContainer={isOpenDetaiContainer}
+            onHandleOpenDetailContainer={onHandleOpenDetailContainer}
+          />
+        )}
+
         {isNavigateSubmitPageNotifi && (
           <DraggableDialog
             dialogContent="Để có trải nghiệm tốt nhất, vui lòng cung cấp thông tin cần thiết!"
+            showTime={3000}
+          />
+        )}
+        {isAdmin && (
+          <DraggableDialog
+            dialogContent="Bạn là admin. Hệ thống đang chuyển sang trang quản lý bài viết."
+            showTime={3000}
+          />
+        )}
+        {isSubscribeNotifiBot && (
+          <DraggableDialog
+            dialogContent="Tính năng gửi thông báo qua messenger bot đang phát triển."
+            showTime={3000}
+          />
+        )}
+        {isSuggestSendArticle && (
+          <DraggableDialog
+            dialogContent="Tính năng đề nghị gửi bài viết đang phát triển.."
             showTime={3000}
           />
         )}

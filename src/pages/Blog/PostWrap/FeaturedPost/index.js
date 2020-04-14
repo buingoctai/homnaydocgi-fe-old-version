@@ -8,47 +8,51 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Hidden from "@material-ui/core/Hidden";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles({
   card: {
-    display: "flex"
+    display: "flex",
   },
   cardDetails: {
-    flex: 1
+    flex: 1,
   },
   cardMedia: {
-    width: 160
-  }
+    width: 160,
+  },
 });
 
 export default function FeaturedPost(props) {
   const classes = useStyles();
-  const { post } = props;
+  const { post, onHandleOpenDetailContainer } = props;
 
   return (
     <Grid item xs={12} md={6}>
-      <CardActionArea component="a" href="#">
+      <CardActionArea component="a">
         <Card className={classes.card}>
           <div className={classes.cardDetails}>
             <CardContent>
               <Typography component="h2" variant="h5">
-                {post.title}
+                {post && `${post.Title.substring(0, 30)}...`}
               </Typography>
               <Typography variant="subtitle1" color="textSecondary">
-                {post.date}
+                {post && post.SubmitDate}
               </Typography>
               <Typography variant="subtitle1" paragraph>
-                {post.description}
+                {post && `${post.Content.substring(0, 50)}...`}
               </Typography>
-              <Typography variant="subtitle1" color="primary">
-                Continue reading...
-              </Typography>
+              <Button
+                variant="contained"
+                onClick={() => onHandleOpenDetailContainer(post.Id)}
+              >
+                Đọc tiếp…
+              </Button>
             </CardContent>
           </div>
           <Hidden xsDown>
             <CardMedia
               className={classes.cardMedia}
-              image={post.image}
+              image={post.ImageUrl}
               title={post.imageTitle}
             />
           </Hidden>
@@ -59,5 +63,5 @@ export default function FeaturedPost(props) {
 }
 
 FeaturedPost.propTypes = {
-  post: PropTypes.object
+  post: PropTypes.object,
 };

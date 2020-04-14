@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import AppBar from "@material-ui/core/AppBar";
@@ -42,7 +43,7 @@ const useStyles = makeStyles(theme => ({
 }));
 const AdminPage = props => {
   const classes = useStyles();
-  const { isShowAddingForm, isLoadingTable } = props;
+  const { isShowAddingForm, isLoadingTable, currentUser } = props;
 
   return (
     <React.Fragment>
@@ -50,7 +51,7 @@ const AdminPage = props => {
       <AppBar position="absolute" color="default" className={classes.appBar}>
         <Toolbar>
           <Typography variant="h6" color="inherit" noWrap>
-            Bùi Ngọc Tài
+            {currentUser}
           </Typography>
         </Toolbar>
       </AppBar>
@@ -76,4 +77,9 @@ const AdminPage = props => {
   );
 };
 
-export default enhance(AdminPage);
+const mapStateToProps = state => {
+  return {
+    currentUser: state.currentUser
+  };
+};
+export default connect(mapStateToProps, null)(enhance(AdminPage));

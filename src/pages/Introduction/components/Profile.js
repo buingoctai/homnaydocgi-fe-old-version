@@ -18,29 +18,30 @@ import avatar from "../../assets/images/avatar.jpg";
 import {
   authorBrielf,
   skillGroup,
-  skillDescribe
+  skillDescribe,
 } from "../../../utils/constants";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   imageContainer: {
-    height: "25%"
+    height: "25%",
   },
   avatar: {
     height: "100px",
-    width: "100px"
+    width: "100px",
   },
   brielfAuthor: {
-    height: "45%"
+    height: "45%",
   },
 
   skillInform: {
     height: "30%",
     marginTop: "30px",
-    alignItems: "center",
+
     display: "flex",
     flexDirection: "row",
-    whiteSpace: "normal"
-  }
+    alignItems: "flex-end",
+    whiteSpace: "normal",
+  },
 }));
 
 const [name, workingPlace, address, phone] = Object.keys(authorBrielf);
@@ -52,7 +53,7 @@ const Profile = () => {
         height: "500px",
         display: "flex",
         flexDirection: "column",
-        alignItems: "center"
+        alignItems: "center",
       }}
     >
       <div className={classes.imageContainer}>

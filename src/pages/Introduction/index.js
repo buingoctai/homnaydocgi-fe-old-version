@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
@@ -10,65 +9,55 @@ import Login from "./components/Login";
 import Application from "./components/Application";
 import enhance from "./enhance";
 
-import { saveToken } from "../../store/actions";
-
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   introContainer: {
-    flexGrow: 1,
+    height: "100%",
     padding: "50px 20px",
+    backgroundColor: "#F1F1F1",
+
     display: "flex",
     flexDirection: "row",
+    flexGrow: 1,
     alignItems: "center",
-    height: "100%"
   },
   paper: {
-    padding: theme.spacing(2),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
     height: "100%",
+    padding: theme.spacing(2),
+    color: theme.palette.text.secondary,
+    backgroundColor: "#C0C0C0",
+    borderRadius: "10px",
+    textAlign: "center",
+
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    backgroundColor: "#ace3bb"
-  }
+  },
 }));
-const Introduction = props => {
+const Introduction = (props) => {
   const classes = useStyles();
   return (
-    <BasicLayout>
+    <React.Fragment>
       <div className={classes.introContainer}>
         <Grid container spacing={3}>
-          <Grid item xs={4}>
+          <Grid item xs={12} xl={4} md={4} sm={4}>
             <Paper className={classes.paper}>
               <Profile />
             </Paper>
           </Grid>
-          <Grid item xs={4}>
-            <Paper className={classes.paper}>
-              <Application />
-            </Paper>
-          </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} xl={4} md={4} sm={4}>
             <Paper className={classes.paper}>
               <Login {...props} />
             </Paper>
           </Grid>
+          <Grid item xs={12} xl={4} md={4} sm={4}>
+            <Paper className={classes.paper}>
+              <Application />
+            </Paper>
+          </Grid>
         </Grid>
       </div>
-    </BasicLayout>
+    </React.Fragment>
   );
 };
-const mapStateToProps = state => {
-  return {
-    id_token: state.id_token
-  };
-};
-const mapDispatchToProps = dispatch => {
-  return {
-    saveTokenDispatch: payload => saveToken(payload)
-  };
-};
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(enhance(Introduction));
+
+export default enhance(Introduction);

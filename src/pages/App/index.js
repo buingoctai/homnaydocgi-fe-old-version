@@ -6,18 +6,14 @@ import Introduction from "../Introduction";
 import Blog from "../Blog";
 import AdminPage from "../Admin";
 
-const App = props => {
-  console.log("props=", props);
+const App = (props) => {
   return (
     <div>
       <Helmet
         titleTemplate="%s - React.js Boilerplate"
-        defaultTitle="THE CONTENT WRITING COLLECTION"
+        defaultTitle="HÔM NAY ĐỌC GÌ?"
       >
-        <meta
-          name="description"
-          content="THE BEST CONTENT WRITING COLLECTION"
-        />
+        <meta name="description" content="HÔM NAY ĐỌC GÌ?" />
       </Helmet>
       <Router>
         <Switch>

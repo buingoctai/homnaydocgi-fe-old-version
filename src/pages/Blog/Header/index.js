@@ -1,5 +1,5 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
+
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -10,41 +10,65 @@ import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 import Avatar from "@material-ui/core/Avatar";
 import Chip from "@material-ui/core/Chip";
+import DrawerMenu from "../DrawerMenu";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   toolbar: {
-    borderBottom: `1px solid ${theme.palette.divider}`
+    borderBottom: `1px solid ${theme.palette.divider}`,
+    backgroundColor: "#808182",
   },
   toolbarTitle: {
-    flex: 1
+    flex: 1,
+    fontWeight: "bold",
+    fontStyle: "italic",
+    color: "#ffff",
+    fontSize: "40px",
+    textShadow: "2px 2px white",
   },
   toolbarSecondary: {
     justifyContent: "space-between",
-    overflowX: "auto"
+    overflowX: "auto",
   },
   toolbarLink: {
     padding: theme.spacing(1),
-    flexShrink: 0
-  }
+    flexShrink: 0,
+  },
 }));
 
-export default function Header(props) {
+const Header = (props) => {
   const classes = useStyles();
-  const { sections, title, currentUser } = props;
+  const {
+    onHandleNavigateAdminPage,
+    onHandleSubscribeNotifiByBot,
+    onHandleSuggestSendArticle,
+    sections,
+    title,
+    currentUser,
+  } = props;
 
   return (
     <React.Fragment>
       <Toolbar className={classes.toolbar}>
-        <Chip
-          avatar={
-            <Avatar>
-              {currentUser && currentUser.charAt(0).toUpperCase()}
-            </Avatar>
-          }
-          label={currentUser}
-          style={{ marginLeft: "10px", backgroundColor: "#fafafa" }}
-        />
-        <Button size="small">Subscribe</Button>
+        <DrawerMenu />
+
+        <Button onClick={onHandleNavigateAdminPage}>
+          <Chip
+            avatar={
+              <Avatar>
+                {currentUser ? currentUser.charAt(0).toUpperCase() : "U"}
+              </Avatar>
+            }
+            label={currentUser || "KHÔNG XÁC ĐỊNH NGƯỜI DÙNG"}
+            style={{
+              backgroundColor: "#808182",
+              color: "#ffff",
+              fontWeight: "bold",
+            }}
+          />
+        </Button>
+        {/* <img
+         src={post.ImageUrl}
+        /> */}
         <Typography
           component="h2"
           variant="h5"
@@ -56,19 +80,34 @@ export default function Header(props) {
           {title}
         </Typography>
         <IconButton>
-          <TextField id="standard-basic" label="Tìm kiếm" />
+          <TextField
+            id="standard-basic"
+            label="Tìm kiếm"
+            style={{ fontWeight: "bold" }}
+          />
           <SearchIcon />
         </IconButton>
-        <Button variant="outlined" size="small">
+        <Button
+          size="small"
+          onClick={onHandleSubscribeNotifiByBot}
+          style={{ marginRight: "10px", color: "#ffff", fontWeight: "bold" }}
+        >
+          ĐĂNG KÝ
+        </Button>
+        <Button
+          size="small"
+          onClick={onHandleSuggestSendArticle}
+          style={{ marginRight: "10px", color: "#ffff", fontWeight: "bold" }}
+        >
           GỬI BÀI VIẾT
         </Button>
       </Toolbar>
-      <Toolbar
+      {/* <Toolbar
         component="nav"
         variant="dense"
         className={classes.toolbarSecondary}
       >
-        {sections.map(section => (
+        {sections.map((section) => (
           <Link
             color="inherit"
             noWrap
@@ -80,12 +119,9 @@ export default function Header(props) {
             {section.title}
           </Link>
         ))}
-      </Toolbar>
+      </Toolbar> */}
     </React.Fragment>
   );
-}
-
-Header.propTypes = {
-  sections: PropTypes.array,
-  title: PropTypes.string
 };
+
+export default Header;

@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import {
   makeStyles,
   ThemeProvider,
-  createMuiTheme
+  createMuiTheme,
 } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import AssignmentIndIcon from "@material-ui/icons/AssignmentInd";
@@ -22,76 +22,78 @@ import Checkbox from "@material-ui/core/Checkbox";
 import DraggableDialog from "../../../components/Dialog";
 import { contentIntro } from "../../../utils/constants";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   loginFormContainer: {
+    width: "100%",
+    "& > * + *": {
+      marginTop: theme.spacing(2),
+    },
+
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    width: "100%",
-    "& > * + *": {
-      marginTop: theme.spacing(2)
-    }
   },
   iconContainer: {
     width: "50px",
     height: "50px",
-    color: "#00ffbf"
+    color: "#00ffbf",
   },
   title: {
     fontSize: "20px",
     fontWeight: "bold",
-    color: "#5fcfaf"
   },
   fieldInputContainer: {
     margin: theme.spacing(1),
-    width: "100%"
+    width: "100%",
   },
   buttonContainer: {
     width: "100%",
     color: "#15edaf",
-    backgroundColor: "#5fcfaf"
+    backgroundColor: "#5fcfaf",
   },
 
   linearLoadingHandleInput: {
     width: "100%",
     "& > * + *": {
-      marginTop: theme.spacing(2)
-    }
+      marginTop: theme.spacing(2),
+    },
   },
   linearLoadingNavigatePage: {
     width: "100%",
-    marginTop: "250px"
+    marginTop: "250px",
   },
   contentHeaderWrap: {
-    borderBottom: "2px",
+    color: "#5fcfaf",
     fontStyle: "italic",
     fontWeight: "bold",
-    color: "#5fcfaf"
+    borderBottom: "2px",
   },
   formControl: {
+    width: "100%",
     margin: theme.spacing(3),
+
     display: "flex",
     justifyContent: "flex-start",
-    width: "100%"
   },
   formLabel: {
     width: "100%",
+
     display: "flex",
-    flexDirection: "row"
-  }
+    flexDirection: "row",
+  },
 }));
 const theme = createMuiTheme({
   palette: {
-    primary: green
-  }
+    primary: green,
+  },
 });
-const Login = props => {
+const Login = (props) => {
   const classes = useStyles();
   const [userData, setUserData] = useState({
     userName: "",
     fbUrl: "",
     techKnowledge: "",
-    addKnowledge: ""
+    addKnowledge: "",
   });
   const history = useHistory();
   const {
@@ -106,7 +108,7 @@ const Login = props => {
     isChooseAddOptions,
     techLabelsChoosing,
     addLabelsChoosing,
-    isKeepCurrentPage
+    isKeepCurrentPage,
   } = props;
 
   // Handle disable btn
@@ -120,12 +122,12 @@ const Login = props => {
   const errUsernameProps = userData.userName.length > 15 && {
     error: true,
     id: "standard-error-helper-text",
-    helperText: "Độ dài tối đa là 15 ký tự"
+    helperText: "Độ dài tối đa là 15 ký tự",
   };
   const errFbUrlProps = userData.fbUrl.indexOf("facebook.com/") === -1 && {
     error: true,
     id: "standard-error-helper-text",
-    helperText: "Phải chứa domain facebook.com"
+    helperText: "Phải chứa domain facebook.com",
   };
   const isDisabledBtn =
     userData.userName === "" ||
@@ -147,7 +149,7 @@ const Login = props => {
       {isKeepCurrentPage && (
         <>
           <AssignmentIndIcon className={classes.iconContainer} />
-          <span className={classes.title}>Đăng Nhập</span>
+          <span className={classes.title}>CUNG CẤP THÔNG TIN CẦN THIẾT</span>
           <ThemeProvider theme={theme}>
             <TextField
               className={classes.fieldInputContainer}
@@ -182,16 +184,16 @@ const Login = props => {
                   Vui lòng chọn nhóm chuyên môn
                 </FormLabel>
                 <FormGroup>
-                  {techLabelsChoosing.map(labelName => (
+                  {techLabelsChoosing.map((labelName) => (
                     <FormControlLabel
                       control={
                         <Checkbox
                           checked={techLabels.includes(labelName)}
                           name={labelName}
-                          onChange={node =>
+                          onChange={(node) =>
                             onChangeTechLabels({
                               name: node.target.name,
-                              checked: node.target.checked
+                              checked: node.target.checked,
                             })
                           }
                         />
@@ -229,16 +231,16 @@ const Login = props => {
                   Vui lòng chọn nhóm ngoài chuyên môn
                 </FormLabel>
                 <FormGroup>
-                  {addLabelsChoosing.map(labelName => (
+                  {addLabelsChoosing.map((labelName) => (
                     <FormControlLabel
                       control={
                         <Checkbox
                           checked={addLabels.includes(labelName)}
                           name={labelName}
-                          onChange={node =>
+                          onChange={(node) =>
                             onChangeAddLabels({
                               name: node.target.name,
-                              checked: node.target.checked
+                              checked: node.target.checked,
                             })
                           }
                         />

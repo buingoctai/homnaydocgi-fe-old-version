@@ -9,9 +9,9 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   appBar: {
-    position: "relative"
+    position: "relative",
   },
   layout: {
     width: "auto",
@@ -20,8 +20,8 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
       width: 600,
       marginLeft: "auto",
-      marginRight: "auto"
-    }
+      marginRight: "auto",
+    },
   },
   paper: {
     marginTop: theme.spacing(3),
@@ -30,33 +30,56 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
       marginTop: theme.spacing(6),
       marginBottom: theme.spacing(6),
-      padding: theme.spacing(3)
-    }
+      padding: theme.spacing(3),
+    },
   },
   textWrap: {
     width: "100%",
-    margin: "10px 0"
+    margin: "10px 0",
   },
   btnWrap: {
     display: "flex",
     marginTop: theme.spacing(3),
     marginLeft: theme.spacing(1),
-    justifyContent: "center"
+    justifyContent: "center",
   },
   optionWrap: {
     display: "flex",
-    flexDirection: "row"
+    flexDirection: "row",
   },
   wrappedOption: {
     display: "flex",
     flexGrow: "1",
-    marginRight: "8px"
-  }
+    marginRight: "8px",
+  },
 }));
 
-const AddingForm = props => {
+const AddingForm = (props) => {
   const classes = useStyles();
-  const { onNavigateListArticle } = props;
+  const {
+    onNavigateListArticle,
+    onHandleSubmitArticle,
+    setArticleData,
+    articleData,
+  } = props;
+  const { author, title, content, topic, submitDate, image } = articleData;
+  const errAuthor = author.length > 20 && {
+    error: true,
+    id: "standard-error-helper-text",
+    helperText: "Độ dài tối đa là 20 ký tự",
+  };
+  const errTile = title.length > 100 && {
+    error: true,
+    id: "standard-error-helper-text",
+    helperText: "Độ dài tối đa là 100 ký tự",
+  };
+  const errContent = content.length > 5000 && {
+    error: true,
+    id: "standard-error-helper-text",
+    helperText: "Độ dài tối đa là 5000 ký tự",
+  };
+  const disableAddArticleBtn =
+    errAuthor || errTile || errContent || topic || submitDate;
 
   return (
     <Paper className={classes.paper}>
@@ -66,45 +89,86 @@ const AddingForm = props => {
       <React.Fragment>
         <TextField
           className={classes.textWrap}
+          value={author}
           label="Tác giả"
           variant="outlined"
           id="mui-theme-provider-outlined-input"
           multiline
           rows="1"
+          {...errAuthor}
+          onChange={({ target }) =>
+            setArticleData({ ...articleData, author: target.value })
+          }
         />
         <TextField
           className={classes.textWrap}
+          value={title}
           label="Tiêu đề"
           variant="outlined"
           id="mui-theme-provider-outlined-input"
           multiline
           rows="1"
+          {...errTile}
+          onChange={({ target }) =>
+            setArticleData({
+              ...articleData,
+              title: target.value.toUpperCase(),
+            })
+          }
         />
         <TextField
           className={classes.textWrap}
+          value={image}
+          label="Ảnh"
+          variant="outlined"
+          id="mui-theme-provider-outlined-input"
+          multiline
+          rows="1"
+          {...errTile}
+          onChange={({ target }) =>
+            setArticleData({ ...articleData, imageUrl: target.value })
+          }
+        />
+        <TextField
+          className={classes.textWrap}
+          value={content}
           label="Nội dung"
           variant="outlined"
           id="mui-theme-provider-outlined-input"
           multiline
           rows="10"
+          {...errContent}
+          onChange={({ target }) =>
+            setArticleData({ ...articleData, content: target.value })
+          }
         />
         <FormControl variant="outlined" className={classes.optionWrap}>
           <InputLabel htmlFor="outlined-age-native-simple">Chủ đề</InputLabel>
           <Select
             native
-            value="Ten"
+            value={topic}
             // onChange={handleChange}
             label="Topic"
             inputProps={{
               name: "age",
-              id: "outlined-age-native-simple"
+              id: "outlined-age-native-simple",
             }}
             className={classes.wrappedOption}
+            onChange={({ target }) =>
+              setArticleData({ ...articleData, topic: target.value })
+            }
           >
             <option aria-label="None" value="" />
-            <option value={10}>Front-End</option>
-            <option value={20}>Marketing</option>
-            <option value={30}>Sales</option>
+            <option value="Front End">Lập Trình Front End</option>
+            <option value="Back End">Lập Trình Back End</option>
+            <option value="AI/ML/DL Research">Nguyên Cứu AI/ML/DL</option>
+            <option value="Philosophy">Triết Học</option>
+            <option value="Psychology">Tâm Lý Học</option>
+            <option value="Sociology">Xã Hội Học</option>
+            <option value="Sales">Bán Hàng</option>
+            <option value="Marketing">Marketing</option>
+            <option value="LeaderShip">Lãnh Đạo</option>
+            <option value="Personal View">Góc Nhìn Cá Nhân</option>
           </Select>
           <TextField
             id="date"
@@ -112,9 +176,12 @@ const AddingForm = props => {
             type="date"
             defaultValue="2017-05-24"
             InputLabelProps={{
-              shrink: true
+              shrink: true,
             }}
             className={classes.wrappedOption}
+            onChange={({ target }) =>
+              setArticleData({ ...articleData, submitDate: target.value })
+            }
           />
         </FormControl>
 
@@ -123,6 +190,8 @@ const AddingForm = props => {
             variant="contained"
             color="primary"
             style={{ marginRight: "5px" }}
+            // disabled={disableAddArticleBtn}
+            onClick={onHandleSubmitArticle}
           >
             THÊM BÀI VIẾT MỚI
           </Button>

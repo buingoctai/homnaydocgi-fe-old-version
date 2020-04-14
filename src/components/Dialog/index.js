@@ -19,7 +19,7 @@ function PaperComponent(props) {
   );
 }
 
-const DraggableDialog = props => {
+const DraggableDialog = (props) => {
   const { dialogContent, showTime = 5000 } = props;
   const [open, setOpen] = React.useState(true);
   const handleClose = () => {
@@ -43,14 +43,14 @@ const DraggableDialog = props => {
           style={{
             cursor: "move",
             color: "#5fcfaf",
-            backgroundColor: "#0080ff",
-            fontSize: "50px"
+            backgroundColor: "#F1F3F4",
+            fontSize: "50px",
           }}
           id="draggable-dialog-title"
         >
           Thông báo
         </DialogTitle>
-        <DialogContent style={{ backgroundColor: "#00bfff" }}>
+        <DialogContent style={{ backgroundColor: "#C1C1C1" }}>
           <DialogContentText>{dialogContent}</DialogContentText>
           <DialogActions>
             <Button onClick={handleClose} color="primary">

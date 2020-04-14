@@ -4,9 +4,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import Link from "@material-ui/core/Link";
+import Button from "@material-ui/core/Button";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   mainFeaturedPost: {
     position: "relative",
     backgroundColor: theme.palette.grey[800],
@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
     backgroundImage: "url(https://source.unsplash.com/random)",
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
-    backgroundPosition: "center"
+    backgroundPosition: "center",
   },
   overlay: {
     position: "absolute",
@@ -23,32 +23,32 @@ const useStyles = makeStyles(theme => ({
     bottom: 0,
     right: 0,
     left: 0,
-    backgroundColor: "rgba(0,0,0,.3)"
+    backgroundColor: "rgba(0,0,0,.3)",
   },
   mainFeaturedPostContent: {
     position: "relative",
     padding: theme.spacing(3),
     [theme.breakpoints.up("md")]: {
       padding: theme.spacing(6),
-      paddingRight: 0
-    }
-  }
+      paddingRight: 0,
+    },
+  },
 }));
 
 export default function MainFeaturedPost(props) {
   const classes = useStyles();
-  const { post } = props;
+  const { onHandleOpenDetailContainer, post } = props;
 
   return (
     <Paper
       className={classes.mainFeaturedPost}
-      style={{ backgroundImage: `url(${post.image})` }}
+      style={{ backgroundImage: `url(${post.ImageUrl})` }}
     >
       {/* Increase the priority of the hero background image */}
       {
         <img
           style={{ display: "none" }}
-          src={post.image}
+          src={post.ImageUrl}
           alt={post.imageText}
         />
       }
@@ -62,14 +62,17 @@ export default function MainFeaturedPost(props) {
               color="inherit"
               gutterBottom
             >
-              {post.title}
+              {post.Title && post.Title}
             </Typography>
             <Typography variant="h5" color="inherit" paragraph>
-              {post.description}
+              {post.Content && `${post.Content.substring(0, 200)}...`}
             </Typography>
-            <Link variant="subtitle1" href="#">
-              {post.linkText}
-            </Link>
+            <Button
+              variant="contained"
+              onClick={() => onHandleOpenDetailContainer(post.Id)}
+            >
+              Đọc tiếp…
+            </Button>
           </div>
         </Grid>
       </Grid>
@@ -78,5 +81,5 @@ export default function MainFeaturedPost(props) {
 }
 
 MainFeaturedPost.propTypes = {
-  post: PropTypes.object
+  post: PropTypes.object,
 };

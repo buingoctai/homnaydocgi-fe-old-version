@@ -1,5 +1,22 @@
+import { connect } from "react-redux";
 import { compose, withHandlers, withState, lifecycle } from "recompose";
-import axios from "axios";
+import { getCookie } from "../../utils/utils";
+import { COOKIE_NAMES } from "../../utils/constants";
+
+import { saveTokenToCookie } from "../../Store/actions";
+import { asyncSubmitUserData } from "./Store/actions";
+
+const mapStateToProps = (state) => {
+  return {
+    id_token: state.id_token,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    saveTokenToCookieDispatch: (payload) => saveTokenToCookie(payload),
+    submitUserDataDispatch: (payload) => asyncSubmitUserData(payload),
+  };
+};
 
 export default compose(
   withState("isLoadingBtn", "setIsLoadingBtn", false),
@@ -11,28 +28,27 @@ export default compose(
   withState("techLabelsChoosing", "setTechLabelsChoosing", [
     "Back-End",
     "Front-End",
-    "Mobile"
+    "Mobile",
   ]), // call api to get labels
   withState("addLabelsChoosing", "setAddLabelsChoosing", [
     "Marketing",
     "Leader",
-    "Sales"
+    "Sales",
   ]), // call api to get labels
   withState("isKeepCurrentPage", "setIsKeepCurrentPage", true),
+  connect(mapStateToProps, mapDispatchToProps),
   withHandlers({
-    checkingNavigatePage: props => async token => {
+    checkingNavigatePage: (props) => () => {
       const {
-        saveTokenDispatch,
         setIsSuccessLogin,
         setIsKeepCurrentPage,
         techLabels,
         isChooseTechOptions,
         isChooseAddOptions,
-        addLabels
+        addLabels,
       } = props;
 
       if (!isChooseTechOptions && !isChooseAddOptions) {
-        await saveTokenDispatch(token);
         setTimeout(
           () =>
             setIsKeepCurrentPage(
@@ -42,26 +58,26 @@ export default compose(
         );
         setTimeout(() => setIsSuccessLogin(true), 5000);
       }
-    }
+    },
   }),
   withHandlers({
-    onChangeTechLabels: props => ({ name, checked }) => {
+    onChangeTechLabels: (props) => ({ name, checked }) => {
       const { setTechLabels, techLabels } = props;
       if (checked) {
         setTechLabels([...techLabels, name]);
         return;
       }
-      setTechLabels(techLabels.filter(label => label !== name));
+      setTechLabels(techLabels.filter((label) => label !== name));
     },
-    onChangeAddLabels: props => ({ name, checked }) => {
+    onChangeAddLabels: (props) => ({ name, checked }) => {
       const { setAddLabels, addLabels } = props;
       if (checked) {
         setAddLabels([...addLabels, name]);
         return;
       }
-      setAddLabels(addLabels.filter(label => label !== name));
+      setAddLabels(addLabels.filter((label) => label !== name));
     },
-    onPressLoginButton: props => async fbLink => {
+    onPressLoginButton: (props) => async (fbLink) => {
       const {
         setIsLoadingBtn,
         setTechLabels,
@@ -69,26 +85,25 @@ export default compose(
         setIsChooseTechOptions,
         setIsChooseAddOptions,
         checkingNavigatePage,
+        saveTokenToCookieDispatch,
+        submitUserDataDispatch,
         techLabels,
-        addLabels
+        addLabels,
       } = props;
       const { userName, fbUrl, techKnowledge, addKnowledge } = fbLink;
 
       await setIsLoadingBtn(true);
-      await axios({
-        method: "post",
-        url: `http://localhost:8000/user/submitData`,
-        headers: {},
-        data: {
-          userName,
-          fbUrl,
-          techKnowledge: techLabels.length > 0 ? techLabels : techKnowledge,
-          addKnowledge: addLabels.length > 0 ? addLabels : addKnowledge
-        }
+      submitUserDataDispatch({
+        userName,
+        fbUrl,
+        techKnowledge: techLabels.length > 0 ? techLabels : techKnowledge,
+        addKnowledge: addLabels.length > 0 ? addLabels : addKnowledge,
       })
-        .then(async res => {
-          const { techHandler, addHandler, token } = res.data;
-
+        .then(async (response) => {
+          const { techHandler, addHandler, token } = response;
+          if (token) {
+            await saveTokenToCookieDispatch(token);
+          }
           if (techHandler.classified) {
             await setIsChooseTechOptions(false);
             await setTechLabels(techHandler.labels);
@@ -103,10 +118,23 @@ export default compose(
             await setIsChooseAddOptions(true);
           }
           await setIsLoadingBtn(false);
-          checkingNavigatePage(token);
+          checkingNavigatePage();
+          console.log(response);
         })
-        .catch(error => console.log(error));
-    }
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   }),
-  lifecycle({})
+  lifecycle({
+    componentDidMount() {
+      const token = getCookie(COOKIE_NAMES.ACCESS_TOKEN);
+      // if (token) {
+      //   window.location.href = "http://localhost:3000/home";
+      // }
+      if (!token) {
+        window.location.href = "http://localhost:3000/home";
+      }
+    },
+  })
 );
