@@ -5,7 +5,12 @@ import { COOKIE_NAMES } from "../../utils/constants";
 
 import { asyncAuthencation, asyncGetProfile } from "../../Store/actions";
 
-import { asyncGetMainPosts, asyncGetFeaturedPosts } from "./Store/actions";
+import {
+  asyncGetMainPosts,
+  asyncGetFeaturedPosts,
+  asyncGetAllPost,
+  saveAllPost,
+} from "./Store/actions";
 
 const mapStateToProps = (state) => {
   const { reducers, blogReducers } = state;
@@ -13,6 +18,7 @@ const mapStateToProps = (state) => {
     currentUser: reducers.currentUser,
     mainPosts: blogReducers.mainPosts,
     featuredPosts: blogReducers.featuredPosts,
+    allPost: blogReducers.allPost,
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -21,6 +27,8 @@ const mapDispatchToProps = (dispatch) => {
     getProfileDispatch: (payload) => asyncGetProfile(payload),
     getMainPostsDispatch: (payload) => asyncGetMainPosts(payload),
     getFeaturedPostsDispatch: (payload) => asyncGetFeaturedPosts(payload),
+    getAllPostDispatch: (payload) => asyncGetAllPost(payload),
+    saveAllPostDispatch: (payload) => dispatch(saveAllPost(payload)),
   };
 };
 export default compose(
@@ -35,6 +43,9 @@ export default compose(
   withState("isSubscribeNotifiBot", "setIsSubscribeNotifiBot", false),
   withState("isSuggestSendArticle", "setIsSuggestSendArticle", false),
   withState("showingPost", "setShowingPost", {}),
+  withState("currentPageIndex", "setCurrentPageIndex", 1),
+  withState("isShowPaging", "setIsShowPaging", true),
+  withState("isStopCallApiGetAllPost", "setIsStopCallApiGetAllPost", false),
   connect(mapStateToProps, mapDispatchToProps),
   withHandlers({
     onHandleNavigateAdminPage: (props) => {
@@ -71,17 +82,53 @@ export default compose(
       }
       setIsOpenDetaiContainer(!isOpenDetaiContainer);
     },
+    onHandleScrollToBottom: (props) => () => {
+      const {
+        getAllPostDispatch,
+        saveAllPostDispatch,
+        setCurrentPageIndex,
+        setIsShowPaging,
+        setIsStopCallApiGetAllPost,
+        allPost,
+        currentPageIndex,
+        isStopCallApiGetAllPost,
+      } = props;
+
+      if (isStopCallApiGetAllPost) return;
+
+      setIsShowPaging(false);
+      setCurrentPageIndex(currentPageIndex + 1);
+      getAllPostDispatch({
+        paging: { pageIndex: currentPageIndex + 1, pageSize: 3 },
+        orderList: { orderBy: "SubmitDate", orderType: "DESC" },
+      })
+        .then((response) => {
+          setTimeout(() => setIsShowPaging(true), 3000);
+          if (!response.length) {
+            setIsStopCallApiGetAllPost(true);
+            return;
+          }
+
+          saveAllPostDispatch([...allPost.concat(response)]);
+        })
+        .catch(() => {
+          setIsShowPaging(true);
+        });
+    },
   }),
   lifecycle({
     componentDidMount() {
-      console.log("document=", document.getElementById("detailContainer"));
       const {
+        currentPageIndex,
         authencationDispatch,
         getProfileDispatch,
         getMainPostsDispatch,
         getFeaturedPostsDispatch,
+        getAllPostDispatch,
         setIsNavigateSubmitPageNotifi,
         setIsLoadingPage,
+        saveAllPostDispatch,
+        onHandleScrollToBottom,
       } = this.props;
       const token = getCookie(COOKIE_NAMES.ACCESS_TOKEN);
 
@@ -103,11 +150,36 @@ export default compose(
         ],
       })
         .then(() => {
+          // setIsLoadingPage(false);
+        })
+        .catch(() => {
+          // setIsLoadingPage(false);
+        });
+      getAllPostDispatch({
+        paging: { pageIndex: currentPageIndex, pageSize: 3 },
+        orderList: { orderBy: "SubmitDate", orderType: "DESC" },
+      })
+        .then((response) => {
+          saveAllPostDispatch(response);
           setIsLoadingPage(false);
         })
         .catch(() => {
           setIsLoadingPage(false);
         });
+
+      window.addEventListener("scroll", async (e) => {
+        // Khoảng cách từ đỉnh scroll bar đến đỉnh của browser
+        const scrollTop = document.documentElement.scrollTop;
+        // Toàn bộ height của 1 element(đó là toàn bộ quảng đường scroll)
+        const realHeight = document.documentElement.offsetHeight;
+        // Height khi scroll (scrollTop thay đổi liên tục)
+        const heightOnSroll = scrollTop + window.innerHeight;
+
+        if (heightOnSroll >= realHeight && scrollTop) {
+          onHandleScrollToBottom();
+        }
+      });
+
       // Phát triển sau
       if (token) {
         // fetch user inform
@@ -146,6 +218,9 @@ export default compose(
         // );
       }
       //----------------------------------------------------
+    },
+    componentWillUnmount() {
+      window.removeEventListener("scroll");
     },
   })
 );

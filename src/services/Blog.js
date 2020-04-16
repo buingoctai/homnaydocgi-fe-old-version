@@ -13,3 +13,10 @@ export const getFeaturedPosts = (param) => {
     data: { ...param },
   });
 };
+
+export const getAllPost = (param) => {
+  return request(`${process.env.REACT_APP_API}/blog/allPost`, {
+    method: "POST",
+    data: { ...param },
+  });
+};

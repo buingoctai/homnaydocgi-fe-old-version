@@ -1,4 +1,8 @@
-import { SAVE_MAIN_POSTS, SAVE_FEATURED_POSTS, SAVE_POSTS } from "./constants";
+import {
+  SAVE_MAIN_POSTS,
+  SAVE_FEATURED_POSTS,
+  SAVE_ALL_POST,
+} from "./constants";
 import initialState from "./state";
 
 const reducers = (state = initialState, action) => {
@@ -7,6 +11,8 @@ const reducers = (state = initialState, action) => {
       return { ...state, mainPosts: action.payload };
     case SAVE_FEATURED_POSTS:
       return { ...state, featuredPosts: action.payload };
+    case SAVE_ALL_POST:
+      return { ...state, allPost: action.payload };
     default:
       return state;
   }

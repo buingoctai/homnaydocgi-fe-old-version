@@ -1,6 +1,14 @@
 import { sagaMiddleware } from "../../../Store/actions";
-import { SAVE_MAIN_POSTS, SAVE_FEATURED_POSTS } from "./constants";
-import { getMainPostsEffect, getFeaturedPostsEffect } from "./sagas";
+import {
+  SAVE_MAIN_POSTS,
+  SAVE_FEATURED_POSTS,
+  SAVE_ALL_POST,
+} from "./constants";
+import {
+  getMainPostsEffect,
+  getFeaturedPostsEffect,
+  getAllPostEffect,
+} from "./sagas";
 
 const getMainPosts = (payload, resolve, reject) => {
   sagaMiddleware.run(getMainPostsEffect, payload, resolve, reject);
@@ -22,6 +30,16 @@ export const asyncGetFeaturedPosts = (payload) => {
   });
 };
 
+const getAllPost = (payload, resolve, reject) => {
+  sagaMiddleware.run(getAllPostEffect, payload, resolve, reject);
+};
+
+export const asyncGetAllPost = (payload) => {
+  return new Promise((resolve, reject) => {
+    getAllPost(payload, resolve, reject);
+  });
+};
+
 export const saveMainPosts = (payload) => {
   return {
     type: SAVE_MAIN_POSTS,
@@ -32,6 +50,13 @@ export const saveMainPosts = (payload) => {
 export const saveFeaturedPosts = (payload) => {
   return {
     type: SAVE_FEATURED_POSTS,
+    payload,
+  };
+};
+
+export const saveAllPost = (payload) => {
+  return {
+    type: SAVE_ALL_POST,
     payload,
   };
 };

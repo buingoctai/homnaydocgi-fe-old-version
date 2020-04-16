@@ -6,16 +6,8 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 // import Markdown from "./Markdown";
 
-const useStyles = makeStyles(theme => ({
-  markdown: {
-    ...theme.typography.body2,
-    padding: theme.spacing(3, 0)
-  }
-}));
-
 export default function Main(props) {
-  const classes = useStyles();
-  const { posts, title } = props;
+  const { title } = props;
 
   return (
     <Grid item xs={12} md={8}>
@@ -23,14 +15,11 @@ export default function Main(props) {
         {title}
       </Typography>
       <Divider />
-      {posts.map(post => (
-        <div key={post}>{post}</div>
-      ))}
     </Grid>
   );
 }
 
 Main.propTypes = {
   posts: PropTypes.array,
-  title: PropTypes.string
+  title: PropTypes.string,
 };

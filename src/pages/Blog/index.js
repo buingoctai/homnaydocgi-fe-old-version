@@ -5,9 +5,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
-import GitHubIcon from "@material-ui/icons/GitHub";
-import FacebookIcon from "@material-ui/icons/Facebook";
-import TwitterIcon from "@material-ui/icons/Twitter";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
 import DraggableDialog from "../../components/Dialog";
@@ -16,9 +13,8 @@ import MainFeaturedPost from "./PostWrap/MainFeaturedPost";
 import FeaturedPost from "./PostWrap/FeaturedPost";
 import DetailPost from "./PostWrap/DetailPost";
 import Main from "./Main";
-import SideBar from "./SideBar";
 import Footer from "./Footer";
-
+import PostGrid from "./PostWrap/PostGrid";
 import enhance from "./enhance";
 
 const useStyles = makeStyles((theme) => ({
@@ -47,30 +43,6 @@ const sections = [
 
 const posts = ["post1", "post2", "post3"];
 
-const sidebar = {
-  title: "About",
-  description:
-    "Etiam porta sem malesuada magna mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.",
-  archives: [
-    { title: "March 2020", url: "#" },
-    { title: "February 2020", url: "#" },
-    { title: "January 2020", url: "#" },
-    { title: "November 1999", url: "#" },
-    { title: "October 1999", url: "#" },
-    { title: "September 1999", url: "#" },
-    { title: "August 1999", url: "#" },
-    { title: "July 1999", url: "#" },
-    { title: "June 1999", url: "#" },
-    { title: "May 1999", url: "#" },
-    { title: "April 1999", url: "#" },
-  ],
-  social: [
-    { name: "GitHub", icon: GitHubIcon },
-    { name: "Twitter", icon: TwitterIcon },
-    { name: "Facebook", icon: FacebookIcon },
-  ],
-};
-
 const Blog = (props) => {
   const classes = useStyles();
   const {
@@ -80,10 +52,12 @@ const Blog = (props) => {
     isSubscribeNotifiBot,
     isSuggestSendArticle,
     isNavigateSubmitPageNotifi,
+    isShowPaging,
     currentUser,
     showingPost,
     mainPosts,
     featuredPosts,
+    allPost,
     onHandleNavigateAdminPage,
     onHandleSubscribeNotifiByBot,
     onHandleSuggestSendArticle,
@@ -127,13 +101,8 @@ const Blog = (props) => {
                 ))}
             </Grid>
             <Grid container spacing={5} className={classes.mainGrid}>
-              <Main title="Tất cả bài viết" posts={posts} />
-              <SideBar
-                title={sidebar.title}
-                description={sidebar.description}
-                archives={sidebar.archives}
-                social={sidebar.social}
-              />
+              <Main title="Tất cả" posts={posts} />
+              <PostGrid posts={allPost} isShowPaging={isShowPaging} />
             </Grid>
           </main>
         )}
@@ -145,10 +114,11 @@ const Blog = (props) => {
           />
         )}
 
+        {/*-----------------------------------Nhóm thông báo-----------------------------------------------*/}
         {isNavigateSubmitPageNotifi && (
           <DraggableDialog
             dialogContent="Để có trải nghiệm tốt nhất, vui lòng cung cấp thông tin cần thiết!"
-            showTime={3000}
+            showTime={100}
           />
         )}
         {isAdmin && (

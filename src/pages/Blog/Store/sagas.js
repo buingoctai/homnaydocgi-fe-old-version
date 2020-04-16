@@ -1,6 +1,10 @@
 import { call, put } from "redux-saga/effects";
-import { getMainPosts, getFeaturedPosts } from "../../../services/Blog";
-import { saveMainPosts, saveFeaturedPosts } from "./actions";
+import {
+  getMainPosts,
+  getFeaturedPosts,
+  getAllPost,
+} from "../../../services/Blog";
+import { saveMainPosts, saveFeaturedPosts, saveAllPost } from "./actions";
 
 function* getMainPostsEffect(payload, resolve, reject) {
   const response = yield call(getMainPosts, payload);
@@ -24,4 +28,14 @@ function* getFeaturedPostsEffect(payload, resolve, reject) {
   }
 }
 
-export { getMainPostsEffect, getFeaturedPostsEffect };
+function* getAllPostEffect(payload, resolve, reject) {
+  const response = yield call(getAllPost, payload);
+
+  if (response) {
+    resolve(response);
+  } else {
+    reject("Error calling api");
+  }
+}
+
+export { getMainPostsEffect, getFeaturedPostsEffect, getAllPostEffect };
