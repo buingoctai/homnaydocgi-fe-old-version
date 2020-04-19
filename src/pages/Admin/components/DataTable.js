@@ -382,7 +382,7 @@ const DataTable = (props) => {
                         padding="none"
                       >
                         <a
-                          href="https://contentcollection.azurewebsites.net//admin"
+                          href="https://contentcollection.herokuapp.com/admin"
                           style={{ textDecoration: "none" }}
                         >
                           {row.author}
