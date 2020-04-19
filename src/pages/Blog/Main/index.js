@@ -14,7 +14,7 @@ export default function Main(props) {
       <Typography variant="h6" gutterBottom>
         {title}
       </Typography>
-      <Divider />
+      <Divider light={true} style={{ height: "5px" }} />
     </Grid>
   );
 }

@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
@@ -26,6 +24,9 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     marginTop: "200px",
     marginBottom: "200px",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
     alignItems: "center",
   },
   loadingMessage: {
@@ -41,8 +42,6 @@ const sections = [
   { title: "NGOÀI CHUYÊN MÔN", url: "ngoai-chuyen-mon-list" },
 ];
 
-const posts = ["post1", "post2", "post3"];
-
 const Blog = (props) => {
   const classes = useStyles();
   const {
@@ -54,6 +53,7 @@ const Blog = (props) => {
     isNavigateSubmitPageNotifi,
     isShowPaging,
     currentUser,
+    currentPageIndex,
     showingPost,
     mainPosts,
     featuredPosts,
@@ -67,7 +67,7 @@ const Blog = (props) => {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container maxWidth="false">
+      <Container style={{ width: "90%" }}>
         <Header
           title="HÔM NAY ĐỌC GÌ?"
           sections={sections}
@@ -81,28 +81,44 @@ const Blog = (props) => {
             <span className={classes.loadingMessage}>
               Đang tải bài viết. Vui lòng đợi!
             </span>
-            <LinearProgress color="primary" style={{ height: "3px" }} />
+            <LinearProgress
+              color="primary"
+              style={{ height: "3px", width: "30%" }}
+            />
           </div>
         )}
         {!isLoadingPage && (
           <main>
-            <MainFeaturedPost
-              post={mainPosts}
-              onHandleOpenDetailContainer={onHandleOpenDetailContainer}
-            />
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                padding: "20px 0",
+              }}
+            >
+              <MainFeaturedPost
+                post={mainPosts}
+                onHandleOpenDetailContainer={onHandleOpenDetailContainer}
+              />
+              <div style={{ flexGrow: "2" }}>ĐANG PHÁT TRIỂN</div>
+            </div>
+
             <Grid container spacing={4}>
-              {featuredPosts.data &&
-                featuredPosts.data.map((post) => (
-                  <FeaturedPost
-                    key={post.Title}
-                    post={post}
-                    onHandleOpenDetailContainer={onHandleOpenDetailContainer}
-                  />
-                ))}
+              <FeaturedPost
+                key="featured post"
+                post={featuredPosts}
+                onHandleOpenDetailContainer={onHandleOpenDetailContainer}
+              />
             </Grid>
             <Grid container spacing={5} className={classes.mainGrid}>
-              <Main title="Tất cả" posts={posts} />
-              <PostGrid posts={allPost} isShowPaging={isShowPaging} />
+              <Main title="Tất cả" />
+              <PostGrid
+                posts={allPost.data}
+                totalRecord={Math.ceil(allPost.totalRecord / 3)}
+                isShowPaging={isShowPaging}
+                currentPageIndex={currentPageIndex}
+                onHandleOpenDetailContainer={onHandleOpenDetailContainer}
+              />
             </Grid>
           </main>
         )}

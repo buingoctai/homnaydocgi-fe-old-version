@@ -1,4 +1,5 @@
 import React from "react";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
@@ -8,72 +9,82 @@ import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
   detailContainer: {
-    flexGrow: 1,
-    position: "fixed",
-    display: "block",
     width: "100%",
     height: "100%",
-    backgroundColor: "rgba(0,0,0,0.5)",
-    zIndex: "2",
-    cursor: "pointer",
     top: "0",
     left: "0",
     right: "0",
     bottom: "0",
+    backgroundColor: "rgba(0,0,0,0.5)",
+    flexGrow: 1,
+    position: "fixed",
+    zIndex: "2",
+    cursor: "pointer",
+    display: "flex",
+    justifyContent: "center",
+    animationName: "$detailAmination",
+    animationDuration: "1s",
+  },
+  "@keyframes detailAmination": {
+    from: { opacity: 0 },
+    to: { opacity: 1 },
   },
   girdWrap: {
     height: "100%",
     padding: theme.spacing(9),
   },
+  largeGridWrap: {
+    width: "60%",
+  },
+  smallGridWrap: {
+    width: "85%",
+  },
   itemGridWrap: {
+    height: "100%",
     overflow: "hidden",
     position: "relative",
-    // width: "100%",
-    height: "100%",
   },
   titleWrap: {
-    position: "fixed",
-    padding: theme.spacing(2),
-    top: "20px",
-    marginTop: "10px",
     width: "10px",
-    display: "flex",
-    right: "72px",
-    justifyContent: "center",
+    top: "20px",
     height: "5px",
+    padding: theme.spacing(2),
+    marginTop: "10px",
+    position: "fixed",
+    display: "flex",
     alignItems: "center",
+    justifyContent: "center",
     backgroundColor: "#7C7C7C",
   },
   paper: {
-    padding: theme.spacing(2),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
     height: "100%",
-    position: "absolute",
-    overflowY: "scroll",
     top: "0",
     left: "0",
     bottom: "-20px",
     right: "-20px",
+    padding: theme.spacing(2),
+    color: theme.palette.text.secondary,
+    textAlign: "center",
+    position: "absolute",
+    overflowY: "scroll",
   },
-  //   headerPaperWrap: {
-  //     overflow: "hidden",
-  //     backgroundColor: "#333",
-  //     position: "fixed",
-  //     width: "100%",
-  //   },
 }));
 
 export default function DetailPost(props) {
   const classes = useStyles();
   const { onHandleOpenDetailContainer, isOpenDetaiContainer, post } = props;
   const newContent = post.Content.split("\n");
-
+  const matches = useMediaQuery("(max-width:1600px)");
+  console.log("matches", matches);
   return (
     <div className={classes.detailContainer} id="detailContainer">
       <Grid
         container
-        className={classes.girdWrap}
+        className={
+          matches
+            ? `${classes.girdWrap} ${classes.smallGridWrap}`
+            : `${classes.girdWrap} ${classes.largeGridWrap}`
+        }
         onBlur={() => console.log("on blur")}
       >
         <Grid item xs={12} className={classes.itemGridWrap}>

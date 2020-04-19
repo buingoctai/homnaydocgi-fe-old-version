@@ -68,6 +68,7 @@ export default compose(
         setShowingPost,
         mainPosts,
         featuredPosts,
+        allPost,
         isOpenDetaiContainer,
       } = props;
 
@@ -77,8 +78,14 @@ export default compose(
         const [filtedPost] = featuredPosts.data.filter(
           (item) => item.Id === postId
         );
-        console.log("filtedPost=", filtedPost);
-        setShowingPost(filtedPost);
+        if (filtedPost) {
+          setShowingPost(filtedPost);
+        } else {
+          const [filtedPost] = allPost.data.filter(
+            (item) => item.Id === postId
+          );
+          setShowingPost(filtedPost);
+        }
       }
       setIsOpenDetaiContainer(!isOpenDetaiContainer);
     },
@@ -94,22 +101,29 @@ export default compose(
         isStopCallApiGetAllPost,
       } = props;
 
-      if (isStopCallApiGetAllPost) return;
+      if (isStopCallApiGetAllPost || !allPost.data.length) return;
 
       setIsShowPaging(false);
-      setCurrentPageIndex(currentPageIndex + 1);
       getAllPostDispatch({
         paging: { pageIndex: currentPageIndex + 1, pageSize: 3 },
         orderList: { orderBy: "SubmitDate", orderType: "DESC" },
       })
         .then((response) => {
-          setTimeout(() => setIsShowPaging(true), 3000);
-          if (!response.length) {
+          console.log("checking response", response);
+
+          setTimeout(() => setIsShowPaging(true), 4000);
+
+          if (!response.data.length) {
             setIsStopCallApiGetAllPost(true);
             return;
           }
+          setCurrentPageIndex(currentPageIndex + 1);
 
-          saveAllPostDispatch([...allPost.concat(response)]);
+          saveAllPostDispatch({
+            ...allPost,
+            data: [...allPost.data.concat(response.data)],
+            totalRecord: allPost.totalRecord,
+          });
         })
         .catch(() => {
           setIsShowPaging(true);
@@ -175,7 +189,7 @@ export default compose(
         // Height khi scroll (scrollTop thay đổi liên tục)
         const heightOnSroll = scrollTop + window.innerHeight;
 
-        if (heightOnSroll >= realHeight && scrollTop) {
+        if (heightOnSroll >= realHeight - 100 && scrollTop) {
           onHandleScrollToBottom();
         }
       });
@@ -203,7 +217,9 @@ export default compose(
               setIsNavigateSubmitPageNotifi(true);
               setTimeout(() => setIsNavigateSubmitPageNotifi(false), 5000);
               setTimeout(
-                () => (window.location.href = "http://localhost:3000/"),
+                () =>
+                  (window.location.href =
+                    "https://contentcollection.azurewebsites.net//"),
                 5000
               );
             }
@@ -213,14 +229,16 @@ export default compose(
         setIsNavigateSubmitPageNotifi(true);
         setTimeout(() => setIsNavigateSubmitPageNotifi(false), 5000);
         // setTimeout(
-        //   () => (window.location.href = "http://localhost:3000/"),
+        //   () => (window.location.href = "https://contentcollection.azurewebsites.net//"),
         //   5000
         // );
       }
       //----------------------------------------------------
     },
     componentWillUnmount() {
-      window.removeEventListener("scroll");
+      window.removeEventListener("scroll", () => {
+        //
+      });
     },
   })
 );

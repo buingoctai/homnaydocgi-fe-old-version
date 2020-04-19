@@ -130,10 +130,11 @@ export default compose(
     componentDidMount() {
       const token = getCookie(COOKIE_NAMES.ACCESS_TOKEN);
       // if (token) {
-      //   window.location.href = "http://localhost:3000/home";
+      //   window.location.href = "https://contentcollection.azurewebsites.net//home";
       // }
       if (!token) {
-        window.location.href = "http://localhost:3000/home";
+        window.location.href =
+          "https://contentcollection.azurewebsites.net//home";
       }
     },
   })
