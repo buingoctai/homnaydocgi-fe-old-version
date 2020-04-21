@@ -1,4 +1,4 @@
-import { sagaMiddleware } from "../../../Store/actions";
+import { sagaMiddleware } from "../../../store/actions";
 import {
   SAVE_MAIN_POSTS,
   SAVE_FEATURED_POSTS,
@@ -8,6 +8,7 @@ import {
   getMainPostsEffect,
   getFeaturedPostsEffect,
   getAllPostEffect,
+  suggestSubscribeNotifiByBotEffect,
 } from "./sagas";
 
 const getMainPosts = (payload, resolve, reject) => {
@@ -37,6 +38,20 @@ const getAllPost = (payload, resolve, reject) => {
 export const asyncGetAllPost = (payload) => {
   return new Promise((resolve, reject) => {
     getAllPost(payload, resolve, reject);
+  });
+};
+
+const suggestSubscribeNotifiByBot = (payload, resolve, reject) => {
+  sagaMiddleware.run(
+    suggestSubscribeNotifiByBotEffect,
+    payload,
+    resolve,
+    reject
+  );
+};
+export const asyncSuggestSubscribeNotifiByBot = (payload) => {
+  return new Promise((resolve, reject) => {
+    suggestSubscribeNotifiByBot(payload, resolve, reject);
   });
 };
 

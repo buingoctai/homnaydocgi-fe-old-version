@@ -5,7 +5,7 @@ function* submitPosteEffect(payload, resolve, reject) {
   const response = yield call(submitPost, payload);
 
   if (response) {
-    resolve("GỬI BÀI VIẾT THÀNH CÔNG");
+    resolve(response);
   } else {
     reject("Error calling api");
   }

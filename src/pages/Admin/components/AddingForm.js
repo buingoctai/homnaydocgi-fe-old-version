@@ -62,7 +62,7 @@ const AddingForm = (props) => {
     setArticleData,
     articleData,
   } = props;
-  const { author, title, content, topic, submitDate, image } = articleData;
+  const { author, title, content, topic, submitDate, imageUrl } = articleData;
   const errAuthor = author.length > 20 && {
     error: true,
     id: "standard-error-helper-text",
@@ -118,7 +118,7 @@ const AddingForm = (props) => {
         />
         <TextField
           className={classes.textWrap}
-          value={image}
+          value={imageUrl}
           label="Ảnh"
           variant="outlined"
           id="mui-theme-provider-outlined-input"

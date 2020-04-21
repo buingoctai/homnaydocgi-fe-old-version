@@ -3,12 +3,13 @@ import { compose, withHandlers, withState, lifecycle } from "recompose";
 import { getCookie } from "../../utils/utils";
 import { COOKIE_NAMES } from "../../utils/constants";
 
-import { asyncAuthencation, asyncGetProfile } from "../../Store/actions";
+import { asyncAuthencation, asyncGetProfile } from "../../store/actions";
 
 import {
   asyncGetMainPosts,
   asyncGetFeaturedPosts,
   asyncGetAllPost,
+  asyncSuggestSubscribeNotifiByBot,
   saveAllPost,
 } from "./Store/actions";
 
@@ -28,6 +29,8 @@ const mapDispatchToProps = (dispatch) => {
     getMainPostsDispatch: (payload) => asyncGetMainPosts(payload),
     getFeaturedPostsDispatch: (payload) => asyncGetFeaturedPosts(payload),
     getAllPostDispatch: (payload) => asyncGetAllPost(payload),
+    suggestSubscribeNotifiByBotDispatch: (payload) =>
+      asyncSuggestSubscribeNotifiByBot(payload),
     saveAllPostDispatch: (payload) => dispatch(saveAllPost(payload)),
   };
 };
@@ -55,8 +58,19 @@ export default compose(
       }
     },
     onHandleSubscribeNotifiByBot: (props) => {
-      const { setIsSubscribeNotifiBot } = props;
+      const {
+        suggestSubscribeNotifiByBotDispatch,
+        setIsSubscribeNotifiBot,
+      } = props;
       setIsSubscribeNotifiBot(true);
+      suggestSubscribeNotifiByBotDispatch({
+        id_msg_user: "",
+        message: "BẠN ĐÃ ĐĂNG KÝ THÀNH CÔNG GỬI THÔNG BÁO QUA MESSENGER FB",
+      })
+        .then(({ message }) => {
+          alert(message);
+        })
+        .catch(() => {});
     },
     onHandleSuggestSendArticle: (props) => {
       const { setIsSuggestSendArticle } = props;
@@ -109,8 +123,6 @@ export default compose(
         orderList: { orderBy: "SubmitDate", orderType: "DESC" },
       })
         .then((response) => {
-          console.log("checking response", response);
-
           setTimeout(() => setIsShowPaging(true), 4000);
 
           if (!response.data.length) {

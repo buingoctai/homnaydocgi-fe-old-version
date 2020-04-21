@@ -9,10 +9,7 @@ import AdminPage from "../Admin";
 const App = (props) => {
   return (
     <div>
-      <Helmet
-        titleTemplate="%s - React.js Boilerplate"
-        defaultTitle="HÔM NAY ĐỌC GÌ?"
-      >
+      <Helmet defaultTitle="HÔM NAY ĐỌC GÌ? | Tổng hợp nội dung">
         <meta name="description" content="HÔM NAY ĐỌC GÌ?" />
       </Helmet>
       <Router>

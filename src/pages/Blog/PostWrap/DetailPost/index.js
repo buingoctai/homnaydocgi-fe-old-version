@@ -75,7 +75,7 @@ export default function DetailPost(props) {
   const { onHandleOpenDetailContainer, isOpenDetaiContainer, post } = props;
   const newContent = post.Content.split("\n");
   const matches = useMediaQuery("(max-width:1600px)");
-  console.log("matches", matches);
+
   return (
     <div className={classes.detailContainer} id="detailContainer">
       <Grid

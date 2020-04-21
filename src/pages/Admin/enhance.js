@@ -1,6 +1,5 @@
 import { connect } from "react-redux";
 import { compose, withHandlers, withState, lifecycle } from "recompose";
-import axios from "axios";
 
 import { asyncSubmitPost } from "./Store/actions";
 
@@ -33,8 +32,8 @@ export default compose(
       submitPostDispatch({
         ...articleData,
       })
-        .then((response) => {
-          console.log(response);
+        .then(({ message }) => {
+          alert(message);
           setArticleData({
             author: "",
             title: "",

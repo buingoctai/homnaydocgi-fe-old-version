@@ -1,9 +1,13 @@
 import { call, put } from "redux-saga/effects";
+
+import { sendMsgViaBot } from "../../../services/Common";
 import {
   getMainPosts,
   getFeaturedPosts,
   getAllPost,
+  suggestSubscribeNotifiByBot,
 } from "../../../services/Blog";
+
 import { saveMainPosts, saveFeaturedPosts, saveAllPost } from "./actions";
 
 function* getMainPostsEffect(payload, resolve, reject) {
@@ -38,4 +42,20 @@ function* getAllPostEffect(payload, resolve, reject) {
   }
 }
 
-export { getMainPostsEffect, getFeaturedPostsEffect, getAllPostEffect };
+function* suggestSubscribeNotifiByBotEffect(payload, resolve, reject) {
+  console.log("payload=", payload);
+  const response = yield call(sendMsgViaBot, payload);
+
+  if (response) {
+    resolve(response);
+  } else {
+    reject("Error calling api");
+  }
+}
+
+export {
+  getMainPostsEffect,
+  getFeaturedPostsEffect,
+  getAllPostEffect,
+  suggestSubscribeNotifiByBotEffect,
+};

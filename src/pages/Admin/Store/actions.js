@@ -1,4 +1,4 @@
-import { sagaMiddleware } from "../../../Store/actions";
+import { sagaMiddleware } from "../../../store/actions";
 import { submitPosteEffect } from "./sagas";
 
 const submitPost = (payload, resolve, reject) => {

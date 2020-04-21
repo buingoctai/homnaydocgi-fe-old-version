@@ -3,7 +3,7 @@ import { compose, withHandlers, withState, lifecycle } from "recompose";
 import { getCookie } from "../../utils/utils";
 import { COOKIE_NAMES } from "../../utils/constants";
 
-import { saveTokenToCookie } from "../../Store/actions";
+import { saveTokenToCookie } from "../../store/actions";
 import { asyncSubmitUserData } from "./Store/actions";
 
 const mapStateToProps = (state) => {
@@ -130,7 +130,7 @@ export default compose(
     componentDidMount() {
       const token = getCookie(COOKIE_NAMES.ACCESS_TOKEN);
       // if (token) {
-      //   window.location.href = "https://contentcollection.herokuapp.com/home";
+      //   window.location.href = "http://localhost:300/home";
       // }
       if (!token) {
         window.location.href = "https://contentcollection.herokuapp.com/home";

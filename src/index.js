@@ -11,11 +11,11 @@ import {
 } from "redux";
 import createSagaMiddleware from "redux-saga";
 import { Provider } from "react-redux";
-import reducers from "./Store/reducers";
+import reducers from "./store/reducers";
 import blogReducers from "./pages/Blog/Store/reducers";
-import { submitDataSuccess } from "./Store/sagas";
-import { sagaMiddleware } from "./Store/actions";
-import initialState from "./Store/state";
+import { submitDataSuccess } from "./store/sagas";
+import { sagaMiddleware } from "./store/actions";
+import initialState from "./store/state";
 import blogState from "./pages/Blog/Store/state";
 import App from "./pages/App";
 import "./index.css";

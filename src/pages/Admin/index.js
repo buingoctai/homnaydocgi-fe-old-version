@@ -12,9 +12,9 @@ import DataTable from "./components/DataTable";
 import CopyRight from "../../components/CoppyRight";
 import enhance from "./enhance";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   appBar: {
-    position: "relative"
+    position: "relative",
   },
   addingFormWrap: {
     width: "auto",
@@ -23,8 +23,8 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
       width: 600,
       marginLeft: "auto",
-      marginRight: "auto"
-    }
+      marginRight: "auto",
+    },
   },
   dataTableWrap: {
     width: "auto",
@@ -33,15 +33,15 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
       width: 800,
       marginLeft: "auto",
-      marginRight: "auto"
-    }
+      marginRight: "auto",
+    },
   },
   linearLoadingNavigatePage: {
     width: "100%",
-    marginTop: "250px"
-  }
+    marginTop: "250px",
+  },
 }));
-const AdminPage = props => {
+const AdminPage = (props) => {
   const classes = useStyles();
   const { isShowAddingForm, isLoadingTable, currentUser } = props;
 
@@ -60,26 +60,17 @@ const AdminPage = props => {
           isShowAddingForm ? classes.addingFormWrap : classes.dataTableWrap
         }
       >
-        {isShowAddingForm && <AddingForm {...props} />}
-
-        {isLoadingTable && !isShowAddingForm ? (
-          <div className={classes.linearLoadingNavigatePage}>
-            <LinearProgress color="primary" style={{ height: "3px" }} />
-            <span style={{ fontWeight: "bold" }}>
-              Đang chuyển sang trang mới
-            </span>
-          </div>
-        ) : null}
-        {!isLoadingTable && !isShowAddingForm ? <DataTable {...props} /> : null}
+        <AddingForm {...props} />
+        <DataTable {...props} />
       </main>
       <CopyRight />
     </React.Fragment>
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    currentUser: state.currentUser
+    currentUser: state.currentUser,
   };
 };
 export default connect(mapStateToProps, null)(enhance(AdminPage));
