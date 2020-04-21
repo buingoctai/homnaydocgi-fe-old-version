@@ -30,7 +30,7 @@ export default function FeaturedPost(props) {
     ? post.data.map((post) => (
         <Grid item xs={12} md={6}>
           <span style={{ fontSize: "20px", fontWeight: "bold" }}>
-            {post.Topic}
+            {post && post.Topic}
           </span>
 
           <CardActionArea component="a">
