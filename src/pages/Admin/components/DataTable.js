@@ -382,7 +382,7 @@ const DataTable = (props) => {
                         padding="none"
                       >
                         <a
-                          href="https://bosuutapnoidung.herokuapp.com/admin"
+                          href="http://localhost:3000/admin"
                           style={{ textDecoration: "none" }}
                         >
                           {row.author}

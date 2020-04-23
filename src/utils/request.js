@@ -14,10 +14,10 @@ axios.interceptors.request.use((config) => {
   const { url } = config;
   newConfig.timeout = REQUEST_TIMEOUT;
   newConfig.url = `${url}?key=${process.env.REACT_APP_API_KEY}`;
-  newConfig.headers = {
-    "Access-Control-Allow-Origin": "*",
-    "Content-Type": "application/json",
-  };
+  // newConfig.headers = {
+  //   "Access-Control-Allow-Origin": "*",
+  //   "Content-Type": "application/json",
+  // };
   // console.log(config);
   if (token) {
     newConfig.headers = { ...config.headers, Authorization: `Bearer ${token}` };
@@ -26,6 +26,7 @@ axios.interceptors.request.use((config) => {
 });
 
 axios.interceptors.response.use((response) => {
+  console.log("in request, response", response);
   const { status, data } = response;
   if (status === 200) {
     return data;
