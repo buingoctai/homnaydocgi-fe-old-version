@@ -3,7 +3,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 
-import BasicLayout from "../../layouts/BasicLayout";
 import Profile from "./components/Profile";
 import Login from "./components/Login";
 import Application from "./components/Application";

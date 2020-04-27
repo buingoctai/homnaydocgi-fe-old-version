@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "250px",
   },
 }));
-const AdminPage = (props) => {
+const Admin = (props) => {
   const classes = useStyles();
   const { isShowAddingForm, isLoadingTable, currentUser } = props;
 
@@ -73,4 +73,4 @@ const mapStateToProps = (state) => {
     currentUser: state.currentUser,
   };
 };
-export default connect(mapStateToProps, null)(enhance(AdminPage));
+export default connect(mapStateToProps, null)(enhance(Admin));

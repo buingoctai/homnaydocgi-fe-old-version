@@ -229,9 +229,7 @@ export default compose(
               setIsNavigateSubmitPageNotifi(true);
               setTimeout(() => setIsNavigateSubmitPageNotifi(false), 5000);
               setTimeout(
-                () =>
-                  (window.location.href =
-                    "https://contentcollection.azurewebsites.net//"),
+                () => (window.location.href = process.env.REACT_APP_URL),
                 5000
               );
             }

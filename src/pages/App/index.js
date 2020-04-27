@@ -4,7 +4,8 @@ import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 
 import Introduction from "../Introduction";
 import Blog from "../Blog";
-import AdminPage from "../Admin";
+import Admin from "../Admin";
+import Exception from "../Exception";
 
 const App = (props) => {
   return (
@@ -15,14 +16,9 @@ const App = (props) => {
       <Router>
         <Switch>
           <Route exact path="/" component={Introduction} />
-          <Route path="/home/:userName" component={Blog} />
           <Route path="/home" component={Blog} />
-          <Route path="/admin" component={AdminPage} />
-          <Route path="/front-end" component={Blog} />
-          <Route path="/back-end" component={Blog} />
-          <Route path="/ai-ml-dl" component={Blog} />
-          <Route path="/ngoai-chuyen-mon" component={Blog} />
-          <Route path="/ke-hoach-sx" component={Blog} />
+          <Route path="/admin" component={Admin} />
+          <Route path="/exception" component={Exception} />
         </Switch>
       </Router>
     </div>

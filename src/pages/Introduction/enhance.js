@@ -133,7 +133,7 @@ export default compose(
       //   window.location.href = "http://localhost:300/home";
       // }
       if (!token) {
-        window.location.href = "https://bosuutapnoidung.herokuapp.com/home";
+        window.location.href = `${process.env.REACT_APP_URL}/home`;
       }
     },
   })
