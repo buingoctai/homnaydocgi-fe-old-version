@@ -34,6 +34,53 @@ const COOKIE_NAMES = {
 
 const REQUEST_TIMEOUT = 300000; // 5 PHÚT
 
+const TOPIC_TRANSLATE_CONTENT = [
+  {
+    eng: "Front End",
+    vn: "Lập Trình Front End",
+  },
+  {
+    eng: "Back End",
+    vn: "Lập Trình Back End",
+  },
+  {
+    eng: "AI/ML/DL Research",
+    vn: "Nguyên Cứu AI/ML/DL",
+  },
+  {
+    eng: "Philosophy",
+    vn: "Triết Học",
+  },
+  {
+    eng: "Psychology",
+    vn: "Tâm Lý Học",
+  },
+  {
+    eng: "Sociology",
+    vn: "Xã Hội Học",
+  },
+  {
+    eng: "Sales",
+    vn: "Bán Hàng",
+  },
+  {
+    eng: "Marketing",
+    vn: "Marketing",
+  },
+  {
+    eng: "LeaderShip",
+    vn: "Lãnh Đạo",
+  },
+  {
+    eng: "Administration",
+    vn: "Quản Trị",
+  },
+  {
+    eng: "Personal View",
+    vn: "Góc Nhìn Cá Nhân",
+  },
+];
+
 export {
   authorBrielf,
   skillGroup,
@@ -41,4 +88,5 @@ export {
   contentIntro,
   COOKIE_NAMES,
   REQUEST_TIMEOUT,
+  TOPIC_TRANSLATE_CONTENT,
 };

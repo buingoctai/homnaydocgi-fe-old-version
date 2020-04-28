@@ -168,6 +168,7 @@ const AddingForm = (props) => {
             <option value="Sales">Bán Hàng</option>
             <option value="Marketing">Marketing</option>
             <option value="LeaderShip">Lãnh Đạo</option>
+            <option value="Administration">Quản Trị</option>
             <option value="Personal View">Góc Nhìn Cá Nhân</option>
           </Select>
           <TextField

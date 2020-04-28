@@ -9,6 +9,9 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Hidden from "@material-ui/core/Hidden";
 import Button from "@material-ui/core/Button";
+import moment from "moment";
+
+import { translatePostGroupTitle } from "../../../../utils/utils";
 
 const useStyles = makeStyles({
   card: {
@@ -29,8 +32,14 @@ export default function FeaturedPost(props) {
   return post.data
     ? post.data.map((post) => (
         <Grid item xs={12} md={6}>
-          <span style={{ fontSize: "20px", fontWeight: "bold" }}>
-            {post && post.Topic}
+          <span
+            style={{
+              fontSize: "20px",
+              fontWeight: "bold",
+              marginBottom: "5px",
+            }}
+          >
+            {post && translatePostGroupTitle(post.Topic)}
           </span>
 
           <CardActionArea component="a">
@@ -41,7 +50,7 @@ export default function FeaturedPost(props) {
                     {post && `${post.Title.substring(0, 30)}...`}
                   </Typography>
                   <Typography variant="subtitle1" color="textSecondary">
-                    {post && post.SubmitDate}
+                    {post && moment(post.SubmitDate).format("DD-MM-YYYY")}
                   </Typography>
                   <Typography variant="subtitle1" paragraph>
                     {post && `${post.Content.substring(0, 50)}...`}

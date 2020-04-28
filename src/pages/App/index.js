@@ -10,7 +10,7 @@ import Exception from "../Exception";
 const App = (props) => {
   return (
     <div>
-      <Helmet defaultTitle="HÔM NAY ĐỌC GÌ? | Tổng hợp nội dung">
+      <Helmet defaultTitle="HÔM NAY ĐỌC GÌ? | Cá nhân hóa thông tin người dùng cần đọc">
         <meta name="description" content="HÔM NAY ĐỌC GÌ?" />
       </Helmet>
       <Router>
