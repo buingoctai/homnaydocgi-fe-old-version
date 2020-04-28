@@ -1,4 +1,5 @@
 import React from "react";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
@@ -17,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     overflow: "hidden",
   },
   PostListWrap: {
-    width: "60%",
+    width: (props) => (props.is_maxWidth_1000px ? "100%" : "60%"),
     paddingRight: "20px",
   },
   itemWrap: {
@@ -50,10 +51,12 @@ const useStyles = makeStyles((theme) => ({
     height: "200px",
     width: "100%",
   },
+  developingWrap: {
+    marginTop: "20px",
+  },
 }));
 
 const PostGrid = (props) => {
-  const classes = useStyles();
   const {
     onHandleOpenDetailContainer,
     posts,
@@ -61,6 +64,10 @@ const PostGrid = (props) => {
     isShowPaging,
     currentPageIndex,
   } = props;
+  const is_maxWidth_1000px = useMediaQuery("(max-width:1000px)");
+  const limitedContentLength = is_maxWidth_1000px ? 100 : 200;
+  const colsNumber = is_maxWidth_1000px ? 1 : 3;
+  const classes = useStyles({ ...props, is_maxWidth_1000px });
 
   return (
     <div className={classes.container}>
@@ -68,7 +75,7 @@ const PostGrid = (props) => {
         <GridList
           cellHeight="auto"
           className={classes.gridListContainer}
-          cols={3}
+          cols={colsNumber}
           spacing={20}
         >
           {posts.length > 0 &&
@@ -95,7 +102,11 @@ const PostGrid = (props) => {
                     color="textPrimary"
                     style={{ padding: "0 10px" }}
                   >
-                    {item && `${item.Content.substring(0, 200)} [...]`}
+                    {item &&
+                      `${item.Content.substring(
+                        0,
+                        limitedContentLength
+                      )} [...]`}
                   </Typography>
                 </Paper>
               </GridListTile>
@@ -113,7 +124,7 @@ const PostGrid = (props) => {
           {!isShowPaging && <div className={classes.spaceWrap} />}
         </GridList>
       </div>
-      <div>ĐANG PHÁT TRIỂN</div>
+      <div className={classes.developingWrap}>ĐANG PHÁT TRIỂN</div>
     </div>
   );
 };

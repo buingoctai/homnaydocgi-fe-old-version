@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     width: "60%",
   },
   smallGridWrap: {
-    width: "85%",
+    width: (props) => (props.is_maxWidth_500px ? "100%" : "85%"),
   },
   itemGridWrap: {
     height: "100%",
@@ -67,21 +67,23 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     position: "absolute",
     overflowY: "scroll",
+    overflowX: "hidden",
   },
 }));
 
 export default function DetailPost(props) {
-  const classes = useStyles();
   const { onHandleOpenDetailContainer, isOpenDetaiContainer, post } = props;
   const newContent = post.Content.split("\n");
-  const matches = useMediaQuery("(max-width:1600px)");
+  const is_maxWidth_1600px = useMediaQuery("(max-width:1600px)");
+  const is_maxWidth_500px = useMediaQuery("(max-width:500px)");
+  const classes = useStyles({ ...props, is_maxWidth_500px });
 
   return (
     <div className={classes.detailContainer} id="detailContainer">
       <Grid
         container
         className={
-          matches
+          is_maxWidth_1600px
             ? `${classes.girdWrap} ${classes.smallGridWrap}`
             : `${classes.girdWrap} ${classes.largeGridWrap}`
         }
@@ -116,11 +118,13 @@ export default function DetailPost(props) {
                 </>
               ))}
             </Typography>
-            <img
-              src={post && post.ImageUrl}
-              alt={"title"}
-              style={{ width: "500px", height: "500px" }}
-            />
+            <div>
+              <img
+                src={post && post.ImageUrl}
+                alt={"title"}
+                style={{ width: "70%" }}
+              />
+            </div>
             <br />
             <br />
             <Typography variant="h6" color="textSecondary" align="left">

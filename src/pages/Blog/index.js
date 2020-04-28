@@ -1,4 +1,5 @@
 import React from "react";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
@@ -44,6 +45,7 @@ const sections = [
 
 const Blog = (props) => {
   const classes = useStyles();
+
   const {
     isAdmin,
     isLoadingPage,

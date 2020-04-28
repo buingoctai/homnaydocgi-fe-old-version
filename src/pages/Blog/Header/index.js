@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -10,35 +11,32 @@ import Avatar from "@material-ui/core/Avatar";
 import Chip from "@material-ui/core/Chip";
 import DrawerMenu from "../DrawerMenu";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme, is_maxWidth_1000px) => ({
   toolbar: {
     borderBottom: `1px solid ${theme.palette.divider}`,
     backgroundColor: "#808182",
+    padding: (props) => (props.is_maxWidth_1000px ? "0px 2px" : null),
   },
-  toolbarTitle: {
+
+  userName: {
+    backgroundColor: "#808182",
+    color: "#ffff",
+    fontWeight: "bold",
+    fontSize: (props) => (props.is_maxWidth_1000px ? "10px" : "15px"),
+  },
+  headerTitle: {
     flex: 1,
     fontWeight: "bold",
     fontStyle: "italic",
     color: "#ffff",
-    fontSize: "40px",
-    textShadow: "2px 2px white",
+    textShadow: (props) =>
+      props.is_maxWidth_1000px ? "1px 1px white" : "2px 2px white",
     position: "relative",
     animationName: "$titleAmination",
     animationDuration: "2s",
+    fontSize: (props) => (props.is_maxWidth_1000px ? "15px" : "40px"),
   },
-  toolbarSecondary: {
-    justifyContent: "space-between",
-    overflowX: "auto",
-  },
-  toolbarLink: {
-    padding: theme.spacing(1),
-    flexShrink: 0,
-  },
-  titleWrap: {
-    position: "relative",
-    animationName: "$titleAmination",
-    animationDuration: "2s",
-  },
+
   "@keyframes titleAmination": {
     "0%": { opacity: 0, paddingLeft: "300px" },
     "25%": { opacity: 0.2, paddingLeft: "250px" },
@@ -46,10 +44,31 @@ const useStyles = makeStyles((theme) => ({
     "75%": { opacity: 0.7, paddingLeft: "150px" },
     "100%": { opacity: 1, paddingLeft: "0" },
   },
+  search: {
+    // width: (props) => (props.is_maxWidth_1000px ? "25%" : null),
+  },
+  searchPlaceholder: {
+    fontWeight: "bold",
+    fontSize: (props) => (props.is_maxWidth_1000px ? "5px" : "15px"),
+  },
+  subcribeBtn: {
+    marginRight: (props) => (props.is_maxWidth_1000px ? "0px" : "10px"),
+    color: "#ffff",
+    fontWeight: "bold",
+    fontSize: (props) => (props.is_maxWidth_1000px ? "10px" : "15px"),
+  },
+  suggestSupplyArticleBtn: {
+    color: "#ffff",
+    fontWeight: "bold",
+    fontSize: (props) => (props.is_maxWidth_1000px ? "10px" : "15px"),
+  },
 }));
 
 const Header = (props) => {
-  const classes = useStyles();
+  const is_maxWidth_1000px = useMediaQuery("(max-width:1000px)");
+  const classes = useStyles({ ...props, is_maxWidth_1000px });
+  const [showAppName, setShowAppName] = useState(true);
+
   const {
     onHandleNavigateAdminPage,
     onHandleSubscribeNotifiByBot,
@@ -59,60 +78,84 @@ const Header = (props) => {
     currentUser,
   } = props;
 
+  useEffect(() => {
+    setTimeout(() => {
+      setShowAppName(false);
+    }, 3000);
+  });
   return (
     <React.Fragment>
       <Toolbar className={classes.toolbar}>
         <DrawerMenu />
+        {(!showAppName || !is_maxWidth_1000px) && (
+          <Button onClick={onHandleNavigateAdminPage}>
+            <Chip
+              avatar={
+                <Avatar>
+                  {currentUser ? currentUser.charAt(0).toUpperCase() : "U"}
+                </Avatar>
+              }
+              label={currentUser || "User"}
+              className={classes.userName}
+            />
+          </Button>
+        )}
 
-        <Button onClick={onHandleNavigateAdminPage}>
-          <Chip
-            avatar={
-              <Avatar>
-                {currentUser ? currentUser.charAt(0).toUpperCase() : "U"}
-              </Avatar>
-            }
-            label={currentUser || "KHÔNG XÁC ĐỊNH NGƯỜI DÙNG"}
-            style={{
-              backgroundColor: "#808182",
-              color: "#ffff",
-              fontWeight: "bold",
-            }}
-          />
-        </Button>
-        <Typography
-          component="h2"
-          variant="h5"
-          color="inherit"
-          align="center"
-          noWrap
-          className={classes.toolbarTitle}
-        >
-          {title}
-        </Typography>
-
-        <IconButton>
+        {(showAppName || !is_maxWidth_1000px) && (
+          <Typography
+            // component="h2"
+            variant="h5"
+            color="inherit"
+            align="center"
+            noWrap
+            className={classes.headerTitle}
+          >
+            {title}
+          </Typography>
+        )}
+        {!is_maxWidth_1000px && (
+          <IconButton className={classes.search}>
+            <TextField
+              id="standard-basic"
+              label="Tìm kiếm"
+              className={classes.searchPlaceholder}
+              fullWidth={true}
+              size="small"
+            />
+            <SearchIcon />
+          </IconButton>
+        )}
+        {(!showAppName || !is_maxWidth_1000px) && (
+          <>
+            <Button
+              size="small"
+              onClick={onHandleSubscribeNotifiByBot}
+              className={classes.subcribeBtn}
+            >
+              ĐĂNG KÝ
+            </Button>
+            <Button
+              size="small"
+              onClick={onHandleSuggestSendArticle}
+              className={classes.suggestSupplyArticleBtn}
+            >
+              GỬI BÀI VIẾT
+            </Button>
+          </>
+        )}
+      </Toolbar>
+      {is_maxWidth_1000px && (
+        <IconButton className={classes.search}>
           <TextField
             id="standard-basic"
             label="Tìm kiếm"
-            style={{ fontWeight: "bold" }}
+            className={classes.searchPlaceholder}
+            fullWidth={true}
+            size="small"
           />
           <SearchIcon />
         </IconButton>
-        <Button
-          size="small"
-          onClick={onHandleSubscribeNotifiByBot}
-          style={{ marginRight: "10px", color: "#ffff", fontWeight: "bold" }}
-        >
-          ĐĂNG KÝ
-        </Button>
-        <Button
-          size="small"
-          onClick={onHandleSuggestSendArticle}
-          style={{ marginRight: "10px", color: "#ffff", fontWeight: "bold" }}
-        >
-          GỬI BÀI VIẾT
-        </Button>
-      </Toolbar>
+      )}
     </React.Fragment>
   );
 };
