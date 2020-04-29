@@ -1,62 +1,52 @@
 import React, { useEffect } from "react";
-import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core/styles";
 import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Paper from "@material-ui/core/Paper";
-import Draggable from "react-draggable";
+import { Alert, AlertTitle } from "@material-ui/lab";
 
-function PaperComponent(props) {
-  return (
-    <Draggable
-      handle="#draggable-dialog-title"
-      cancel={'[class*="MuiDialogContent-root"]'}
-    >
-      <Paper {...props} />
-    </Draggable>
-  );
-}
+import { DIALOG_CODE } from "../../utils/constants";
 
-const DraggableDialog = (props) => {
-  const { dialogContent, showTime = 5000 } = props;
-  const [open, setOpen] = React.useState(true);
+const useStyles = makeStyles((theme) => ({
+  dialogContainer: {
+    width: "60%",
+    "& > * + *": {
+      marginTop: theme.spacing(2),
+    },
+  },
+}));
+const DraggableDialog = ({ visible = false, content, setDialogContent }) => {
+  const classes = useStyles();
   const handleClose = () => {
-    setOpen(false);
+    setDialogContent({ visible: false, content: "" });
   };
   useEffect(() => {
-    if (open === true) {
-      setTimeout(() => setOpen(false), showTime);
-    }
-  }, []);
+    setTimeout(
+      () => setDialogContent({ visible: false, content: "" }),
+      5000000
+    );
+  });
 
   return (
-    <div>
+    <div className={classes.dialogContainer}>
       <Dialog
-        open={open}
-        onClose={handleClose}
-        PaperComponent={PaperComponent}
-        aria-labelledby="draggable-dialog-title"
+        open={visible}
+        onClose={null}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        maxWidth="xs"
+        style={{ width: "90%" }}
       >
-        <DialogTitle
-          style={{
-            cursor: "move",
-            color: "#5fcfaf",
-            backgroundColor: "#F1F3F4",
-            fontSize: "50px",
-          }}
-          id="draggable-dialog-title"
+        <DialogContent
+          style={{ backgroundColor: "#E8F4FD", paddingTop: "0px" }}
         >
-          Thông báo
-        </DialogTitle>
-        <DialogContent style={{ backgroundColor: "#C1C1C1" }}>
-          <DialogContentText>{dialogContent}</DialogContentText>
-          <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              Đóng
-            </Button>
-          </DialogActions>
+          <Alert
+            severity="info"
+            style={{ padding: "0px 0px" }}
+            onClose={handleClose}
+          >
+            <AlertTitle>Thông báo</AlertTitle>
+            {DIALOG_CODE[content]} — <strong>Xin cảm ơn!</strong>
+          </Alert>
         </DialogContent>
       </Dialog>
     </div>

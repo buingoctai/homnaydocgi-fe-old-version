@@ -5,10 +5,9 @@ import {
   getMainPosts,
   getFeaturedPosts,
   getAllPost,
-  suggestSubscribeNotifiByBot,
 } from "../../../services/Blog";
 
-import { saveMainPosts, saveFeaturedPosts, saveAllPost } from "./actions";
+import { saveMainPosts, saveFeaturedPosts } from "./actions";
 
 function* getMainPostsEffect(payload, resolve, reject) {
   const response = yield call(getMainPosts, payload);
@@ -43,7 +42,6 @@ function* getAllPostEffect(payload, resolve, reject) {
 }
 
 function* suggestSubscribeNotifiByBotEffect(payload, resolve, reject) {
-  console.log("payload=", payload);
   const response = yield call(sendMsgViaBot, payload);
 
   if (response) {

@@ -45,14 +45,14 @@ const sections = [
 
 const Blog = (props) => {
   const classes = useStyles();
-
+  const responsiveObj = {
+    is_maxWidth_500px: useMediaQuery("(max-width:500px)"),
+    is_maxWidth_1000px: useMediaQuery("(max-width:1000px)"),
+    is_maxWidth_1600px: useMediaQuery("(max-width:1600px)"),
+  };
   const {
-    isAdmin,
     isLoadingPage,
     isOpenDetaiContainer,
-    isSubscribeNotifiBot,
-    isSuggestSendArticle,
-    isNavigateSubmitPageNotifi,
     isShowPaging,
     currentUser,
     currentPageIndex,
@@ -60,6 +60,8 @@ const Blog = (props) => {
     mainPosts,
     featuredPosts,
     allPost,
+    dialogContent,
+    setDialogContent,
     onHandleNavigateAdminPage,
     onHandleSubscribeNotifiByBot,
     onHandleSuggestSendArticle,
@@ -80,15 +82,17 @@ const Blog = (props) => {
         />
         {isLoadingPage && (
           <div className={classes.totalContentLoadingWrap}>
-            <span className={classes.loadingMessage}>
-              Đang tải bài viết. Vui lòng đợi!
-            </span>
+            <span className={classes.loadingMessage}>Đang tải bài viết</span>
             <LinearProgress
               color="primary"
               style={{ height: "3px", width: "30%" }}
             />
           </div>
         )}
+        {DraggableDialog({
+          ...dialogContent,
+          setDialogContent: setDialogContent,
+        })}
         {!isLoadingPage && (
           <main>
             <div
@@ -100,6 +104,7 @@ const Blog = (props) => {
             >
               <MainFeaturedPost
                 post={mainPosts}
+                responsiveObj={responsiveObj}
                 onHandleOpenDetailContainer={onHandleOpenDetailContainer}
               />
               <div style={{ flexGrow: "2" }}>ĐANG PHÁT TRIỂN</div>
@@ -109,6 +114,7 @@ const Blog = (props) => {
               <FeaturedPost
                 key="featured post"
                 post={featuredPosts}
+                responsiveObj={responsiveObj}
                 onHandleOpenDetailContainer={onHandleOpenDetailContainer}
               />
             </Grid>
@@ -119,6 +125,7 @@ const Blog = (props) => {
                 totalRecord={Math.ceil(allPost.totalRecord / 3)}
                 isShowPaging={isShowPaging}
                 currentPageIndex={currentPageIndex}
+                responsiveObj={responsiveObj}
                 onHandleOpenDetailContainer={onHandleOpenDetailContainer}
               />
             </Grid>
@@ -128,35 +135,12 @@ const Blog = (props) => {
           <DetailPost
             post={showingPost}
             isOpenDetaiContainer={isOpenDetaiContainer}
+            responsiveObj={responsiveObj}
             onHandleOpenDetailContainer={onHandleOpenDetailContainer}
           />
         )}
 
         {/*-----------------------------------Nhóm thông báo-----------------------------------------------*/}
-        {isNavigateSubmitPageNotifi && (
-          <DraggableDialog
-            dialogContent="Để có trải nghiệm tốt nhất, vui lòng cung cấp thông tin cần thiết!"
-            showTime={100}
-          />
-        )}
-        {isAdmin && (
-          <DraggableDialog
-            dialogContent="Bạn là admin. Hệ thống đang chuyển sang trang quản lý bài viết."
-            showTime={3000}
-          />
-        )}
-        {isSubscribeNotifiBot && (
-          <DraggableDialog
-            dialogContent="Tính năng gửi thông báo qua messenger bot đang phát triển."
-            showTime={3000}
-          />
-        )}
-        {isSuggestSendArticle && (
-          <DraggableDialog
-            dialogContent="Tính năng đề nghị gửi bài viết đang phát triển.."
-            showTime={3000}
-          />
-        )}
       </Container>
       <Footer description="Mọi sao chép nội dung bài viết không ghi rõ nguồn đều vi phạm quyền sở hữu" />
     </React.Fragment>

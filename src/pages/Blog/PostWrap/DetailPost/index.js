@@ -1,5 +1,4 @@
 import React from "react";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
@@ -37,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     width: "60%",
   },
   smallGridWrap: {
-    width: (props) => (props.is_maxWidth_500px ? "100%" : "85%"),
+    width: (props) => (props.is_maxWidth_500px ? "120%" : "85%"),
   },
   itemGridWrap: {
     height: "100%",
@@ -56,7 +55,8 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     backgroundColor: "#7C7C7C",
   },
-  paper: {
+  paperWrap: {
+    width: (props) => (props.is_maxWidth_1000px ? "100%" : "none"),
     height: "100%",
     top: "0",
     left: "0",
@@ -72,24 +72,29 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function DetailPost(props) {
-  const { onHandleOpenDetailContainer, isOpenDetaiContainer, post } = props;
+  const {
+    post,
+    isOpenDetaiContainer,
+    responsiveObj,
+    onHandleOpenDetailContainer,
+  } = props;
   const newContent = post.Content.split("\n");
-  const is_maxWidth_1600px = useMediaQuery("(max-width:1600px)");
-  const is_maxWidth_500px = useMediaQuery("(max-width:500px)");
-  const classes = useStyles({ ...props, is_maxWidth_500px });
+  const classes = useStyles({
+    ...responsiveObj,
+  });
 
   return (
     <div className={classes.detailContainer} id="detailContainer">
       <Grid
         container
         className={
-          is_maxWidth_1600px
+          responsiveObj.is_maxWidth_1600px
             ? `${classes.girdWrap} ${classes.smallGridWrap}`
             : `${classes.girdWrap} ${classes.largeGridWrap}`
         }
         onBlur={() => console.log("on blur")}
       >
-        <Grid item xs={12} className={classes.itemGridWrap}>
+        <Grid item xs={12} className={classes.itemGridWrap} key="itemGridWrap">
           {isOpenDetaiContainer && (
             <Paper className={classes.titleWrap}>
               <Typography variant="body2" style={{ cursor: "pointer" }}>
@@ -100,16 +105,16 @@ export default function DetailPost(props) {
             </Paper>
           )}
 
-          <Paper className={classes.paper}>
-            <Typography variant="h6" color="primary">
+          <Paper className={classes.paperWrap} key="itemGridWrap">
+            <Typography variant="h6" color="primary" key="title">
               {post.Title}
             </Typography>
             <br />
             <Typography
-              variant="p"
               paragraph={true}
               align="justify"
               color="textPrimary"
+              key="subContent"
             >
               {newContent.map((item) => (
                 <>
@@ -122,13 +127,22 @@ export default function DetailPost(props) {
               <img
                 src={post && post.ImageUrl}
                 alt={"title"}
-                style={{ width: "70%" }}
+                style={
+                  responsiveObj.is_maxWidth_500px
+                    ? { width: "70%" }
+                    : { width: "30%" }
+                }
               />
             </div>
             <br />
             <br />
-            <Typography variant="h6" color="textSecondary" align="left">
-              {`Tác giả: ${post.Author}`}
+            <Typography
+              variant="h6"
+              color="textSecondary"
+              align="left"
+              key="author"
+            >
+              {`Nguồn: ${post.Author}`}
             </Typography>
           </Paper>
         </Grid>

@@ -11,29 +11,39 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
   },
-  contenWrap: {
+  imageWrap: {
+    width: (props) => (props.is_maxWidth_500px ? "100%" : "50%"),
+    position: "relativee",
+  },
+  titleWrap: {
     position: "absolute",
     bottom: "8px",
     left: "16px",
     width: "50%",
   },
+  title: {
+    fontSize: "20px",
+    color: "azure",
+  },
 }));
 
 export default function MainFeaturedPost(props) {
-  const classes = useStyles();
-  const { onHandleOpenDetailContainer, post } = props;
+  const { post, responsiveObj, onHandleOpenDetailContainer } = props;
+  const classes = useStyles({ ...responsiveObj });
 
   return (
     <div className={classes.mainPostContainer}>
       <span style={{ fontSize: "20px", fontWeight: "bold" }}>Tin mới nhất</span>
-      <img src={post.ImageUrl} width="300px" alt="" />
-      <div className={classes.contenWrap}>
+      <div className={classes.imageWrap}>
+        <img src={post.ImageUrl} width="100%" alt="" />
+      </div>
+      <div className={classes.titleWrap}>
         <Typography
           component="h6"
           variant="h3"
           color="inherit"
           gutterBottom
-          style={{ fontSize: "20px", color: "azure" }}
+          className={classes.title}
         >
           <Link
             underline="none"

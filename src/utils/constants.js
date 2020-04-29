@@ -81,6 +81,13 @@ const TOPIC_TRANSLATE_CONTENT = [
   },
 ];
 
+const DIALOG_CODE = {
+  MSG1: "Để có trải nghiệm tốt nhất, vui lòng cung cấp thông tin cần thiết!",
+  MSG2: "Bạn là admin. Hệ thống đang chuyển sang trang quản lý bài viết.",
+  MSG3: "Tính năng gửi thông báo qua Facebook Messenger đang phát triển.",
+  MSG4: "Tính năng đề nghị gửi bài viết đang phát triển.",
+};
+
 export {
   authorBrielf,
   skillGroup,
@@ -89,4 +96,5 @@ export {
   COOKIE_NAMES,
   REQUEST_TIMEOUT,
   TOPIC_TRANSLATE_CONTENT,
+  DIALOG_CODE,
 };

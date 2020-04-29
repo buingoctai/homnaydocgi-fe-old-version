@@ -37,14 +37,12 @@ const mapDispatchToProps = (dispatch) => {
 export default compose(
   withState("isLoadingPage", "setIsLoadingPage", false),
   withState("isOpenDetaiContainer", "setIsOpenDetaiContainer", false),
-  withState(
-    "isNavigateSubmitPageNotifi",
-    "setIsNavigateSubmitPageNotifi",
-    false
-  ),
-  withState("isAdmin", "SetIsAdmin", false),
-  withState("isSubscribeNotifiBot", "setIsSubscribeNotifiBot", false),
-  withState("isSuggestSendArticle", "setIsSuggestSendArticle", false),
+
+  withState("dialogContent", "setDialogContent", {
+    visible: false,
+    content: "",
+  }),
+
   withState("showingPost", "setShowingPost", {}),
   withState("currentPageIndex", "setCurrentPageIndex", 1),
   withState("isShowPaging", "setIsShowPaging", true),
@@ -52,17 +50,14 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withHandlers({
     onHandleNavigateAdminPage: (props) => {
-      const { currentUser, SetIsAdmin } = props;
+      const { currentUser, setDialogContent } = props;
       if (!currentUser.localeCompare("tai admin")) {
-        SetIsAdmin(true);
+        setDialogContent({ visible: true, content: "MSG2" });
       }
     },
     onHandleSubscribeNotifiByBot: (props) => {
-      const {
-        suggestSubscribeNotifiByBotDispatch,
-        setIsSubscribeNotifiBot,
-      } = props;
-      setIsSubscribeNotifiBot(true);
+      const { suggestSubscribeNotifiByBotDispatch, setDialogContent } = props;
+      setDialogContent({ visible: true, content: "MSG3" });
       suggestSubscribeNotifiByBotDispatch({
         id_msg_user: "",
         message: "BẠN ĐÃ ĐĂNG KÝ THÀNH CÔNG GỬI THÔNG BÁO QUA MESSENGER FB",
@@ -73,8 +68,8 @@ export default compose(
         .catch(() => {});
     },
     onHandleSuggestSendArticle: (props) => {
-      const { setIsSuggestSendArticle } = props;
-      setIsSuggestSendArticle(true);
+      const { setDialogContent } = props;
+      setDialogContent({ visible: true, content: "MSG4" });
     },
     onHandleOpenDetailContainer: (props) => (postId) => {
       const {
@@ -151,7 +146,7 @@ export default compose(
         getMainPostsDispatch,
         getFeaturedPostsDispatch,
         getAllPostDispatch,
-        setIsNavigateSubmitPageNotifi,
+        setDialogContent,
         setIsLoadingPage,
         saveAllPostDispatch,
         onHandleScrollToBottom,
@@ -226,8 +221,11 @@ export default compose(
                 })
                 .catch((err) => console.log(err));
             } else {
-              setIsNavigateSubmitPageNotifi(true);
-              setTimeout(() => setIsNavigateSubmitPageNotifi(false), 5000);
+              setDialogContent({ visible: true, content: "MSG1" });
+              setTimeout(
+                () => setDialogContent({ visible: true, content: "MSG1" }),
+                5000
+              );
               setTimeout(
                 () => (window.location.href = process.env.REACT_APP_URL),
                 5000
@@ -236,8 +234,11 @@ export default compose(
           })
           .catch((err) => console.log(err));
       } else {
-        setIsNavigateSubmitPageNotifi(true);
-        setTimeout(() => setIsNavigateSubmitPageNotifi(false), 5000);
+        setDialogContent(true);
+        setTimeout(
+          () => setDialogContent({ visible: true, content: "MSG1" }),
+          1000
+        );
         // setTimeout(
         //   () => (window.location.href = "https://contentcollection.azurewebsites.net//"),
         //   5000

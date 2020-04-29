@@ -1,5 +1,4 @@
 import React from "react";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
@@ -33,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     "75%": { opacity: 0.7, width: "25%", height: "auto" },
     "100%": { opacity: 1, width: "33.3333%", height: "auto" },
   },
-  titleWrap: {
+  title: {
     display: "flex",
     justifyContent: "center",
     fontSize: "13px",
@@ -43,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
   },
-  loadingItem: {
+  loading: {
     height: "5px",
     width: "200px",
   },
@@ -53,21 +52,22 @@ const useStyles = makeStyles((theme) => ({
   },
   developingWrap: {
     marginTop: "20px",
+    color: "#ffff",
   },
 }));
 
 const PostGrid = (props) => {
   const {
-    onHandleOpenDetailContainer,
     posts,
     totalRecord,
     isShowPaging,
     currentPageIndex,
+    responsiveObj,
+    onHandleOpenDetailContainer,
   } = props;
-  const is_maxWidth_1000px = useMediaQuery("(max-width:1000px)");
-  const limitedContentLength = is_maxWidth_1000px ? 100 : 200;
-  const colsNumber = is_maxWidth_1000px ? 1 : 3;
-  const classes = useStyles({ ...props, is_maxWidth_1000px });
+  const limitedContentLength = responsiveObj.is_maxWidth_1000px ? 100 : 200;
+  const colsNumber = responsiveObj.is_maxWidth_1000px ? 1 : 3;
+  const classes = useStyles({ ...responsiveObj });
 
   return (
     <div className={classes.container}>
@@ -79,14 +79,19 @@ const PostGrid = (props) => {
           spacing={20}
         >
           {posts.length > 0 &&
-            posts.map((item) => (
-              <GridListTile cols={1} rows={1} className={classes.itemWrap}>
+            posts.map((item, index) => (
+              <GridListTile
+                cols={1}
+                rows={1}
+                className={classes.itemWrap}
+                key={index}
+              >
                 <Paper variant="outlined">
                   <Typography
                     variant="h6"
                     color="primary"
                     align="justify"
-                    className={classes.titleWrap}
+                    className={classes.title}
                   >
                     <Link
                       underline="none"
@@ -96,7 +101,6 @@ const PostGrid = (props) => {
                     </Link>
                   </Typography>
                   <Typography
-                    variant="p"
                     paragraph={true}
                     align="justify"
                     color="textPrimary"
@@ -118,7 +122,7 @@ const PostGrid = (props) => {
             />
           ) : (
             <GridListTile cols={3} className={classes.loadingWrap}>
-              <LinearProgress color="primary" className={classes.loadingItem} />
+              <LinearProgress color="primary" className={classes.loading} />
             </GridListTile>
           )}
           {!isShowPaging && <div className={classes.spaceWrap} />}

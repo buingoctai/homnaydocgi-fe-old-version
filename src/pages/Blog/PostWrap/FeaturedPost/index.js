@@ -23,6 +23,11 @@ const useStyles = makeStyles({
   cardMedia: {
     width: 160,
   },
+  topicNameWrap: {
+    fontSize: "20px",
+    fontWeight: "bold",
+    marginBottom: "5px",
+  },
 });
 
 export default function FeaturedPost(props) {
@@ -30,15 +35,9 @@ export default function FeaturedPost(props) {
   const { post, onHandleOpenDetailContainer } = props;
 
   return post.data
-    ? post.data.map((post) => (
-        <Grid item xs={12} md={6}>
-          <span
-            style={{
-              fontSize: "20px",
-              fontWeight: "bold",
-              marginBottom: "5px",
-            }}
-          >
+    ? post.data.map((post, index) => (
+        <Grid item xs={12} md={6} key={index}>
+          <span className={classes.topicNameWrap}>
             {post && translatePostGroupTitle(post.Topic)}
           </span>
 
@@ -58,6 +57,7 @@ export default function FeaturedPost(props) {
                   <Button
                     variant="contained"
                     onClick={() => onHandleOpenDetailContainer(post.Id)}
+                    style={{ backgroundColor: "#ffff" }}
                   >
                     Đọc tiếp…
                   </Button>

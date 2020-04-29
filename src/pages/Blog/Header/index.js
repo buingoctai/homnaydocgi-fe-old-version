@@ -12,19 +12,19 @@ import Chip from "@material-ui/core/Chip";
 import DrawerMenu from "../DrawerMenu";
 
 const useStyles = makeStyles((theme, is_maxWidth_1000px) => ({
-  toolbar: {
+  headerContainer: {
     borderBottom: `1px solid ${theme.palette.divider}`,
     backgroundColor: "#808182",
     padding: (props) => (props.is_maxWidth_1000px ? "0px 2px" : null),
   },
 
-  userName: {
+  userBtnWrap: {
     backgroundColor: "#808182",
     color: "#ffff",
     fontWeight: "bold",
     fontSize: (props) => (props.is_maxWidth_1000px ? "10px" : "15px"),
   },
-  headerTitle: {
+  titleWrap: {
     flex: 1,
     fontWeight: "bold",
     fontStyle: "italic",
@@ -44,20 +44,17 @@ const useStyles = makeStyles((theme, is_maxWidth_1000px) => ({
     "75%": { opacity: 0.7, paddingLeft: "150px" },
     "100%": { opacity: 1, paddingLeft: "0" },
   },
-  search: {
-    // width: (props) => (props.is_maxWidth_1000px ? "25%" : null),
-  },
   searchPlaceholder: {
     fontWeight: "bold",
     fontSize: (props) => (props.is_maxWidth_1000px ? "5px" : "15px"),
   },
-  subcribeBtn: {
+  subcribeBtnWrap: {
     marginRight: (props) => (props.is_maxWidth_1000px ? "0px" : "10px"),
     color: "#ffff",
     fontWeight: "bold",
     fontSize: (props) => (props.is_maxWidth_1000px ? "10px" : "15px"),
   },
-  suggestSupplyArticleBtn: {
+  suggestSupplyArticleBtnWrap: {
     color: "#ffff",
     fontWeight: "bold",
     fontSize: (props) => (props.is_maxWidth_1000px ? "10px" : "15px"),
@@ -73,7 +70,6 @@ const Header = (props) => {
     onHandleNavigateAdminPage,
     onHandleSubscribeNotifiByBot,
     onHandleSuggestSendArticle,
-    sections,
     title,
     currentUser,
   } = props;
@@ -85,7 +81,7 @@ const Header = (props) => {
   });
   return (
     <React.Fragment>
-      <Toolbar className={classes.toolbar}>
+      <Toolbar className={classes.headerContainer}>
         <DrawerMenu />
         {(!showAppName || !is_maxWidth_1000px) && (
           <Button onClick={onHandleNavigateAdminPage}>
@@ -96,19 +92,18 @@ const Header = (props) => {
                 </Avatar>
               }
               label={currentUser || "User"}
-              className={classes.userName}
+              className={classes.userBtnWrap}
             />
           </Button>
         )}
 
         {(showAppName || !is_maxWidth_1000px) && (
           <Typography
-            // component="h2"
             variant="h5"
             color="inherit"
             align="center"
             noWrap
-            className={classes.headerTitle}
+            className={classes.titleWrap}
           >
             {title}
           </Typography>
@@ -130,14 +125,14 @@ const Header = (props) => {
             <Button
               size="small"
               onClick={onHandleSubscribeNotifiByBot}
-              className={classes.subcribeBtn}
+              className={classes.subcribeBtnWrap}
             >
               ĐĂNG KÝ
             </Button>
             <Button
               size="small"
               onClick={onHandleSuggestSendArticle}
-              className={classes.suggestSupplyArticleBtn}
+              className={classes.suggestSupplyArticleBtnWrap}
             >
               GỬI BÀI VIẾT
             </Button>
