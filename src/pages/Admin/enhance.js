@@ -1,16 +1,28 @@
 import { connect } from "react-redux";
 import { compose, withHandlers, withState, lifecycle } from "recompose";
 
-import { asyncSubmitPost } from "./Store/actions";
+import {
+  asyncSubmitPost,
+  asyncGetAllPost,
+  asyncDeletePosts,
+  asyncUpdatePosts,
+} from "./Store/actions";
 
+const mapStateToProps = (state) => {
+  const { adminReducers } = state;
+  return {
+    allPost: adminReducers.allPost,
+  };
+};
 const mapDispatchToProps = (dispatch) => {
   return {
     submitPostDispatch: (payload) => asyncSubmitPost(payload),
+    getAllPostDispatch: (payload) => asyncGetAllPost(payload),
+    deletePostsDispatch: (payload) => asyncDeletePosts(payload),
+    updatePostsDispatch: (payload) => asyncUpdatePosts(payload),
   };
 };
 export default compose(
-  withState("isShowAddingForm", "setIsShowAddingForm", true),
-  withState("isLoadingTable", "setIsLoadingTable", false),
   withState("articleData", "setArticleData", {
     author: "",
     title: "",
@@ -19,7 +31,8 @@ export default compose(
     submitDate: "",
     imageUrl: "",
   }),
-  connect(null, mapDispatchToProps),
+  withState("selected", "setSelected", []),
+  connect(mapStateToProps, mapDispatchToProps),
   withHandlers({
     onNavigateListArticle: async (props) => {
       const { setIsShowAddingForm, setIsLoadingTable } = props;
@@ -28,27 +41,151 @@ export default compose(
       setTimeout(() => setIsShowAddingForm(false), 4000);
     },
     onHandleSubmitArticle: (props) => {
-      const { setArticleData, submitPostDispatch, articleData } = props;
-      submitPostDispatch({
-        ...articleData,
-      })
-        .then(({ message }) => {
-          alert(message);
-          setArticleData({
-            author: "",
-            title: "",
-            content: "",
-            topic: "",
-            submitDate: "",
-            imageUrl: "",
-          });
+      const {
+        selected,
+        articleData,
+        setArticleData,
+        setSelected,
+        submitPostDispatch,
+        updatePostsDispatch,
+        getAllPostDispatch,
+      } = props;
+      if (selected.length === 0) {
+        submitPostDispatch({
+          ...articleData,
         })
-        .catch((err) => {
-          console.log(err);
+          .then(({ message }) => {
+            alert(message);
+            setArticleData({
+              author: "",
+              title: "",
+              content: "",
+              topic: "",
+              submitDate: "",
+              imageUrl: "",
+            });
+            getAllPostDispatch({
+              paging: { pageIndex: 1, pageSize: 5 },
+              orderList: { orderBy: "SubmitDate", orderType: "DESC" },
+            })
+              .then(() => {
+                // setIsLoadingPage(false);
+              })
+              .catch(() => {
+                // setIsLoadingPage(false);
+              });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        updatePostsDispatch({ items: [...selected], data: { ...articleData } })
+          .then(() => {
+            console.log("update xong r");
+            setSelected([]);
+            setArticleData({
+              author: "",
+              title: "",
+              content: "",
+              topic: "",
+              submitDate: "",
+              imageUrl: "",
+            });
+            getAllPostDispatch({
+              paging: { pageIndex: 1, pageSize: 5 },
+              orderList: { orderBy: "SubmitDate", orderType: "DESC" },
+            })
+              .then(() => {
+                // setIsLoadingPage(false);
+              })
+              .catch(() => {
+                // setIsLoadingPage(false);
+              });
+          })
+          .catch(() => {});
+      }
+    },
+    onDeleteArticle: (props) => (selected) => {
+      const { setSelected, deletePostsDispatch, getAllPostDispatch } = props;
+      deletePostsDispatch({ items: [...selected] })
+        .then(() => {
+          setSelected([]);
+          getAllPostDispatch({
+            paging: { pageIndex: 1, pageSize: 5 },
+            orderList: { orderBy: "SubmitDate", orderType: "DESC" },
+          })
+            .then(() => {
+              // setIsLoadingPage(false);
+            })
+            .catch(() => {
+              // setIsLoadingPage(false);
+            });
+        })
+        .catch(() => {
+          setSelected([]);
+          getAllPostDispatch({
+            paging: { pageIndex: 1, pageSize: 5 },
+            orderList: { orderBy: "SubmitDate", orderType: "DESC" },
+          })
+            .then(() => {
+              // setIsLoadingPage(false);
+            })
+            .catch(() => {
+              // setIsLoadingPage(false);
+            });
         });
+    },
+    onEditArticle: (props) => (selected) => {
+      const { allPost, setArticleData } = props;
+      const selectedRows = allPost.data.filter((item) =>
+        selected.includes(item.Id)
+      );
+      console.log(selected);
+      console.log(selectedRows);
+
+      if (selected.length === 1) {
+        const {
+          Id,
+          Author,
+          Title,
+          Content,
+          Topic,
+          SubmitDate,
+          ImageUrl,
+        } = selectedRows[0];
+        setArticleData({
+          author: Author,
+          title: Title,
+          content: Content,
+          topic: Topic,
+          submitDate: SubmitDate,
+          imageUrl: ImageUrl,
+        });
+      } else {
+        setArticleData({
+          author: "",
+          title: "",
+          content: "",
+          topic: "",
+          submitDate: "",
+          imageUrl: "",
+        });
+      }
     },
   }),
   lifecycle({
-    componentDidMount() {},
+    componentDidMount() {
+      const { getAllPostDispatch } = this.props;
+      getAllPostDispatch({
+        paging: { pageIndex: 1, pageSize: 5 },
+        orderList: { orderBy: "SubmitDate", orderType: "DESC" },
+      })
+        .then(() => {
+          // setIsLoadingPage(false);
+        })
+        .catch(() => {
+          // setIsLoadingPage(false);
+        });
+    },
   })
 );

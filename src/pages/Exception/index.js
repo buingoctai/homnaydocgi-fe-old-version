@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import { Alert, AlertTitle } from "@material-ui/lab";
 
@@ -40,13 +40,6 @@ const Exception = (props) => {
   } = props;
   const codeMessage = search.split("=");
   const classes = useStyles();
-  const history = useHistory();
-
-  useEffect(() => {
-    setTimeout(() => {
-      history.push("/home");
-    }, 10000);
-  });
 
   return (
     <div className={classes.errorContainer}>

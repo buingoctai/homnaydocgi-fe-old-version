@@ -13,6 +13,7 @@ import createSagaMiddleware from "redux-saga";
 import { Provider } from "react-redux";
 import reducers from "./store/reducers";
 import blogReducers from "./pages/Blog/Store/reducers";
+import adminReducers from "./pages/Admin/Store/reducers";
 import { submitDataSuccess } from "./store/sagas";
 import { sagaMiddleware } from "./store/actions";
 import initialState from "./store/state";
@@ -22,7 +23,7 @@ import "./index.css";
 
 //const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
-  combineReducers({ reducers, blogReducers }),
+  combineReducers({ reducers, blogReducers, adminReducers }),
   initialState,
   //compose(applyMiddleware(sagaMiddleware), composeWithDevTools())
   composeWithDevTools(applyMiddleware(sagaMiddleware))

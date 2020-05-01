@@ -88,6 +88,12 @@ const DIALOG_CODE = {
   MSG4: "Tính năng đề nghị gửi bài viết đang phát triển.",
 };
 
+const FACEBOOK_DEV = {
+  PAGE_ACCESS_TOKEN:
+    "EAAVvoN2edJABAJEqQ585UC7FDga1Ku02jazR2ZBvcY3TPnmTQYG88jSp4XD2PABoaOO2znzfoZACCpq06YMJJ7CKT7rLQE79Khhkbww6tw8x6nig6TfZB9I59CU2YSpgwxzvYsiOlNbeTcZBUGvfMBZBXOMUWYJ808POUfYBUhwZDZD",
+  ADMIN_MESSENGER_ID: "3119991678020925",
+};
+
 export {
   authorBrielf,
   skillGroup,
@@ -97,4 +103,5 @@ export {
   REQUEST_TIMEOUT,
   TOPIC_TRANSLATE_CONTENT,
   DIALOG_CODE,
+  FACEBOOK_DEV,
 };

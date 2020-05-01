@@ -20,74 +20,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FilterListIcon from "@material-ui/icons/FilterList";
-
-const createData = (id, author, title, content, topic, time) => {
-  return { id, author, title, content, topic, time };
-};
-
-const rows = [
-  createData(
-    "1",
-    "nguyen duc son",
-    "doi song",
-    "aaaaaaaaaa",
-    "kinh te",
-    "11/05/2020"
-  ),
-  createData(
-    "2",
-
-    "nguyen tien dung",
-    "ky nang mem",
-    "bbbbb",
-    "kinh te",
-    "11/05/2020"
-  ),
-  createData(
-    "3",
-    "nguyen phi van",
-    "lap trinh",
-    "cccccccccc",
-    "kinh te",
-    "11/05/2020"
-  ),
-  createData(
-    "4",
-
-    "nguyen duc son",
-    "doi song",
-    "aaaaaaaaaa",
-    "kinh te",
-    "11/05/2020"
-  ),
-  createData(
-    "5",
-
-    "nguyen duc son",
-    "doi song",
-    "aaaaaaaaaa",
-    "kinh te",
-    "11/05/2020"
-  ),
-  createData(
-    "6",
-
-    "nguyen duc son",
-    "doi song",
-    "aaaaaaaaaa",
-    "kinh te",
-    "11/05/2020"
-  ),
-  createData(
-    "7",
-
-    "nguyen duc son",
-    "doi song",
-    "aaaaaaaaaa",
-    "kinh te",
-    "11/05/2020"
-  ),
-];
+import Button from "@material-ui/core/Button";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -117,15 +50,26 @@ function stableSort(array, comparator) {
 
 const headCells = [
   {
-    id: "author",
+    id: "STT",
+    numeric: false,
+    disablePadding: true,
+    label: "STT",
+  },
+  {
+    id: "Author",
     numeric: false,
     disablePadding: true,
     label: "Tác giả",
   },
-  { id: "title", numeric: true, disablePadding: false, label: "Tiêu đề" },
-  { id: "content", numeric: true, disablePadding: false, label: "Nội dung" },
-  { id: "topic", numeric: true, disablePadding: false, label: "Chủ đề" },
-  { id: "time", numeric: true, disablePadding: false, label: "Thời gian" },
+  { id: "Title", numeric: true, disablePadding: false, label: "Tiêu đề" },
+  { id: "Content", numeric: true, disablePadding: false, label: "Nội dung" },
+  { id: "Topic", numeric: true, disablePadding: false, label: "Chủ đề" },
+  {
+    id: "SubmitDate",
+    numeric: true,
+    disablePadding: false,
+    label: "Thời gian",
+  },
 ];
 
 function EnhancedTableHead(props) {
@@ -179,16 +123,6 @@ function EnhancedTableHead(props) {
   );
 }
 
-EnhancedTableHead.propTypes = {
-  classes: PropTypes.object.isRequired,
-  numSelected: PropTypes.number.isRequired,
-  onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(["asc", "desc"]).isRequired,
-  orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
-};
-
 const useToolbarStyles = makeStyles((theme) => ({
   root: {
     paddingLeft: theme.spacing(2),
@@ -205,7 +139,9 @@ const useToolbarStyles = makeStyles((theme) => ({
           backgroundColor: theme.palette.secondary.dark,
         },
   title: {
-    flex: "1 1 100%",
+    display: "flex",
+    flexGrow: "1",
+    margin: "0px 10px",
   },
 }));
 
@@ -219,33 +155,12 @@ const EnhancedTableToolbar = (props) => {
         [classes.highlight]: numSelected > 0,
       })}
     >
-      {numSelected > 0 ? (
-        <Typography
-          className={classes.title}
-          color="inherit"
-          variant="subtitle1"
-        >
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <Typography className={classes.title} variant="h6" id="tableTitle">
-          Danh sách bài viết
-        </Typography>
-      )}
-
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton aria-label="delete">
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton aria-label="filter list">
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-      )}
+      <Typography className={classes.title} variant="h6" id="tableTitle">
+        Danh sách
+      </Typography>
+      <Typography className={classes.title} color="inherit" variant="subtitle1">
+        {numSelected} được chọn
+      </Typography>
     </Toolbar>
   );
 };
@@ -279,10 +194,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const DataTable = (props) => {
+  const {
+    allPost,
+    selected,
+    getAllPostDispatch,
+    onEditArticle,
+    onDeleteArticle,
+    setSelected,
+  } = props;
   const classes = useStyles();
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
-  const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -294,14 +216,14 @@ const DataTable = (props) => {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.id);
+      const newSelecteds = allPost.data.map((n) => n.Id);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
+  const handleClick = (row, name) => {
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
 
@@ -322,12 +244,21 @@ const DataTable = (props) => {
   };
 
   const handleChangePage = (event, newPage) => {
+    console.log("newPage+1", newPage + 1);
     setPage(newPage);
+    getAllPostDispatch({
+      paging: { pageIndex: newPage + 1, pageSize: 5 },
+      orderList: { orderBy: "SubmitDate", orderType: "DESC" },
+    });
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+    getAllPostDispatch({
+      paging: { pageIndex: 1, pageSize: parseInt(event.target.value, 10) },
+      orderList: { orderBy: "SubmitDate", orderType: "DESC" },
+    });
   };
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
@@ -335,7 +266,34 @@ const DataTable = (props) => {
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <EnhancedTableToolbar numSelected={selected.length} />
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ display: "flex", flexGrow: "1", margin: "0px 10px" }}
+            disabled={selected.length === 0}
+            onClick={() => onEditArticle(selected)}
+          >
+            SỬA
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            disabled={selected.length === 0}
+            style={{ display: "flex", flexGrow: "1", margin: "0px 10px" }}
+            onClick={() => onDeleteArticle(selected)}
+          >
+            XÓA
+          </Button>
+        </div>
         <TableContainer>
           <Table
             className={classes.table}
@@ -350,23 +308,22 @@ const DataTable = (props) => {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              rowCount={allPost.data.length}
             />
             <TableBody>
-              {stableSort(rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row.id);
+              {stableSort(allPost.data, getComparator(order, orderBy)).map(
+                (row, index) => {
+                  const isItemSelected = isSelected(row.Id);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.id)}
+                      onClick={() => handleClick(row, row.Id)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.id}
+                      key={row.Id}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
@@ -375,6 +332,9 @@ const DataTable = (props) => {
                           inputProps={{ "aria-labelledby": labelId }}
                         />
                       </TableCell>
+                      <TableCell align="left">
+                        {page * rowsPerPage + index}
+                      </TableCell>
                       <TableCell
                         component="th"
                         id={labelId}
@@ -382,26 +342,31 @@ const DataTable = (props) => {
                         padding="none"
                       >
                         <a
-                          href={`${process.env.REACT_APP_URL}/admin`}
+                          href={`https://www.facebook.com/search/top/?q=${row.Author}`}
                           style={{ textDecoration: "none" }}
+                          target="_blank"
+                          rel="noopener noreferrer"
                         >
-                          {row.author}
+                          {row.Author}
                         </a>
                       </TableCell>
-                      <TableCell align="right">{row.title}</TableCell>
-                      <TableCell align="right">{row.content}</TableCell>
-                      <TableCell align="right">{row.topic}</TableCell>
-                      <TableCell align="right">{row.time}</TableCell>
+                      <TableCell align="right">{row.Title}</TableCell>
+                      <TableCell align="right">
+                        {`${row.Content.substring(0, 20)}....`}
+                      </TableCell>
+                      <TableCell align="right">{row.Topic}</TableCell>
+                      <TableCell align="right">{row.SubmitDate}</TableCell>
                     </TableRow>
                   );
-                })}
+                }
+              )}
             </TableBody>
           </Table>
         </TableContainer>
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={allPost.totalRecord}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}

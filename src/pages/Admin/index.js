@@ -1,11 +1,9 @@
 import React from "react";
-import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import LinearProgress from "@material-ui/core/LinearProgress";
 
 import AddingForm from "./components/AddingForm";
 import DataTable from "./components/DataTable";
@@ -43,7 +41,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 const Admin = (props) => {
   const classes = useStyles();
-  const { isShowAddingForm, isLoadingTable, currentUser } = props;
+  const {
+    currentUser,
+    allPost,
+    selected,
+    getAllPostDispatch,
+    onEditArticle,
+    onDeleteArticle,
+    setSelected,
+  } = props;
 
   return (
     <React.Fragment>
@@ -55,22 +61,20 @@ const Admin = (props) => {
           </Typography>
         </Toolbar>
       </AppBar>
-      <main
-        className={
-          isShowAddingForm ? classes.addingFormWrap : classes.dataTableWrap
-        }
-      >
+      <main className={classes.addingFormWrap}>
         <AddingForm {...props} />
-        <DataTable {...props} />
+        <DataTable
+          allPost={allPost}
+          selected={selected}
+          getAllPostDispatch={getAllPostDispatch}
+          onEditArticle={onEditArticle}
+          onDeleteArticle={onDeleteArticle}
+          setSelected={setSelected}
+        />
       </main>
       <CopyRight />
     </React.Fragment>
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    currentUser: state.currentUser,
-  };
-};
-export default connect(mapStateToProps, null)(enhance(Admin));
+export default enhance(Admin);

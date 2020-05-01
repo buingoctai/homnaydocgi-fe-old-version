@@ -9,6 +9,8 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 
+import { translatePostGroupTitle } from "../../../utils/utils";
+
 const useStyles = makeStyles((theme) => ({
   appBar: {
     position: "relative",
@@ -78,8 +80,6 @@ const AddingForm = (props) => {
     id: "standard-error-helper-text",
     helperText: "Độ dài tối đa là 5000 ký tự",
   };
-  const disableAddArticleBtn =
-    errAuthor || errTile || errContent || topic || submitDate;
 
   return (
     <Paper className={classes.paper}>
@@ -159,17 +159,37 @@ const AddingForm = (props) => {
             }
           >
             <option aria-label="None" value="" />
-            <option value="Front End">Lập Trình Front End</option>
-            <option value="Back End">Lập Trình Back End</option>
-            <option value="AI/ML/DL Research">Nguyên Cứu AI/ML/DL</option>
-            <option value="Philosophy">Triết Học</option>
-            <option value="Psychology">Tâm Lý Học</option>
-            <option value="Sociology">Xã Hội Học</option>
-            <option value="Sales">Bán Hàng</option>
-            <option value="Marketing">Marketing</option>
-            <option value="LeaderShip">Lãnh Đạo</option>
-            <option value="Administration">Quản Trị</option>
-            <option value="Personal View">Góc Nhìn Cá Nhân</option>
+            <option value="Front End">
+              {translatePostGroupTitle("Front End")}
+            </option>
+            <option value="Back End">
+              {translatePostGroupTitle("Front End")}
+            </option>
+            <option value="AI/ML/DL Research">
+              {translatePostGroupTitle("AI/ML/DL Research")}
+            </option>
+            <option value="Philosophy">
+              {translatePostGroupTitle("Philosophy")}
+            </option>
+            <option value="Psychology">
+              {translatePostGroupTitle("Psychology")}
+            </option>
+            <option value="Sociology">
+              {translatePostGroupTitle("Sociology")}
+            </option>
+            <option value="Sales">{translatePostGroupTitle("Sales")}</option>
+            <option value="Marketing">
+              {translatePostGroupTitle("Marketing")}
+            </option>
+            <option value="LeaderShip">
+              {translatePostGroupTitle("LeaderShip")}
+            </option>
+            <option value="Administration">
+              {translatePostGroupTitle("Administration")}
+            </option>
+            <option value="Personal View">
+              {translatePostGroupTitle("Personal View")}
+            </option>
           </Select>
           <TextField
             id="date"
@@ -190,18 +210,17 @@ const AddingForm = (props) => {
           <Button
             variant="contained"
             color="primary"
-            style={{ marginRight: "5px" }}
-            // disabled={disableAddArticleBtn}
+            disabled={
+              !author ||
+              !title ||
+              !content ||
+              !topic ||
+              !submitDate ||
+              !imageUrl
+            }
             onClick={onHandleSubmitArticle}
           >
-            THÊM BÀI VIẾT MỚI
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={onNavigateListArticle}
-          >
-            DANH SÁCH BÀI VIẾT
+            THÊM
           </Button>
         </div>
       </React.Fragment>
