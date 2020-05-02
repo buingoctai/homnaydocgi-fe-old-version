@@ -23,7 +23,7 @@ const HandleStatus = (response) => {
       },
     })
       .then(() => {
-        // window.location.href = `${process.env.REACT_APP_URL}/exception?codeMessage=${status}`;
+        window.location.href = `${process.env.REACT_APP_URL}/exception?codeMessage=${status}`;
         return;
       })
       .catch(() => {
