@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import moment from "moment";
 import clsx from "clsx";
 import { lighten, makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -14,13 +15,9 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import Checkbox from "@material-ui/core/Checkbox";
-import IconButton from "@material-ui/core/IconButton";
-import Tooltip from "@material-ui/core/Tooltip";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Switch from "@material-ui/core/Switch";
-import DeleteIcon from "@material-ui/icons/Delete";
-import FilterListIcon from "@material-ui/icons/FilterList";
 import Button from "@material-ui/core/Button";
+
+import { translatePostGroupTitle } from "../../../utils/utils";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -59,7 +56,7 @@ const headCells = [
     id: "Author",
     numeric: false,
     disablePadding: true,
-    label: "Tác giả",
+    label: "Nguồn",
   },
   { id: "Title", numeric: true, disablePadding: false, label: "Tiêu đề" },
   { id: "Content", numeric: true, disablePadding: false, label: "Nội dung" },
@@ -354,8 +351,14 @@ const DataTable = (props) => {
                       <TableCell align="right">
                         {`${row.Content.substring(0, 20)}....`}
                       </TableCell>
-                      <TableCell align="right">{row.Topic}</TableCell>
-                      <TableCell align="right">{row.SubmitDate}</TableCell>
+                      <TableCell align="right">
+                        {" "}
+                        {translatePostGroupTitle(row.Topic)}
+                      </TableCell>
+                      <TableCell align="right">
+                        {" "}
+                        {moment(row.SubmitDate).format("DD-MM-YYYY")}
+                      </TableCell>
                     </TableRow>
                   );
                 }

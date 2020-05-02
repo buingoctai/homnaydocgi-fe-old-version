@@ -48,7 +48,7 @@ const Blog = (props) => {
   const responsiveObj = {
     is_maxWidth_500px: useMediaQuery("(max-width:500px)"),
     is_maxWidth_1000px: useMediaQuery("(max-width:1000px)"),
-    is_maxWidth_1600px: useMediaQuery("(max-width:1600px)"),
+    is_minWidth_2000px: useMediaQuery("(min-width:2000px)"),
   };
   const {
     isLoadingPage,

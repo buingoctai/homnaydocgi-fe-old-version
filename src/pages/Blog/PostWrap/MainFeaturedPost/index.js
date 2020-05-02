@@ -51,7 +51,7 @@ export default function MainFeaturedPost(props) {
             style={{ color: "azure" }}
           >
             {" "}
-            {post.Title && post.Title}
+            {`${post.Title && post.Title.substring(0, 20)}...`}
           </Link>
         </Typography>
       </div>

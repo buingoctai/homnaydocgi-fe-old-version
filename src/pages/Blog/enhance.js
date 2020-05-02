@@ -164,10 +164,10 @@ export default compose(
         });
       getFeaturedPostsDispatch({
         featuredLabels: [
-          "Marketing",
-          "Personal View",
           "Back End",
           "Psychology",
+          "Marketing",
+          "Personal View",
         ],
       })
         .then(() => {

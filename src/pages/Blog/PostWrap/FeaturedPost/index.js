@@ -45,13 +45,17 @@ export default function FeaturedPost(props) {
             <Card className={classes.card}>
               <div className={classes.cardDetails}>
                 <CardContent>
-                  <Typography component="h2" variant="h5">
+                  <Typography
+                    component="h2"
+                    variant="h6"
+                    style={{ fontSize: "15px" }}
+                  >
                     {post && `${post.Title.substring(0, 30)}...`}
                   </Typography>
-                  <Typography variant="subtitle1" color="textSecondary">
+                  <Typography variant="subtitle2" color="textSecondary">
                     {post && moment(post.SubmitDate).format("DD-MM-YYYY")}
                   </Typography>
-                  <Typography variant="subtitle1" paragraph>
+                  <Typography variant="subtitle2" paragraph>
                     {post && `${post.Content.substring(0, 50)}...`}
                   </Typography>
                   <Button

@@ -33,15 +33,16 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(9),
   },
   largeGridWrap: {
-    width: "60%",
+    width: "50%",
   },
   smallGridWrap: {
-    width: (props) => (props.is_maxWidth_500px ? "120%" : "85%"),
+    width: (props) => (props.is_maxWidth_500px ? "120%" : "60%"),
   },
   itemGridWrap: {
     height: "100%",
     overflow: "hidden",
     position: "relative",
+    width: (props) => (props.is_maxWidth_500px ? "500px" : "none"),
   },
   titleWrap: {
     width: "10px",
@@ -82,15 +83,15 @@ export default function DetailPost(props) {
   const classes = useStyles({
     ...responsiveObj,
   });
-
+  console.log("is_minWidth_2000px=", responsiveObj.is_minWidth_2000px);
   return (
     <div className={classes.detailContainer} id="detailContainer">
       <Grid
         container
         className={
-          responsiveObj.is_maxWidth_1600px
-            ? `${classes.girdWrap} ${classes.smallGridWrap}`
-            : `${classes.girdWrap} ${classes.largeGridWrap}`
+          responsiveObj.is_minWidth_2000px
+            ? `${classes.girdWrap} ${classes.largeGridWrap}`
+            : `${classes.girdWrap} ${classes.smallGridWrap}`
         }
         onBlur={() => console.log("on blur")}
       >

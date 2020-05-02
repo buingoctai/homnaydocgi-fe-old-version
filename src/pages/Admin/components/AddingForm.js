@@ -215,12 +215,12 @@ const AddingForm = (props) => {
               !title ||
               !content ||
               !topic ||
-              !submitDate ||
-              !imageUrl
+              !imageUrl ||
+              !submitDate
             }
             onClick={onHandleSubmitArticle}
           >
-            THÊM
+            THÊM/SỬA
           </Button>
         </div>
       </React.Fragment>
