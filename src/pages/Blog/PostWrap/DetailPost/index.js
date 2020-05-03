@@ -36,7 +36,9 @@ const useStyles = makeStyles((theme) => ({
     width: "50%",
   },
   smallGridWrap: {
-    width: (props) => (props.is_maxWidth_500px ? "120%" : "60%"),
+    width: (props) => (props.is_maxWidth_500px ? "130%" : "60%"),
+    padding: (props) =>
+      props.is_maxWidth_500px ? "60px 72px 10px 72px" : "none",
   },
   itemGridWrap: {
     height: "100%",

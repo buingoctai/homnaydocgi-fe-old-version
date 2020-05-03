@@ -165,8 +165,8 @@ export default compose(
       getFeaturedPostsDispatch({
         featuredLabels: [
           "Back End",
+          "AI/ML/DL Research",
           "Psychology",
-          "Marketing",
           "Personal View",
         ],
       })

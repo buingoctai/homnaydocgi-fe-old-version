@@ -17,6 +17,11 @@ import PostGrid from "./PostWrap/PostGrid";
 import enhance from "./enhance";
 
 const useStyles = makeStyles((theme) => ({
+  container: {
+    width: "90%",
+    paddingLeft: (props) => (props.is_maxWidth_500px ? "0px" : "none"),
+    paddingRight: (props) => (props.is_maxWidth_500px ? "0px" : "none"),
+  },
   mainGrid: {
     marginTop: theme.spacing(3),
   },
@@ -44,7 +49,6 @@ const sections = [
 ];
 
 const Blog = (props) => {
-  const classes = useStyles();
   const responsiveObj = {
     is_maxWidth_500px: useMediaQuery("(max-width:500px)"),
     is_maxWidth_1000px: useMediaQuery("(max-width:1000px)"),
@@ -67,11 +71,12 @@ const Blog = (props) => {
     onHandleSuggestSendArticle,
     onHandleOpenDetailContainer,
   } = props;
+  const classes = useStyles({ ...responsiveObj });
 
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container style={{ width: "90%" }}>
+      <Container className={classes.container}>
         <Header
           title="HÔM NAY ĐỌC GÌ?"
           sections={sections}
