@@ -1,4 +1,5 @@
 import { connect } from "react-redux";
+import { withTracking } from 'react-tracker';
 import { compose, withHandlers, withState, lifecycle } from "recompose";
 import { getCookie } from "../../utils/utils";
 import { COOKIE_NAMES } from "../../utils/constants";
@@ -12,6 +13,9 @@ import {
   asyncSuggestSubscribeNotifiByBot,
   saveAllPost,
 } from "./Store/actions";
+import {
+  pageClickEvent
+} from "./Tracking/events";
 
 const mapStateToProps = (state) => {
   const { reducers, blogReducers } = state;
@@ -34,6 +38,7 @@ const mapDispatchToProps = (dispatch) => {
     saveAllPostDispatch: (payload) => dispatch(saveAllPost(payload)),
   };
 };
+const mapTrackingToProps = trackEvent => ({ trackPageView: (pageId, userId) => trackEvent(pageClickEvent(pageId, userId)) });
 export default compose(
   withState("isLoadingPage", "setIsLoadingPage", false),
   withState("isOpenDetaiContainer", "setIsOpenDetaiContainer", false),
@@ -48,6 +53,7 @@ export default compose(
   withState("isShowPaging", "setIsShowPaging", true),
   withState("isStopCallApiGetAllPost", "setIsStopCallApiGetAllPost", false),
   connect(mapStateToProps, mapDispatchToProps),
+  withTracking(mapTrackingToProps)(null),
   withHandlers({
     onHandleNavigateAdminPage: (props) => {
       const { currentUser, setDialogContent } = props;

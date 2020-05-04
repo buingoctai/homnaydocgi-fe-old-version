@@ -59,7 +59,6 @@ const useStyles = makeStyles((theme) => ({
 const AddingForm = (props) => {
   const classes = useStyles();
   const {
-    onNavigateListArticle,
     onHandleSubmitArticle,
     setArticleData,
     articleData,
@@ -163,7 +162,7 @@ const AddingForm = (props) => {
               {translatePostGroupTitle("Front End")}
             </option>
             <option value="Back End">
-              {translatePostGroupTitle("Front End")}
+              {translatePostGroupTitle("Back End")}
             </option>
             <option value="AI/ML/DL Research">
               {translatePostGroupTitle("AI/ML/DL Research")}
