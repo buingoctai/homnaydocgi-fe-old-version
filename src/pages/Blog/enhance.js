@@ -65,7 +65,7 @@ export default compose(
         .then(({ message }) => {
           alert(message);
         })
-        .catch(() => {});
+        .catch(() => { });
     },
     onHandleSuggestSendArticle: (props) => {
       const { setDialogContent } = props;
@@ -166,7 +166,9 @@ export default compose(
         featuredLabels: [
           "Back End",
           "AI/ML/DL Research",
+          "Philosophy",
           "Psychology",
+          "Administration",
           "Personal View",
         ],
       })

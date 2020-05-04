@@ -132,9 +132,9 @@ export default compose(
       // if (token) {
       //   window.location.href = "http://localhost:300/home";
       // }
-      if (!token) {
-        window.location.href = `${process.env.REACT_APP_URL}/home`;
-      }
+
+      window.location.href = `${process.env.REACT_APP_URL}/home`;
+
     },
   })
 );
