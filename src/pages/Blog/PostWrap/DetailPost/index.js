@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import ClearIcon from "@material-ui/icons/Clear";
 import Button from "@material-ui/core/Button";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 const useStyles = makeStyles((theme) => ({
   detailContainer: {
@@ -80,9 +81,11 @@ export default function DetailPost(props) {
     showingPost,
     isOpenDetaiContainer,
     responsiveObj,
+    loading,
     onHandleOpenDetailContainer,
   } = props;
   const newContent = post.Content ? post.Content.split("\n") : [];
+  console.log(newContent, loading);
   const classes = useStyles({
     ...responsiveObj,
   });
@@ -114,19 +117,29 @@ export default function DetailPost(props) {
               {showingPost.Title}
             </Typography>
             <br />
-            <Typography
-              paragraph={true}
-              align="justify"
-              color="textPrimary"
-              key="subContent"
-            >
-              {newContent.length > 0 & newContent.map((item) => (
-                <>
-                  {item}
-                  <br />
-                </>
-              ))}
-            </Typography>
+            {loading ? (
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <LinearProgress
+                  color="primary"
+                  style={{ height: "3px", width: "10%" }}
+                />
+              </div>
+            ) : (
+              <Typography
+                paragraph={true}
+                align="justify"
+                color="textPrimary"
+                key="subContent"
+              >
+                {newContent.length > 0 &&
+                  newContent.map((item) => (
+                    <>
+                      {item}
+                      <br />
+                    </>
+                  ))}
+              </Typography>
+            )}
             <div>
               <img
                 src={post && post.ImageUrl}

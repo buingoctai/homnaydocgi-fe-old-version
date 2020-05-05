@@ -1,6 +1,6 @@
 import React from "react";
-import ReactGA from 'react-ga';
-import { useHistory } from 'react-router-dom';
+import ReactGA from "react-ga";
+import { useHistory } from "react-router-dom";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -58,6 +58,7 @@ const Blog = (props) => {
   };
   const {
     isLoadingPage,
+    isLoadingSubPage,
     isOpenDetaiContainer,
     isShowPaging,
     currentUser,
@@ -80,9 +81,22 @@ const Blog = (props) => {
   history.listen((location) => {
     console.log("Track Page Views");
     ReactGA.set({ page: location.pathname });
-    ReactGA.pageview(location.pathname)
-  }
-  );
+    ReactGA.pageview(location.pathname);
+  });
+
+  const callback = (list) => {
+    list.getEntries().forEach((entry) => {
+      ReactGA.timing({
+        category: "Load Performace",
+        variable: "Some metric",
+        value: "Value of Metric",
+      });
+    });
+  };
+
+  var observer = new PerformanceObserver(callback);
+  observer.observe({ entryTypes: ["navigation"] });
+
   return (
     <React.Fragment>
       <CssBaseline />
@@ -152,6 +166,7 @@ const Blog = (props) => {
             showingPost={showingPost}
             isOpenDetaiContainer={isOpenDetaiContainer}
             responsiveObj={responsiveObj}
+            loading={isLoadingSubPage}
             onHandleOpenDetailContainer={onHandleOpenDetailContainer}
           />
         )}

@@ -12,9 +12,7 @@ import {
   asyncSuggestSubscribeNotifiByBot,
   asyncGetDetailPost,
   saveAllPost,
-
 } from "./Store/actions";
-
 
 const mapStateToProps = (state) => {
   const { reducers, blogReducers } = state;
@@ -37,11 +35,11 @@ const mapDispatchToProps = (dispatch) => {
       asyncSuggestSubscribeNotifiByBot(payload),
     saveAllPostDispatch: (payload) => dispatch(saveAllPost(payload)),
     getDetailPostDispatch: (payload) => asyncGetDetailPost(payload),
-
   };
 };
 export default compose(
   withState("isLoadingPage", "setIsLoadingPage", false),
+  withState("isLoadingSubPage", "setIsLoadingSubPage", false),
   withState("isOpenDetaiContainer", "setIsOpenDetaiContainer", false),
 
   withState("dialogContent", "setDialogContent", {
@@ -71,7 +69,7 @@ export default compose(
         .then(({ message }) => {
           alert(message);
         })
-        .catch(() => { });
+        .catch(() => {});
     },
     onHandleSuggestSendArticle: (props) => {
       const { setDialogContent } = props;
@@ -82,12 +80,20 @@ export default compose(
         getDetailPostDispatch,
         setIsOpenDetaiContainer,
         setShowingPost,
+        setIsLoadingSubPage,
         mainPosts,
         featuredPosts,
         allPost,
         isOpenDetaiContainer,
       } = props;
-      getDetailPostDispatch({ id: "47618ecd-0cee-46fd-b186-5e58e674e628" });
+      setIsLoadingSubPage(true);
+      getDetailPostDispatch({ id: postId })
+        .then(() => {
+          setIsLoadingSubPage(false);
+        })
+        .catch(() => {
+          setIsLoadingSubPage(false);
+        });
 
       if (mainPosts.Id === postId) {
         setShowingPost(mainPosts);
