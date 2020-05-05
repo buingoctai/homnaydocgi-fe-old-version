@@ -1,5 +1,4 @@
 import { connect } from "react-redux";
-import { withTracking } from 'react-tracker';
 import { compose, withHandlers, withState, lifecycle } from "recompose";
 import { getCookie } from "../../utils/utils";
 import { COOKIE_NAMES } from "../../utils/constants";
@@ -11,11 +10,11 @@ import {
   asyncGetFeaturedPosts,
   asyncGetAllPost,
   asyncSuggestSubscribeNotifiByBot,
+  asyncGetDetailPost,
   saveAllPost,
+
 } from "./Store/actions";
-import {
-  pageClickEvent
-} from "./Tracking/events";
+
 
 const mapStateToProps = (state) => {
   const { reducers, blogReducers } = state;
@@ -24,6 +23,7 @@ const mapStateToProps = (state) => {
     mainPosts: blogReducers.mainPosts,
     featuredPosts: blogReducers.featuredPosts,
     allPost: blogReducers.allPost,
+    detailPost: blogReducers.detailPost,
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -36,9 +36,10 @@ const mapDispatchToProps = (dispatch) => {
     suggestSubscribeNotifiByBotDispatch: (payload) =>
       asyncSuggestSubscribeNotifiByBot(payload),
     saveAllPostDispatch: (payload) => dispatch(saveAllPost(payload)),
+    getDetailPostDispatch: (payload) => asyncGetDetailPost(payload),
+
   };
 };
-const mapTrackingToProps = trackEvent => ({ trackPageView: (pageId, userId) => trackEvent(pageClickEvent(pageId, userId)) });
 export default compose(
   withState("isLoadingPage", "setIsLoadingPage", false),
   withState("isOpenDetaiContainer", "setIsOpenDetaiContainer", false),
@@ -53,7 +54,6 @@ export default compose(
   withState("isShowPaging", "setIsShowPaging", true),
   withState("isStopCallApiGetAllPost", "setIsStopCallApiGetAllPost", false),
   connect(mapStateToProps, mapDispatchToProps),
-  withTracking(mapTrackingToProps)(null),
   withHandlers({
     onHandleNavigateAdminPage: (props) => {
       const { currentUser, setDialogContent } = props;
@@ -79,6 +79,7 @@ export default compose(
     },
     onHandleOpenDetailContainer: (props) => (postId) => {
       const {
+        getDetailPostDispatch,
         setIsOpenDetaiContainer,
         setShowingPost,
         mainPosts,
@@ -86,6 +87,7 @@ export default compose(
         allPost,
         isOpenDetaiContainer,
       } = props;
+      getDetailPostDispatch({ id: "47618ecd-0cee-46fd-b186-5e58e674e628" });
 
       if (mainPosts.Id === postId) {
         setShowingPost(mainPosts);

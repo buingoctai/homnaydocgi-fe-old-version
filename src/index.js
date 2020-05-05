@@ -1,5 +1,5 @@
 import React from "react";
-import { TrackerProvider, Tracker } from 'react-tracker';
+import ReactGA from 'react-ga';
 import ReactDOM from "react-dom";
 import { composeWithDevTools } from "redux-devtools-extension/developmentOnly";
 import * as serviceWorker from "./serviceWorker";
@@ -14,7 +14,6 @@ import createSagaMiddleware from "redux-saga";
 import { Provider } from "react-redux";
 import reducers from "./store/reducers";
 import blogReducers from "./pages/Blog/Store/reducers";
-import { trackProductClick } from './pages/Blog/Tracking/eventListener/trackProductClick';
 import adminReducers from "./pages/Admin/Store/reducers";
 import { submitDataSuccess } from "./store/sagas";
 import { sagaMiddleware } from "./store/actions";
@@ -23,6 +22,7 @@ import blogState from "./pages/Blog/Store/state";
 import App from "./pages/App";
 import "./index.css";
 
+ReactGA.initialize('UA-00000-1');
 //const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
   combineReducers({ reducers, blogReducers, adminReducers }),
@@ -32,11 +32,9 @@ const store = createStore(
 );
 // sagaMiddleware.run(submitDataSuccess);
 
-const tracker = new Tracker([trackProductClick])
 ReactDOM.render(
   <Provider store={store}>
-    <TrackerProvider tracker={tracker}>
-      <App /></TrackerProvider>
+    <App />
   </Provider>,
   document.getElementById("root")
 );

@@ -59,7 +59,7 @@ const headCells = [
     label: "Nguồn",
   },
   { id: "Title", numeric: true, disablePadding: false, label: "Tiêu đề" },
-  { id: "Content", numeric: true, disablePadding: false, label: "Nội dung" },
+  { id: "Brief", numeric: true, disablePadding: false, label: "Tóm tắt" },
   { id: "Topic", numeric: true, disablePadding: false, label: "Chủ đề" },
   {
     id: "SubmitDate",
@@ -128,13 +128,13 @@ const useToolbarStyles = makeStyles((theme) => ({
   highlight:
     theme.palette.type === "light"
       ? {
-          color: theme.palette.secondary.main,
-          backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-        }
+        color: theme.palette.secondary.main,
+        backgroundColor: lighten(theme.palette.secondary.light, 0.85),
+      }
       : {
-          color: theme.palette.text.primary,
-          backgroundColor: theme.palette.secondary.dark,
-        },
+        color: theme.palette.text.primary,
+        backgroundColor: theme.palette.secondary.dark,
+      },
   title: {
     display: "flex",
     flexGrow: "1",
@@ -349,7 +349,7 @@ const DataTable = (props) => {
                       </TableCell>
                       <TableCell align="right">{row.Title}</TableCell>
                       <TableCell align="right">
-                        {`${row.Content.substring(0, 20)}....`}
+                        {`${row.Brief}....`}
                       </TableCell>
                       <TableCell align="right">
                         {" "}

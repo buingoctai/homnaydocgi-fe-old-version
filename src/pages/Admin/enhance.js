@@ -56,14 +56,14 @@ export default compose(
         })
           .then(({ message }) => {
             alert(message);
-            setArticleData({
-              author: "",
-              title: "",
-              content: "",
-              topic: "",
-              submitDate: "",
-              imageUrl: "",
-            });
+            // setArticleData({
+            //   author: "",
+            //   title: "",
+            //   content: "",
+            //   topic: "",
+            //   submitDate: "",
+            //   imageUrl: "",
+            // });
             getAllPostDispatch({
               paging: { pageIndex: 1, pageSize: 5 },
               orderList: { orderBy: "SubmitDate", orderType: "DESC" },
@@ -102,7 +102,7 @@ export default compose(
                 // setIsLoadingPage(false);
               });
           })
-          .catch(() => {});
+          .catch(() => { });
       }
     },
     onDeleteArticle: (props) => (selected) => {

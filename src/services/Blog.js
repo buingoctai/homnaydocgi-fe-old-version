@@ -20,3 +20,11 @@ export const getAllPost = (param) => {
     data: { ...param },
   });
 };
+
+export const getDetailPost = (param) => {
+  return request(`${process.env.REACT_APP_API}/blog/getDetailPost`, {
+    method: "POST",
+    data: { ...param },
+  });
+};
+

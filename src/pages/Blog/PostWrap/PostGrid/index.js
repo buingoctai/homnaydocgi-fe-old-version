@@ -65,7 +65,6 @@ const PostGrid = (props) => {
     responsiveObj,
     onHandleOpenDetailContainer,
   } = props;
-  const limitedContentLength = responsiveObj.is_maxWidth_1000px ? 100 : 200;
   const colsNumber = responsiveObj.is_maxWidth_1000px ? 1 : 3;
   const classes = useStyles({ ...responsiveObj });
 
@@ -106,11 +105,7 @@ const PostGrid = (props) => {
                     color="textPrimary"
                     style={{ padding: "0 10px" }}
                   >
-                    {item &&
-                      `${item.Content.substring(
-                        0,
-                        limitedContentLength
-                      )} [...]`}
+                    {item && `${item.Brief} [...]`}
                   </Typography>
                 </Paper>
               </GridListTile>
@@ -121,10 +116,10 @@ const PostGrid = (props) => {
               totalRecord={totalRecord}
             />
           ) : (
-            <GridListTile cols={3} className={classes.loadingWrap}>
-              <LinearProgress color="primary" className={classes.loading} />
-            </GridListTile>
-          )}
+              <GridListTile cols={3} className={classes.loadingWrap}>
+                <LinearProgress color="primary" className={classes.loading} />
+              </GridListTile>
+            )}
           {!isShowPaging && <div className={classes.spaceWrap} />}
         </GridList>
       </div>

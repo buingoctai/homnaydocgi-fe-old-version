@@ -1,1 +1,0 @@
-export const pageClickEvent = (pageId, userId) => ({ type: 'PAGE_CLICK', data: { pageId, userId } });

@@ -5,9 +5,10 @@ import {
   getMainPosts,
   getFeaturedPosts,
   getAllPost,
+  getDetailPost,
 } from "../../../services/Blog";
 
-import { saveMainPosts, saveFeaturedPosts } from "./actions";
+import { saveMainPosts, saveFeaturedPosts, saveDetailPost } from "./actions";
 
 function* getMainPostsEffect(payload, resolve, reject) {
   const response = yield call(getMainPosts, payload);
@@ -51,9 +52,21 @@ function* suggestSubscribeNotifiByBotEffect(payload, resolve, reject) {
   }
 }
 
+
+function* getDetailPostEffect(payload, resolve, reject) {
+  const response = yield call(getDetailPost, payload);
+  yield put(saveDetailPost({ ...response }));
+
+  if (response) {
+    resolve(response);
+  } else {
+    reject("Error calling api");
+  }
+}
 export {
   getMainPostsEffect,
   getFeaturedPostsEffect,
   getAllPostEffect,
   suggestSubscribeNotifiByBotEffect,
+  getDetailPostEffect
 };

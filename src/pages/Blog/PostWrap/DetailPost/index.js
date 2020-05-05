@@ -77,15 +77,16 @@ const useStyles = makeStyles((theme) => ({
 export default function DetailPost(props) {
   const {
     post,
+    showingPost,
     isOpenDetaiContainer,
     responsiveObj,
     onHandleOpenDetailContainer,
   } = props;
-  const newContent = post.Content.split("\n");
+  const newContent = post.Content ? post.Content.split("\n") : [];
   const classes = useStyles({
     ...responsiveObj,
   });
-  console.log("is_minWidth_2000px=", responsiveObj.is_minWidth_2000px);
+
   return (
     <div className={classes.detailContainer} id="detailContainer">
       <Grid
@@ -110,7 +111,7 @@ export default function DetailPost(props) {
 
           <Paper className={classes.paperWrap} key="itemGridWrap">
             <Typography variant="h6" color="primary" key="title">
-              {post.Title}
+              {showingPost.Title}
             </Typography>
             <br />
             <Typography
@@ -119,7 +120,7 @@ export default function DetailPost(props) {
               color="textPrimary"
               key="subContent"
             >
-              {newContent.map((item) => (
+              {newContent.length > 0 & newContent.map((item) => (
                 <>
                   {item}
                   <br />
@@ -145,7 +146,7 @@ export default function DetailPost(props) {
               align="left"
               key="author"
             >
-              {`Nguồn: ${post.Author}`}
+              {`Nguồn: ${showingPost.Author}`}
             </Typography>
           </Paper>
         </Grid>

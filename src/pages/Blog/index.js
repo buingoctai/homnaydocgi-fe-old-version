@@ -1,4 +1,6 @@
 import React from "react";
+import ReactGA from 'react-ga';
+import { useHistory } from 'react-router-dom';
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -60,6 +62,7 @@ const Blog = (props) => {
     isShowPaging,
     currentUser,
     currentPageIndex,
+    detailPost,
     showingPost,
     mainPosts,
     featuredPosts,
@@ -72,7 +75,14 @@ const Blog = (props) => {
     onHandleOpenDetailContainer,
   } = props;
   const classes = useStyles({ ...responsiveObj });
+  const history = useHistory();
 
+  history.listen((location) => {
+    console.log("Track Page Views");
+    ReactGA.set({ page: location.pathname });
+    ReactGA.pageview(location.pathname)
+  }
+  );
   return (
     <React.Fragment>
       <CssBaseline />
@@ -138,7 +148,8 @@ const Blog = (props) => {
         )}
         {isOpenDetaiContainer && (
           <DetailPost
-            post={showingPost}
+            post={detailPost}
+            showingPost={showingPost}
             isOpenDetaiContainer={isOpenDetaiContainer}
             responsiveObj={responsiveObj}
             onHandleOpenDetailContainer={onHandleOpenDetailContainer}
