@@ -85,7 +85,6 @@ export default function DetailPost(props) {
     onHandleOpenDetailContainer,
   } = props;
   const newContent = post.Content ? post.Content.split("\n") : [];
-  console.log(newContent, loading);
   const classes = useStyles({
     ...responsiveObj,
   });
@@ -125,21 +124,21 @@ export default function DetailPost(props) {
                 />
               </div>
             ) : (
-              <Typography
-                paragraph={true}
-                align="justify"
-                color="textPrimary"
-                key="subContent"
-              >
-                {newContent.length > 0 &&
-                  newContent.map((item) => (
-                    <>
-                      {item}
-                      <br />
-                    </>
-                  ))}
-              </Typography>
-            )}
+                <Typography
+                  paragraph={true}
+                  align="justify"
+                  color="textPrimary"
+                  key="subContent"
+                >
+                  {newContent.length > 0 &&
+                    newContent.map((item) => (
+                      <>
+                        {item}
+                        <br />
+                      </>
+                    ))}
+                </Typography>
+              )}
             <div>
               <img
                 src={post && post.ImageUrl}

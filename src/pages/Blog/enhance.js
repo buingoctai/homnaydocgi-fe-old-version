@@ -1,3 +1,4 @@
+import ReactGA from 'react-ga';
 import { connect } from "react-redux";
 import { compose, withHandlers, withState, lifecycle } from "recompose";
 import { getCookie } from "../../utils/utils";
@@ -69,7 +70,7 @@ export default compose(
         .then(({ message }) => {
           alert(message);
         })
-        .catch(() => {});
+        .catch(() => { });
     },
     onHandleSuggestSendArticle: (props) => {
       const { setDialogContent } = props;
@@ -86,31 +87,33 @@ export default compose(
         allPost,
         isOpenDetaiContainer,
       } = props;
-      setIsLoadingSubPage(true);
-      getDetailPostDispatch({ id: postId })
-        .then(() => {
-          setIsLoadingSubPage(false);
-        })
-        .catch(() => {
-          setIsLoadingSubPage(false);
-        });
+      let refresh = window.location.protocol + "//" + window.location.host;
 
-      if (mainPosts.Id === postId) {
-        setShowingPost(mainPosts);
-      } else {
-        const [filtedPost] = featuredPosts.data.filter(
-          (item) => item.Id === postId
-        );
-        if (filtedPost) {
-          setShowingPost(filtedPost);
-        } else {
-          const [filtedPost] = allPost.data.filter(
-            (item) => item.Id === postId
-          );
-          setShowingPost(filtedPost);
-        }
+      if (isOpenDetaiContainer) {
+        refresh = refresh + "/home";
+        setIsOpenDetaiContainer(!isOpenDetaiContainer);
+        window.history.pushState({ path: refresh }, '', refresh);
       }
-      setIsOpenDetaiContainer(!isOpenDetaiContainer);
+      else {
+        const mergedPosts = featuredPosts.data.concat(allPost.data).concat([mainPosts]);
+        const [detailPost] = mergedPosts.filter(item => item.Id === postId);
+        const find = ' ';
+        const re = new RegExp(find, 'g');
+        const titleUrl = detailPost.Title.replace(re, '-');
+        refresh = refresh + `/home/${titleUrl}`;
+
+        setIsLoadingSubPage(true);
+        getDetailPostDispatch({ id: postId })
+          .then(() => {
+            setIsLoadingSubPage(false);
+          })
+          .catch(() => {
+            setIsLoadingSubPage(false);
+          });
+        window.history.pushState({ path: refresh }, '', refresh);
+        setShowingPost(detailPost);
+        setIsOpenDetaiContainer(!isOpenDetaiContainer);
+      }
     },
     onHandleScrollToBottom: (props) => () => {
       const {
@@ -153,6 +156,19 @@ export default compose(
   }),
   lifecycle({
     componentDidMount() {
+      ReactGA.initialize('UA-165562758-1');
+      ReactGA.set({ page: "https://homnaydocgi.herokuapp.com" });
+      ReactGA.pageview("https://homnaydocgi.herokuapp.com");
+      ReactGA.event({
+        category: 'Link',
+        action: 'Click',
+      });
+      ReactGA.send({
+        hitType: 'event',
+        eventCategory: 'category',
+        eventAction: 'action',
+        eventLabel: 'label'
+      });
       const {
         currentPageIndex,
         authencationDispatch,

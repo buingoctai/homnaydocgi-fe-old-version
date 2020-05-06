@@ -13,7 +13,11 @@ const useStyles = makeStyles((theme) => ({
   },
   imageWrap: {
     width: (props) => (props.is_maxWidth_500px ? "100%" : "50%"),
-    position: "relativee",
+    position: "relative",
+    transition: "transform 0.3s",
+    "&:hover": {
+      transform: "scale(1.05)"
+    }
   },
   titleWrap: {
     position: "absolute",
@@ -23,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     fontSize: "20px",
-    color: "azure",
+    color: "#ffff",
   },
 }));
 
@@ -48,7 +52,7 @@ export default function MainFeaturedPost(props) {
           <Link
             underline="none"
             onClick={() => onHandleOpenDetailContainer(post.Id)}
-            style={{ color: "azure" }}
+            style={{ color: "#ffff" }}
           >
             {" "}
             {`${post.Title && post.Title.substring(0, 20)}...`}

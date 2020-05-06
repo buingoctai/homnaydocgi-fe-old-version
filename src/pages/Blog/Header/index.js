@@ -53,11 +53,19 @@ const useStyles = makeStyles((theme, is_maxWidth_1000px) => ({
     color: "#ffff",
     fontWeight: "bold",
     fontSize: (props) => (props.is_maxWidth_1000px ? "10px" : "15px"),
+    transition: "transform 0.5s",
+    "&:hover": {
+      transform: "scale(1.1)"
+    }
   },
   suggestSupplyArticleBtnWrap: {
     color: "#ffff",
     fontWeight: "bold",
     fontSize: (props) => (props.is_maxWidth_1000px ? "10px" : "15px"),
+    transition: "transform 0.5s",
+    "&:hover": {
+      transform: "scale(1.1)"
+    }
   },
 }));
 
