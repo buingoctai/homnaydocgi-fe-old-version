@@ -16,8 +16,8 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     transition: "transform 0.3s",
     "&:hover": {
-      transform: "scale(1.05)"
-    }
+      transform: "scale(1.05)",
+    },
   },
   titleWrap: {
     position: "absolute",
@@ -55,7 +55,7 @@ export default function MainFeaturedPost(props) {
             style={{ color: "#ffff" }}
           >
             {" "}
-            {`${post.Title && post.Title.substring(0, 20)}...`}
+            {`${post.Title && post.Title}`}
           </Link>
         </Typography>
       </div>

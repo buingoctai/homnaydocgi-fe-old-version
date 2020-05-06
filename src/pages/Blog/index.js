@@ -1,6 +1,4 @@
 import React from "react";
-import ReactGA from "react-ga";
-import { useHistory } from "react-router-dom";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -76,28 +74,6 @@ const Blog = (props) => {
     onHandleOpenDetailContainer,
   } = props;
   const classes = useStyles({ ...responsiveObj });
-  const history = useHistory();
-
-  // history.listen((location) => {
-  //   console.log("Track Page Views");
-  //   ReactGA.set({ page: location.pathname });
-  //   ReactGA.pageview(location.pathname);
-  // });
-  // ReactGA.set({ page: "https://homnaydocgi.herokuapp.com/home" });
-  // ReactGA.pageview("https://homnaydocgi.herokuapp.com/home");
-
-  // const callback = (list) => {
-  //   list.getEntries().forEach((entry) => {
-  //     ReactGA.timing({
-  //       category: "Load Performace",
-  //       variable: "Some metric",
-  //       value: "Value of Metric",
-  //     });
-  //   });
-  // };
-
-  // var observer = new PerformanceObserver(callback);
-  // observer.observe({ entryTypes: ["navigation"] });
 
   return (
     <React.Fragment>

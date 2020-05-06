@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
@@ -124,6 +124,7 @@ export default function DetailPost(props) {
                 />
               </div>
             ) : (
+              <>
                 <Typography
                   paragraph={true}
                   align="justify"
@@ -138,18 +139,21 @@ export default function DetailPost(props) {
                       </>
                     ))}
                 </Typography>
-              )}
-            <div>
-              <img
-                src={post && post.ImageUrl}
-                alt={"title"}
-                style={
-                  responsiveObj.is_maxWidth_500px
-                    ? { width: "70%" }
-                    : { width: "30%" }
-                }
-              />
-            </div>
+
+                <div>
+                  <img
+                    src={post.ImageUrl}
+                    alt="Ảnh"
+                    style={
+                      responsiveObj.is_maxWidth_500px
+                        ? { width: "70%" }
+                        : { width: "30%" }
+                    }
+                  />
+                </div>
+              </>
+            )}
+
             <br />
             <br />
             <Typography
