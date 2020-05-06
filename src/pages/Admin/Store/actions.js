@@ -1,10 +1,11 @@
 import { sagaMiddleware } from "../../../store/actions";
-import { SAVE_ALL_POST } from "./constants";
+import { SAVE_ALL_POST, SAVE_DETAIL_POST } from "./constants";
 import {
   submitPosteEffect,
   getAllPostEffect,
   deletePostsEffect,
   updatePostsEffect,
+  getDetailPostEffect,
 } from "./sagas";
 
 const submitPost = (payload, resolve, reject) => {
@@ -47,9 +48,25 @@ export const asyncUpdatePosts = (payload) => {
   });
 };
 
+const getDetailPost = (payload, resolve, reject) => {
+  sagaMiddleware.run(getDetailPostEffect, payload, resolve, reject);
+};
+export const asyncGetDetailPost = (payload) => {
+  return new Promise((resolve, reject) => {
+    getDetailPost(payload, resolve, reject);
+  });
+};
+
 export const saveAllPost = (payload) => {
   return {
     type: SAVE_ALL_POST,
+    payload,
+  };
+};
+
+export const saveDetailPost = (payload) => {
+  return {
+    type: SAVE_DETAIL_POST,
     payload,
   };
 };

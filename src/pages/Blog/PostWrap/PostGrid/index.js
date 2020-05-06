@@ -116,10 +116,10 @@ const PostGrid = (props) => {
               totalRecord={totalRecord}
             />
           ) : (
-              <GridListTile cols={3} className={classes.loadingWrap}>
-                <LinearProgress color="primary" className={classes.loading} />
-              </GridListTile>
-            )}
+            <GridListTile cols={3} className={classes.loadingWrap}>
+              <LinearProgress color="primary" className={classes.loading} />
+            </GridListTile>
+          )}
           {!isShowPaging && <div className={classes.spaceWrap} />}
         </GridList>
       </div>

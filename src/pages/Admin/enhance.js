@@ -8,10 +8,14 @@ import {
   asyncUpdatePosts,
 } from "./Store/actions";
 
+import { asyncGetDetailPost } from "../Blog/Store/actions";
+
 const mapStateToProps = (state) => {
-  const { adminReducers } = state;
+  const { adminReducers, blogReducers } = state;
+  console.log(adminReducers, blogReducers);
   return {
     allPost: adminReducers.allPost,
+    detailPost: blogReducers.detailPost,
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -20,6 +24,7 @@ const mapDispatchToProps = (dispatch) => {
     getAllPostDispatch: (payload) => asyncGetAllPost(payload),
     deletePostsDispatch: (payload) => asyncDeletePosts(payload),
     updatePostsDispatch: (payload) => asyncUpdatePosts(payload),
+    getDetailPostDispatch: (payload) => asyncGetDetailPost(payload),
   };
 };
 export default compose(
@@ -136,12 +141,15 @@ export default compose(
         });
     },
     onEditArticle: (props) => (selected) => {
-      const { allPost, setArticleData } = props;
+      const {
+        detailPost,
+        allPost,
+        setArticleData,
+        getDetailPostDispatch,
+      } = props;
       const selectedRows = allPost.data.filter((item) =>
         selected.includes(item.Id)
       );
-      console.log(selected);
-      console.log(selectedRows);
 
       if (selected.length === 1) {
         const {
@@ -153,14 +161,29 @@ export default compose(
           SubmitDate,
           ImageUrl,
         } = selectedRows[0];
-        setArticleData({
-          author: Author,
-          title: Title,
-          content: Brief,
-          topic: Topic,
-          submitDate: SubmitDate,
-          imageUrl: ImageUrl,
-        });
+        getDetailPostDispatch({ id: Id })
+          .then(() => {
+            console.log("content=", detailPost.Content);
+
+            setArticleData({
+              author: Author,
+              title: Title,
+              content: detailPost.Content,
+              topic: Topic,
+              submitDate: SubmitDate,
+              imageUrl: ImageUrl,
+            });
+          })
+          .catch(() => {
+            setArticleData({
+              author: Author,
+              title: Title,
+              content: Brief,
+              topic: Topic,
+              submitDate: SubmitDate,
+              imageUrl: ImageUrl,
+            });
+          });
       } else {
         setArticleData({
           author: "",

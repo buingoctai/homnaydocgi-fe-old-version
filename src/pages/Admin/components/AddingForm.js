@@ -58,11 +58,7 @@ const useStyles = makeStyles((theme) => ({
 
 const AddingForm = (props) => {
   const classes = useStyles();
-  const {
-    onHandleSubmitArticle,
-    setArticleData,
-    articleData,
-  } = props;
+  const { onHandleSubmitArticle, setArticleData, articleData } = props;
   const { author, title, content, topic, submitDate, imageUrl } = articleData;
   const errAuthor = author.length > 20 && {
     error: true,
@@ -74,11 +70,12 @@ const AddingForm = (props) => {
     id: "standard-error-helper-text",
     helperText: "Độ dài tối đa là 100 ký tự",
   };
-  const errContent = content.length > 5000 && {
-    error: true,
-    id: "standard-error-helper-text",
-    helperText: "Độ dài tối đa là 5000 ký tự",
-  };
+  const errContent = content &&
+    content.length > 5000 && {
+      error: true,
+      id: "standard-error-helper-text",
+      helperText: "Độ dài tối đa là 5000 ký tự",
+    };
 
   return (
     <Paper className={classes.paper}>
