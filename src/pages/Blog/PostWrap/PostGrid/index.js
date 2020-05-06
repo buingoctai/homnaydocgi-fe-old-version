@@ -24,6 +24,11 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     animationName: "$listAmination",
     animationDuration: "4s",
+    transition: "transform 3s",
+
+    "&:hover": {
+      transform: "scale(1.2)"
+    }
   },
   "@keyframes listAmination": {
     "0%": { opacity: 0, width: "20%", height: "20%" },

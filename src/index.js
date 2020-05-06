@@ -1,5 +1,4 @@
 import React from "react";
-import ReactGA from 'react-ga';
 import ReactDOM from "react-dom";
 import { composeWithDevTools } from "redux-devtools-extension/developmentOnly";
 import * as serviceWorker from "./serviceWorker";
@@ -22,7 +21,6 @@ import blogState from "./pages/Blog/Store/state";
 import App from "./pages/App";
 import "./index.css";
 
-ReactGA.initialize('UA-00000-1');
 //const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
   combineReducers({ reducers, blogReducers, adminReducers }),

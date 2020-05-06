@@ -14,6 +14,12 @@ import moment from "moment";
 import { translatePostGroupTitle } from "../../../../utils/utils";
 
 const useStyles = makeStyles({
+  transition: "transform 0.5s",
+  container: {
+    "&:hover": {
+      transform: "scale(1.05)"
+    }
+  },
   card: {
     display: "flex",
   },
@@ -36,7 +42,7 @@ export default function FeaturedPost(props) {
 
   return post.data
     ? post.data.map((post, index) => (
-      <Grid item xs={12} md={6} key={index}>
+      <Grid item xs={12} md={6} key={index} className={classes.container}>
         <span className={classes.topicNameWrap}>
           {post && translatePostGroupTitle(post.Topic)}
         </span>

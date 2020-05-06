@@ -78,24 +78,26 @@ const Blog = (props) => {
   const classes = useStyles({ ...responsiveObj });
   const history = useHistory();
 
-  history.listen((location) => {
-    console.log("Track Page Views");
-    ReactGA.set({ page: location.pathname });
-    ReactGA.pageview(location.pathname);
-  });
+  // history.listen((location) => {
+  //   console.log("Track Page Views");
+  //   ReactGA.set({ page: location.pathname });
+  //   ReactGA.pageview(location.pathname);
+  // });
+  // ReactGA.set({ page: "https://homnaydocgi.herokuapp.com/home" });
+  // ReactGA.pageview("https://homnaydocgi.herokuapp.com/home");
 
-  const callback = (list) => {
-    list.getEntries().forEach((entry) => {
-      ReactGA.timing({
-        category: "Load Performace",
-        variable: "Some metric",
-        value: "Value of Metric",
-      });
-    });
-  };
+  // const callback = (list) => {
+  //   list.getEntries().forEach((entry) => {
+  //     ReactGA.timing({
+  //       category: "Load Performace",
+  //       variable: "Some metric",
+  //       value: "Value of Metric",
+  //     });
+  //   });
+  // };
 
-  var observer = new PerformanceObserver(callback);
-  observer.observe({ entryTypes: ["navigation"] });
+  // var observer = new PerformanceObserver(callback);
+  // observer.observe({ entryTypes: ["navigation"] });
 
   return (
     <React.Fragment>
