@@ -157,8 +157,8 @@ export default compose(
   lifecycle({
     componentDidMount() {
       ReactGA.initialize('UA-165562758-1');
-      ReactGA.set({ page: "https://homnaydocgi.herokuapp.com" });
-      ReactGA.pageview("https://homnaydocgi.herokuapp.com");
+      ReactGA.set({ page: "https://homnaydocgi.herokuapp.com/home/T%C3%8DNH-S%C3%93NG-H%E1%BA%A0T-TRONG-PH%E1%BA%A6N-M%E1%BB%80M" });
+      ReactGA.pageview("https://homnaydocgi.herokuapp.com/home/T%C3%8DNH-S%C3%93NG-H%E1%BA%A0T-TRONG-PH%E1%BA%A6N-M%E1%BB%80M");
       ReactGA.event({
         category: 'Link',
         action: 'Click',
