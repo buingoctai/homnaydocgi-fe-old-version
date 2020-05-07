@@ -2,7 +2,7 @@ import ReactGA from 'react-ga';
 import { connect } from "react-redux";
 import { compose, withHandlers, withState, lifecycle } from "recompose";
 import { getCookie } from "../../utils/utils";
-import { COOKIE_NAMES } from "../../utils/constants";
+import { COOKIE_NAMES, DEFAULT_TOPIC } from "../../utils/constants";
 
 import { asyncAuthencation, asyncGetProfile } from "../../store/actions";
 
@@ -12,6 +12,7 @@ import {
   asyncGetAllPost,
   asyncSuggestSubscribeNotifiByBot,
   asyncGetDetailPost,
+  asyncGetAllTopic,
   saveAllPost,
 } from "./Store/actions";
 
@@ -23,6 +24,7 @@ const mapStateToProps = (state) => {
     featuredPosts: blogReducers.featuredPosts,
     allPost: blogReducers.allPost,
     detailPost: blogReducers.detailPost,
+    allTopic: blogReducers.allTopic,
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -36,22 +38,23 @@ const mapDispatchToProps = (dispatch) => {
       asyncSuggestSubscribeNotifiByBot(payload),
     saveAllPostDispatch: (payload) => dispatch(saveAllPost(payload)),
     getDetailPostDispatch: (payload) => asyncGetDetailPost(payload),
+    getGetAllTopicDispatch: (payload) => asyncGetAllTopic(payload),
   };
 };
 export default compose(
+  withState("userName", "setUserName", ''),
   withState("isLoadingPage", "setIsLoadingPage", false),
   withState("isLoadingSubPage", "setIsLoadingSubPage", false),
   withState("isOpenDetaiContainer", "setIsOpenDetaiContainer", false),
-
   withState("dialogContent", "setDialogContent", {
     visible: false,
     content: "",
   }),
-
   withState("showingPost", "setShowingPost", {}),
   withState("currentPageIndex", "setCurrentPageIndex", 1),
   withState("isShowPaging", "setIsShowPaging", true),
   withState("isStopCallApiGetAllPost", "setIsStopCallApiGetAllPost", false),
+  withState("isOpenChoseTopic", "setIsOpenChoseTopic", true),
   connect(mapStateToProps, mapDispatchToProps),
   withHandlers({
     onHandleNavigateAdminPage: (props) => {
@@ -153,6 +156,22 @@ export default compose(
           setIsShowPaging(true);
         });
     },
+    onGetFeaturedTopic: props => (selectedTopics, name) => {
+      const { getFeaturedPostsDispatch, setUserName } = props;
+      setUserName(name);
+      getFeaturedPostsDispatch({
+        featuredLabels: [
+          ...selectedTopics
+        ],
+      })
+        .then(() => {
+          const savedData = { topic: [...selectedTopics], name: name };
+          localStorage.setItem('userData', JSON.stringify(savedData));
+        })
+        .catch(() => {
+
+        });
+    }
   }),
   lifecycle({
     componentDidMount() {
@@ -170,44 +189,50 @@ export default compose(
         eventLabel: 'label'
       });
       const {
+        allTopic,
         currentPageIndex,
         authencationDispatch,
         getProfileDispatch,
         getMainPostsDispatch,
         getFeaturedPostsDispatch,
         getAllPostDispatch,
+        getGetAllTopicDispatch,
         setDialogContent,
         setIsLoadingPage,
+        setIsOpenChoseTopic,
         saveAllPostDispatch,
         onHandleScrollToBottom,
+        setUserName,
       } = this.props;
       const token = getCookie(COOKIE_NAMES.ACCESS_TOKEN);
 
       // Phát triển trc (giả định)
       setIsLoadingPage(true);
-      getMainPostsDispatch()
-        .then(() => {
-          // setIsLoadingPage(false);
+      getMainPostsDispatch();
+      const userData = JSON.parse(localStorage.getItem('userData'));
+      if (userData) {
+        const { topic, name } = userData;
+        setUserName(name);
+        setIsOpenChoseTopic(false);
+        getFeaturedPostsDispatch({
+          featuredLabels: [
+            ...topic
+          ],
         })
-        .catch(() => {
-          // setIsLoadingPage(false);
-        });
-      getFeaturedPostsDispatch({
-        featuredLabels: [
-          "Back End",
-          "AI/ML/DL Research",
-          "Philosophy",
-          "Psychology",
-          "Administration",
-          "Personal View",
-        ],
-      })
-        .then(() => {
-          // setIsLoadingPage(false);
+      } else {
+        getFeaturedPostsDispatch({
+          featuredLabels: [
+            ...DEFAULT_TOPIC
+          ],
         })
-        .catch(() => {
-          // setIsLoadingPage(false);
-        });
+          .then(() => {
+            getGetAllTopicDispatch();
+          })
+          .catch(() => {
+
+          });
+      }
+
       getAllPostDispatch({
         paging: { pageIndex: currentPageIndex, pageSize: 3 },
         orderList: { orderBy: "SubmitDate", orderType: "DESC" },

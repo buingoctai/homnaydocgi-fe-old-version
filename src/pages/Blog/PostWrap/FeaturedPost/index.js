@@ -43,9 +43,12 @@ export default function FeaturedPost(props) {
   return post.data
     ? post.data.map((post, index) => (
       <Grid item xs={12} md={6} key={index} className={classes.container}>
-        <span className={classes.topicNameWrap}>
-          {post && translatePostGroupTitle(post.Topic)}
-        </span>
+        <a rel="next" href="https://homnaydocgi.herokuapp.com/home/S%E1%BB%B0-S%E1%BB%90-H%C3%93A-V%C3%80-CHUY%E1%BB%82N-%C4%90%E1%BB%94I-S%E1%BB%90" style={{ textDecoration: "none" }}>
+          <span className={classes.topicNameWrap}>
+            {post && translatePostGroupTitle(post.Topic)}
+          </span>
+        </a>
+
 
         <CardActionArea component="a">
           <Card className={classes.card}>
@@ -70,7 +73,7 @@ export default function FeaturedPost(props) {
                   style={{ backgroundColor: "#ffff" }}
                 >
                   Đọc tiếp…
-                  </Button>
+                </Button>
               </CardContent>
             </div>
             <Hidden xsDown>

@@ -4,6 +4,7 @@ import {
   SAVE_FEATURED_POSTS,
   SAVE_ALL_POST,
   SAVE_DETAIL_POST,
+  SAVE_ALL_TOPIC,
 } from "./constants";
 import {
   getMainPostsEffect,
@@ -11,6 +12,7 @@ import {
   getAllPostEffect,
   suggestSubscribeNotifiByBotEffect,
   getDetailPostEffect,
+  getAllTopicEffect,
 } from "./sagas";
 
 const getMainPosts = (payload, resolve, reject) => {
@@ -65,9 +67,25 @@ const getDetailPost = (payload, resolve, reject) => {
     reject
   );
 };
+
 export const asyncGetDetailPost = (payload) => {
   return new Promise((resolve, reject) => {
     getDetailPost(payload, resolve, reject);
+  });
+};
+
+const getAllTopic = (payload, resolve, reject) => {
+  sagaMiddleware.run(
+    getAllTopicEffect,
+    payload,
+    resolve,
+    reject
+  );
+};
+
+export const asyncGetAllTopic = (payload) => {
+  return new Promise((resolve, reject) => {
+    getAllTopic(payload, resolve, reject);
   });
 };
 
@@ -96,6 +114,13 @@ export const saveAllPost = (payload) => {
 export const saveDetailPost = (payload) => {
   return {
     type: SAVE_DETAIL_POST,
+    payload,
+  };
+};
+
+export const saveAllTopic = (payload) => {
+  return {
+    type: SAVE_ALL_TOPIC,
     payload,
   };
 };

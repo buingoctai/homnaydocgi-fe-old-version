@@ -7,6 +7,7 @@ import Container from "@material-ui/core/Container";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
 import DraggableDialog from "../../components/Dialog";
+import TopicOption from "./components/TopicOption";
 import Header from "./Header";
 import MainFeaturedPost from "./PostWrap/MainFeaturedPost";
 import FeaturedPost from "./PostWrap/FeaturedPost";
@@ -55,11 +56,14 @@ const Blog = (props) => {
     is_minWidth_2000px: useMediaQuery("(min-width:2000px)"),
   };
   const {
+    isOpenChoseTopic,
+    setIsOpenChoseTopic,
     isLoadingPage,
     isLoadingSubPage,
     isOpenDetaiContainer,
     isShowPaging,
-    currentUser,
+    allTopic,
+    userName,
     currentPageIndex,
     detailPost,
     showingPost,
@@ -72,6 +76,7 @@ const Blog = (props) => {
     onHandleSubscribeNotifiByBot,
     onHandleSuggestSendArticle,
     onHandleOpenDetailContainer,
+    onGetFeaturedTopic,
   } = props;
   const classes = useStyles({ ...responsiveObj });
 
@@ -82,7 +87,7 @@ const Blog = (props) => {
         <Header
           title="HÔM NAY ĐỌC GÌ?"
           sections={sections}
-          currentUser={currentUser}
+          currentUser={userName}
           onHandleNavigateAdminPage={onHandleNavigateAdminPage}
           onHandleSubscribeNotifiByBot={onHandleSubscribeNotifiByBot}
           onHandleSuggestSendArticle={onHandleSuggestSendArticle}
@@ -96,10 +101,20 @@ const Blog = (props) => {
             />
           </div>
         )}
-        {DraggableDialog({
+        {/* {DraggableDialog({
           ...dialogContent,
           setDialogContent: setDialogContent,
+        })} */}
+
+        {TopicOption({
+          visible: isOpenChoseTopic,
+          setIsOpenChoseTopic: setIsOpenChoseTopic,
+          allTopic: allTopic,
+          onGetFeaturedTopic: onGetFeaturedTopic
         })}
+
+
+
         {!isLoadingPage && (
           <main>
             <div

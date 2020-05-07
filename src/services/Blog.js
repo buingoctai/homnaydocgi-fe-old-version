@@ -28,3 +28,9 @@ export const getDetailPost = (param) => {
   });
 };
 
+export const getAllTopic = (param) => {
+  return request(`${process.env.REACT_APP_API}/blog/getAllTopic`, {
+    method: "POST",
+    data: { ...param },
+  });
+};

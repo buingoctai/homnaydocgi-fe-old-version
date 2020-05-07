@@ -1,14 +1,15 @@
 import { call, put } from "redux-saga/effects";
 
-import { sendMsgViaBot } from "../../../services/Common";
+import { sendMsgViaBot, } from "../../../services/Common";
 import {
   getMainPosts,
   getFeaturedPosts,
   getAllPost,
   getDetailPost,
+  getAllTopic,
 } from "../../../services/Blog";
 
-import { saveMainPosts, saveFeaturedPosts, saveDetailPost } from "./actions";
+import { saveMainPosts, saveFeaturedPosts, saveDetailPost, saveAllTopic } from "./actions";
 
 function* getMainPostsEffect(payload, resolve, reject) {
   const response = yield call(getMainPosts, payload);
@@ -52,7 +53,6 @@ function* suggestSubscribeNotifiByBotEffect(payload, resolve, reject) {
   }
 }
 
-
 function* getDetailPostEffect(payload, resolve, reject) {
   const response = yield call(getDetailPost, payload);
   yield put(saveDetailPost({ ...response }));
@@ -63,10 +63,23 @@ function* getDetailPostEffect(payload, resolve, reject) {
     reject("Error calling api");
   }
 }
+
+function* getAllTopicEffect(payload, resolve, reject) {
+  const response = yield call(getAllTopic, payload);
+  yield put(saveAllTopic([...response]));
+
+  if (response) {
+    resolve(response);
+  } else {
+    reject("Error calling api");
+  }
+}
+
 export {
   getMainPostsEffect,
   getFeaturedPostsEffect,
   getAllPostEffect,
   suggestSubscribeNotifiByBotEffect,
-  getDetailPostEffect
+  getDetailPostEffect,
+  getAllTopicEffect
 };

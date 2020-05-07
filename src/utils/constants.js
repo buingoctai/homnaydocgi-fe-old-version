@@ -95,6 +95,8 @@ const FACEBOOK_DEV = {
   ADMIN_MESSENGER_ID: "3119991678020925",
 };
 
+const DEFAULT_TOPIC = ["Back End", "AI/ML/DL Research", "Psychology", "Personal View"];
+
 export {
   authorBrielf,
   skillGroup,
@@ -105,4 +107,5 @@ export {
   TOPIC_TRANSLATE_CONTENT,
   DIALOG_CODE,
   FACEBOOK_DEV,
+  DEFAULT_TOPIC
 };
