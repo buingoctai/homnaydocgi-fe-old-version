@@ -14,6 +14,9 @@ export const getCookie = (cookieName) => {
 };
 
 export const translatePostGroupTitle = (param) => {
+  if (!param) {
+    return;
+  }
   const [topicLanguage] = TOPIC_TRANSLATE_CONTENT.filter(
     (item) => item.eng === param
   );

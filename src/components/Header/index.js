@@ -9,7 +9,6 @@ import SearchIcon from "@material-ui/icons/Search";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import Chip from "@material-ui/core/Chip";
-import DrawerMenu from "../DrawerMenu";
 
 const useStyles = makeStyles((theme, is_maxWidth_1000px) => ({
   headerContainer: {
@@ -55,8 +54,8 @@ const useStyles = makeStyles((theme, is_maxWidth_1000px) => ({
     fontSize: (props) => (props.is_maxWidth_1000px ? "10px" : "15px"),
     transition: "transform 0.5s",
     "&:hover": {
-      transform: "scale(1.1)"
-    }
+      transform: "scale(1.1)",
+    },
   },
   suggestSupplyArticleBtnWrap: {
     color: "#ffff",
@@ -64,8 +63,8 @@ const useStyles = makeStyles((theme, is_maxWidth_1000px) => ({
     fontSize: (props) => (props.is_maxWidth_1000px ? "10px" : "15px"),
     transition: "transform 0.5s",
     "&:hover": {
-      transform: "scale(1.1)"
-    }
+      transform: "scale(1.1)",
+    },
   },
 }));
 
@@ -90,7 +89,7 @@ const Header = (props) => {
   return (
     <React.Fragment>
       <Toolbar className={classes.headerContainer}>
-        <DrawerMenu />
+        {/* <DrawerMenu /> */}
         {(!showAppName || !is_maxWidth_1000px) && (
           <Button onClick={onHandleNavigateAdminPage}>
             <Chip

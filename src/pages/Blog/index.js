@@ -8,13 +8,13 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 
 import DraggableDialog from "../../components/Dialog";
 import TopicOption from "./components/TopicOption";
-import Header from "./Header";
+import Header from "../../components/Header";
 import MainFeaturedPost from "./PostWrap/MainFeaturedPost";
 import FeaturedPost from "./PostWrap/FeaturedPost";
 import DetailPost from "./PostWrap/DetailPost";
-import Main from "./Main";
-import Footer from "./Footer";
-import PostGrid from "./PostWrap/PostGrid";
+import Main from "../../components/Main";
+import Footer from "../../components/Footer";
+import PostGrid from "../../components/PostGrid";
 import enhance from "./enhance";
 
 const useStyles = makeStyles((theme) => ({
@@ -43,11 +43,6 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
   },
 }));
-
-const sections = [
-  { title: "CHUYÊN MÔN", url: "chuyen-mon-list" },
-  { title: "NGOÀI CHUYÊN MÔN", url: "ngoai-chuyen-mon-list" },
-];
 
 const Blog = (props) => {
   const responsiveObj = {
@@ -86,7 +81,6 @@ const Blog = (props) => {
       <Container className={classes.container}>
         <Header
           title="HÔM NAY ĐỌC GÌ?"
-          sections={sections}
           currentUser={userName}
           onHandleNavigateAdminPage={onHandleNavigateAdminPage}
           onHandleSubscribeNotifiByBot={onHandleSubscribeNotifiByBot}
@@ -110,10 +104,8 @@ const Blog = (props) => {
           visible: isOpenChoseTopic,
           setIsOpenChoseTopic: setIsOpenChoseTopic,
           allTopic: allTopic,
-          onGetFeaturedTopic: onGetFeaturedTopic
+          onGetFeaturedTopic: onGetFeaturedTopic,
         })}
-
-
 
         {!isLoadingPage && (
           <main>

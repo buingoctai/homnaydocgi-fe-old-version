@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -17,8 +18,8 @@ const useStyles = makeStyles({
   transition: "transform 0.5s",
   container: {
     "&:hover": {
-      transform: "scale(1.05)"
-    }
+      transform: "scale(1.05)",
+    },
   },
   card: {
     display: "flex",
@@ -42,51 +43,53 @@ export default function FeaturedPost(props) {
 
   return post.data
     ? post.data.map((post, index) => (
-      <Grid item xs={12} md={6} key={index} className={classes.container}>
-        <a rel="next" href="https://homnaydocgi.herokuapp.com/home/S%E1%BB%B0-S%E1%BB%90-H%C3%93A-V%C3%80-CHUY%E1%BB%82N-%C4%90%E1%BB%94I-S%E1%BB%90" style={{ textDecoration: "none" }}>
-          <span className={classes.topicNameWrap}>
-            {post && translatePostGroupTitle(post.Topic)}
-          </span>
-        </a>
+        <Grid item xs={12} md={6} key={index} className={classes.container}>
+          <Link
+            to={{ pathname: "/home/topic", topic: post.Topic }}
+            style={{ textDecoration: "none" }}
+          >
+            <span className={classes.topicNameWrap}>
+              {translatePostGroupTitle(post.Topic)}
+            </span>
+          </Link>
 
-
-        <CardActionArea component="a">
-          <Card className={classes.card}>
-            <div className={classes.cardDetails}>
-              <CardContent>
-                <Typography
-                  component="h2"
-                  variant="h6"
-                  style={{ fontSize: "15px" }}
-                >
-                  {post && `${post.Title.substring(0, 30)}...`}
-                </Typography>
-                <Typography variant="subtitle2" color="textSecondary">
-                  {post && moment(post.SubmitDate).format("DD-MM-YYYY")}
-                </Typography>
-                <Typography variant="subtitle2" paragraph>
-                  {post && `${post.Brief}...`}
-                </Typography>
-                <Button
-                  variant="contained"
-                  onClick={() => onHandleOpenDetailContainer(post.Id)}
-                  style={{ backgroundColor: "#ffff" }}
-                >
-                  Đọc tiếp…
-                </Button>
-              </CardContent>
-            </div>
-            <Hidden xsDown>
-              <CardMedia
-                className={classes.cardMedia}
-                image={post.ImageUrl}
-                title={post.imageTitle}
-              />
-            </Hidden>
-          </Card>
-        </CardActionArea>
-      </Grid>
-    ))
+          <CardActionArea component="a">
+            <Card className={classes.card}>
+              <div className={classes.cardDetails}>
+                <CardContent>
+                  <Typography
+                    component="h2"
+                    variant="h6"
+                    style={{ fontSize: "15px" }}
+                  >
+                    {post && `${post.Title.substring(0, 30)}...`}
+                  </Typography>
+                  <Typography variant="subtitle2" color="textSecondary">
+                    {post && moment(post.SubmitDate).format("DD-MM-YYYY")}
+                  </Typography>
+                  <Typography variant="subtitle2" paragraph>
+                    {post && `${post.Brief}...`}
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    onClick={() => onHandleOpenDetailContainer(post.Id)}
+                    style={{ backgroundColor: "#ffff" }}
+                  >
+                    Đọc tiếp…
+                  </Button>
+                </CardContent>
+              </div>
+              <Hidden xsDown>
+                <CardMedia
+                  className={classes.cardMedia}
+                  image={post.ImageUrl}
+                  title={post.imageTitle}
+                />
+              </Hidden>
+            </Card>
+          </CardActionArea>
+        </Grid>
+      ))
     : null;
 }
 

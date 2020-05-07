@@ -1,4 +1,4 @@
-import ReactGA from 'react-ga';
+import ReactGA from "react-ga";
 import { connect } from "react-redux";
 import { compose, withHandlers, withState, lifecycle } from "recompose";
 import { getCookie } from "../../utils/utils";
@@ -42,7 +42,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 export default compose(
-  withState("userName", "setUserName", ''),
+  withState("userName", "setUserName", ""),
   withState("isLoadingPage", "setIsLoadingPage", false),
   withState("isLoadingSubPage", "setIsLoadingSubPage", false),
   withState("isOpenDetaiContainer", "setIsOpenDetaiContainer", false),
@@ -73,7 +73,7 @@ export default compose(
         .then(({ message }) => {
           alert(message);
         })
-        .catch(() => { });
+        .catch(() => {});
     },
     onHandleSuggestSendArticle: (props) => {
       const { setDialogContent } = props;
@@ -95,14 +95,15 @@ export default compose(
       if (isOpenDetaiContainer) {
         refresh = refresh + "/home";
         setIsOpenDetaiContainer(!isOpenDetaiContainer);
-        window.history.pushState({ path: refresh }, '', refresh);
-      }
-      else {
-        const mergedPosts = featuredPosts.data.concat(allPost.data).concat([mainPosts]);
-        const [detailPost] = mergedPosts.filter(item => item.Id === postId);
-        const find = ' ';
-        const re = new RegExp(find, 'g');
-        const titleUrl = detailPost.Title.replace(re, '-');
+        window.history.pushState({ path: refresh }, "", refresh);
+      } else {
+        const mergedPosts = featuredPosts.data
+          .concat(allPost.data)
+          .concat([mainPosts]);
+        const [detailPost] = mergedPosts.filter((item) => item.Id === postId);
+        const find = " ";
+        const re = new RegExp(find, "g");
+        const titleUrl = detailPost.Title.replace(re, "-");
         refresh = refresh + `/home/${titleUrl}`;
 
         setIsLoadingSubPage(true);
@@ -113,7 +114,7 @@ export default compose(
           .catch(() => {
             setIsLoadingSubPage(false);
           });
-        window.history.pushState({ path: refresh }, '', refresh);
+        window.history.pushState({ path: refresh }, "", refresh);
         setShowingPost(detailPost);
         setIsOpenDetaiContainer(!isOpenDetaiContainer);
       }
@@ -156,37 +157,38 @@ export default compose(
           setIsShowPaging(true);
         });
     },
-    onGetFeaturedTopic: props => (selectedTopics, name) => {
+    onGetFeaturedTopic: (props) => (selectedTopics, name) => {
       const { getFeaturedPostsDispatch, setUserName } = props;
       setUserName(name);
       getFeaturedPostsDispatch({
-        featuredLabels: [
-          ...selectedTopics
-        ],
+        featuredLabels: [...selectedTopics],
       })
         .then(() => {
           const savedData = { topic: [...selectedTopics], name: name };
-          localStorage.setItem('userData', JSON.stringify(savedData));
+          localStorage.setItem("userData", JSON.stringify(savedData));
         })
-        .catch(() => {
-
-        });
-    }
+        .catch(() => {});
+    },
   }),
   lifecycle({
     componentDidMount() {
-      ReactGA.initialize('UA-165562758-1');
-      ReactGA.set({ page: "https://homnaydocgi.herokuapp.com/home/T%C3%8DNH-S%C3%93NG-H%E1%BA%A0T-TRONG-PH%E1%BA%A6N-M%E1%BB%80M" });
-      ReactGA.pageview("https://homnaydocgi.herokuapp.com/home/T%C3%8DNH-S%C3%93NG-H%E1%BA%A0T-TRONG-PH%E1%BA%A6N-M%E1%BB%80M");
+      ReactGA.initialize("UA-165562758-1");
+      ReactGA.set({
+        page:
+          "https://homnaydocgi.herokuapp.com/home/T%C3%8DNH-S%C3%93NG-H%E1%BA%A0T-TRONG-PH%E1%BA%A6N-M%E1%BB%80M",
+      });
+      ReactGA.pageview(
+        "https://homnaydocgi.herokuapp.com/home/T%C3%8DNH-S%C3%93NG-H%E1%BA%A0T-TRONG-PH%E1%BA%A6N-M%E1%BB%80M"
+      );
       ReactGA.event({
-        category: 'Link',
-        action: 'Click',
+        category: "Link",
+        action: "Click",
       });
       ReactGA.send({
-        hitType: 'event',
-        eventCategory: 'category',
-        eventAction: 'action',
-        eventLabel: 'label'
+        hitType: "event",
+        eventCategory: "category",
+        eventAction: "action",
+        eventLabel: "label",
       });
       const {
         allTopic,
@@ -209,28 +211,22 @@ export default compose(
       // Phát triển trc (giả định)
       setIsLoadingPage(true);
       getMainPostsDispatch();
-      const userData = JSON.parse(localStorage.getItem('userData'));
+      const userData = JSON.parse(localStorage.getItem("userData"));
       if (userData) {
         const { topic, name } = userData;
         setUserName(name);
         setIsOpenChoseTopic(false);
         getFeaturedPostsDispatch({
-          featuredLabels: [
-            ...topic
-          ],
-        })
+          featuredLabels: [...topic],
+        });
       } else {
         getFeaturedPostsDispatch({
-          featuredLabels: [
-            ...DEFAULT_TOPIC
-          ],
+          featuredLabels: [...DEFAULT_TOPIC],
         })
           .then(() => {
             getGetAllTopicDispatch();
           })
-          .catch(() => {
-
-          });
+          .catch(() => {});
       }
 
       getAllPostDispatch({
@@ -304,9 +300,9 @@ export default compose(
       //----------------------------------------------------
     },
     componentWillUnmount() {
-      window.removeEventListener("scroll", () => {
-        //
-      });
+      // you need to unbind the same listener that was binded.
+      console.log("event unmount");
+      window.removeEventListener("scroll", this.onScroll, false);
     },
   })
 );

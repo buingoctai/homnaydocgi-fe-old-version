@@ -4,6 +4,7 @@ import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 
 import Introduction from "../Introduction";
 import Blog from "../Blog";
+import Topic from "../Topic";
 import Admin from "../Admin";
 import Exception from "../Exception";
 
@@ -16,7 +17,8 @@ const App = (props) => {
       <Router>
         <Switch>
           <Route exact path="/" component={Introduction} />
-          <Route path="/home" component={Blog} />
+          <Route exact path="/home" component={Blog} />
+          <Route path="/home/topic" component={Topic} />
           <Route path="/admin" component={Admin} />
           <Route path="/exception" component={Exception} />
         </Switch>
