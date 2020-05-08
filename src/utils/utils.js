@@ -1,4 +1,4 @@
-import { TOPIC_TRANSLATE_CONTENT } from "./constants";
+import { TOPIC_TRANSLATE_CONTENT, URL } from "./constants";
 
 export const setCookie = (cookieName, cookieValue, expiresHour) => {
   const d = new Date();
@@ -14,12 +14,20 @@ export const getCookie = (cookieName) => {
 };
 
 export const translatePostGroupTitle = (param) => {
-  if (!param) {
-    return;
-  }
+  if (!param) return;
+
   const [topicLanguage] = TOPIC_TRANSLATE_CONTENT.filter(
     (item) => item.eng === param
   );
   const { vn } = topicLanguage;
   return vn;
 };
+
+export const translateUrl = (param) => {
+  if (!param) return;
+  const [url] = URL.filter(
+    (item) => item.subMenu === param
+  );
+  const { uRL } = url;
+  return uRL;
+}

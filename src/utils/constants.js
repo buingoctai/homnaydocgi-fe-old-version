@@ -97,6 +97,21 @@ const FACEBOOK_DEV = {
 
 const DEFAULT_TOPIC = ["Back End", "AI/ML/DL Research", "Psychology", "Personal View"];
 
+const URL = [
+  {
+    subMenu: "Trang Chủ",
+    uRL: "/home"
+  },
+  {
+    subMenu: "Dữ liệu Crawl",
+    uRL: "/home/crawler"
+  },
+  {
+    subMenu: "Bots",
+    uRL: "/home/bots"
+  }
+];
+
 export {
   authorBrielf,
   skillGroup,
@@ -107,5 +122,6 @@ export {
   TOPIC_TRANSLATE_CONTENT,
   DIALOG_CODE,
   FACEBOOK_DEV,
-  DEFAULT_TOPIC
+  DEFAULT_TOPIC,
+  URL,
 };

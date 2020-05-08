@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -8,12 +9,9 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import MenuIcon from "@material-ui/icons/Menu";
 import ComputerIcon from "@material-ui/icons/Computer";
-import EmojiPeopleIcon from "@material-ui/icons/EmojiPeople";
-import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircle";
 import FaceIcon from "@material-ui/icons/Face";
-import RedditIcon from '@material-ui/icons/Reddit';
-import NaturePeopleIcon from '@material-ui/icons/NaturePeople';
-
+import TocIcon from '@material-ui/icons/Toc';
+import { translateUrl } from "../../utils/utils";
 const useStyles = makeStyles({
   list: {
     width: 250,
@@ -39,18 +37,12 @@ export default function DrawerMenu() {
   };
   const determineIcon = (text) => {
     switch (text) {
-      case "Lập Trình Back End":
+      case "Trang Chủ":
         return <ComputerIcon />;
-      case "Quản Trị":
-        return <EmojiPeopleIcon />;
-      case "Tâm Lý Học":
-        return <SupervisedUserCircleIcon />;
-      case "Quan Điểm Cá Nhân":
+      case "Dữ liệu Crawl":
+        return <TocIcon />;
+      case "Bots":
         return <FaceIcon />;
-      case "Triết Học":
-        return <NaturePeopleIcon />;
-      case "Nguyên Cứu AI/ML/DL":
-        return <RedditIcon />;
       default:
         return null;
     }
@@ -67,16 +59,15 @@ export default function DrawerMenu() {
     >
       <List>
         {[
-          "Lập Trình Back End",
-          "Nguyên Cứu AI/ML/DL",
-          "Triết Học",
-          "Tâm Lý Học",
-          "Quản Trị",
-          "Quan Điểm Cá Nhân",
+          "Trang Chủ",
+          "Dữ liệu Crawl",
+          "Bots"
         ].map((text, index) => (
           <ListItem button key={text}>
-            <ListItemIcon>{determineIcon(text)}</ListItemIcon>
-            <ListItemText primary={text} />
+            <ListItemIcon >{determineIcon(text)}</ListItemIcon>
+            <Link to={{ pathname: translateUrl(text) }} style={{ textDecoration: "none" }}>
+              <ListItemText primary={text} />
+            </Link>
           </ListItem>
         ))}
       </List>

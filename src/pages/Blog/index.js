@@ -95,10 +95,10 @@ const Blog = (props) => {
             />
           </div>
         )}
-        {/* {DraggableDialog({
+        {DraggableDialog({
           ...dialogContent,
           setDialogContent: setDialogContent,
-        })} */}
+        })}
 
         {TopicOption({
           visible: isOpenChoseTopic,

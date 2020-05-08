@@ -57,12 +57,6 @@ export default compose(
   withState("isOpenChoseTopic", "setIsOpenChoseTopic", true),
   connect(mapStateToProps, mapDispatchToProps),
   withHandlers({
-    onHandleNavigateAdminPage: (props) => {
-      const { currentUser, setDialogContent } = props;
-      if (!currentUser.localeCompare("tai admin")) {
-        setDialogContent({ visible: true, content: "MSG2" });
-      }
-    },
     onHandleSubscribeNotifiByBot: (props) => {
       const { suggestSubscribeNotifiByBotDispatch, setDialogContent } = props;
       setDialogContent({ visible: true, content: "MSG3" });
@@ -73,7 +67,7 @@ export default compose(
         .then(({ message }) => {
           alert(message);
         })
-        .catch(() => {});
+        .catch(() => { });
     },
     onHandleSuggestSendArticle: (props) => {
       const { setDialogContent } = props;
@@ -167,7 +161,7 @@ export default compose(
           const savedData = { topic: [...selectedTopics], name: name };
           localStorage.setItem("userData", JSON.stringify(savedData));
         })
-        .catch(() => {});
+        .catch(() => { });
     },
   }),
   lifecycle({
@@ -226,7 +220,7 @@ export default compose(
           .then(() => {
             getGetAllTopicDispatch();
           })
-          .catch(() => {});
+          .catch(() => { });
       }
 
       getAllPostDispatch({

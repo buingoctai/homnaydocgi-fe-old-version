@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from 'react-router-dom';
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
@@ -9,8 +10,11 @@ import SearchIcon from "@material-ui/icons/Search";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import Chip from "@material-ui/core/Chip";
+import Tooltip from '@material-ui/core/Tooltip';
+import FaceIcon from '@material-ui/icons/Face';
+import DrawerMenu from "../../components/DrawerMenu";
 
-const useStyles = makeStyles((theme, is_maxWidth_1000px) => ({
+const useStyles = makeStyles((theme) => ({
   headerContainer: {
     borderBottom: `1px solid ${theme.palette.divider}`,
     backgroundColor: "#808182",
@@ -69,17 +73,24 @@ const useStyles = makeStyles((theme, is_maxWidth_1000px) => ({
 }));
 
 const Header = (props) => {
+  const history = useHistory();
   const is_maxWidth_1000px = useMediaQuery("(max-width:1000px)");
   const classes = useStyles({ ...props, is_maxWidth_1000px });
   const [showAppName, setShowAppName] = useState(true);
 
   const {
-    onHandleNavigateAdminPage,
     onHandleSubscribeNotifiByBot,
     onHandleSuggestSendArticle,
     title,
     currentUser,
   } = props;
+
+  const handleDeleteUser = () => {
+    console.info('You clicked the delete icon.');
+    localStorage.removeItem("userData");
+    history.push('/home');
+    window.location.reload();
+  };
 
   useEffect(() => {
     setTimeout(() => {
@@ -89,21 +100,15 @@ const Header = (props) => {
   return (
     <React.Fragment>
       <Toolbar className={classes.headerContainer}>
-        {/* <DrawerMenu /> */}
+        <DrawerMenu />
         {(!showAppName || !is_maxWidth_1000px) && (
-          <Button onClick={onHandleNavigateAdminPage}>
-            <Chip
-              avatar={
-                <Avatar>
-                  {currentUser ? currentUser.charAt(0).toUpperCase() : "U"}
-                </Avatar>
-              }
-              label={currentUser || "User"}
-              className={classes.userBtnWrap}
-            />
-          </Button>
+          <Chip
+            icon={<FaceIcon />}
+            label={currentUser || "Vô danh"}
+            className={classes.userBtnWrap}
+            onDelete={handleDeleteUser}
+          />
         )}
-
         {(showAppName || !is_maxWidth_1000px) && (
           <Typography
             variant="h5"
