@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
@@ -9,7 +9,7 @@ import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
 import Typography from "@material-ui/core/Typography";
 import Chip from "@material-ui/core/Chip";
-import FaceIcon from '@material-ui/icons/Face';
+import FaceIcon from "@material-ui/icons/Face";
 import DrawerMenu from "../../components/DrawerMenu";
 
 const useStyles = makeStyles((theme) => ({
@@ -75,8 +75,7 @@ const Header = (props) => {
   const is_maxWidth_1000px = useMediaQuery("(max-width:1000px)");
   const classes = useStyles({ ...props, is_maxWidth_1000px });
   const [showAppName, setShowAppName] = useState(true);
-  const [searchTxt, setSearchTxt] = useState('');
-
+  const [searchTxt, setSearchTxt] = useState("");
 
   const {
     onHandleSubscribeNotifiByBot,
@@ -84,24 +83,35 @@ const Header = (props) => {
     onSearchArticle,
     title,
     currentUser,
+    searchTxtOnHomePage,
   } = props;
 
   const handleDeleteUser = () => {
-    console.info('You clicked the delete icon.');
     localStorage.removeItem("userData");
-    history.push('/home');
+    history.push("/home");
     window.location.reload();
   };
   const onChangeSearchTxt = (txt) => {
     setSearchTxt(txt);
-    onSearchArticle(txt);
-  }
 
+    if (window.location.pathname === "/home") {
+      history.push({
+        pathname: "/home/topic",
+        topic: txt,
+        searchTxt: txt,
+      });
+    } else {
+      onSearchArticle(txt);
+    }
+  };
   useEffect(() => {
     setTimeout(() => {
       setShowAppName(false);
     }, 3000);
   });
+  useEffect(() => {
+    setSearchTxt(searchTxtOnHomePage);
+  }, []);
   return (
     <React.Fragment>
       <Toolbar className={classes.headerContainer}>
@@ -135,6 +145,7 @@ const Header = (props) => {
               size="small"
               value={searchTxt}
               onChange={(node) => onChangeSearchTxt(node.target.value)}
+              autoFocus
             />
             <SearchIcon />
           </IconButton>
@@ -166,6 +177,9 @@ const Header = (props) => {
             className={classes.searchPlaceholder}
             fullWidth={true}
             size="small"
+            value={searchTxt}
+            onChange={(node) => onChangeSearchTxt(node.target.value)}
+            autoFocus
           />
           <SearchIcon />
         </IconButton>

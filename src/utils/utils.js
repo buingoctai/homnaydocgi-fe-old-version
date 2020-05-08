@@ -19,15 +19,14 @@ export const translatePostGroupTitle = (param) => {
   const [topicLanguage] = TOPIC_TRANSLATE_CONTENT.filter(
     (item) => item.eng === param
   );
+  if (!topicLanguage) return param;
   const { vn } = topicLanguage;
   return vn;
 };
 
 export const translateUrl = (param) => {
   if (!param) return;
-  const [url] = URL.filter(
-    (item) => item.subMenu === param
-  );
+  const [url] = URL.filter((item) => item.subMenu === param);
   const { uRL } = url;
   return uRL;
-}
+};

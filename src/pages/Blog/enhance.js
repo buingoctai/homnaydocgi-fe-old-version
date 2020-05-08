@@ -67,7 +67,7 @@ export default compose(
         .then(({ message }) => {
           alert(message);
         })
-        .catch(() => { });
+        .catch(() => {});
     },
     onHandleSuggestSendArticle: (props) => {
       const { setDialogContent } = props;
@@ -161,11 +161,35 @@ export default compose(
           const savedData = { topic: [...selectedTopics], name: name };
           localStorage.setItem("userData", JSON.stringify(savedData));
         })
-        .catch(() => { });
+        .catch(() => {});
+    },
+  }),
+  withHandlers({
+    onScroll: (props) => {
+      const { onHandleScrollToBottom } = props;
+      // Khoảng cách từ đỉnh scroll bar đến đỉnh của browser
+      const scrollTop = document.documentElement.scrollTop;
+      // Toàn bộ height của 1 element(đó là toàn bộ quảng đường scroll)
+      const realHeight = document.documentElement.offsetHeight;
+      // Height khi scroll (scrollTop thay đổi liên tục)
+      const heightOnSroll = scrollTop + window.innerHeight;
+
+      if (heightOnSroll >= realHeight - 100 && scrollTop) {
+        onHandleScrollToBottom();
+      }
+    },
+  }),
+  withHandlers({
+    onExitApp: (props) => (e) => {
+      console.log("on scroll, e=", e);
+      e.preventDefault("buin goc");
+      e.returnValue = "Vui long cho chung toi feedback";
     },
   }),
   lifecycle({
     componentDidMount() {
+      window.addEventListener("scroll", this.props.onScroll);
+      window.addEventListener("beforeunload", (e) => this.props.onExitApp(e));
       ReactGA.initialize("UA-165562758-1");
       ReactGA.set({
         page:
@@ -196,7 +220,6 @@ export default compose(
         setIsLoadingPage,
         setIsOpenChoseTopic,
         saveAllPostDispatch,
-        onHandleScrollToBottom,
         setUserName,
       } = this.props;
       const token = getCookie(COOKIE_NAMES.ACCESS_TOKEN);
@@ -219,7 +242,7 @@ export default compose(
           .then(() => {
             getGetAllTopicDispatch();
           })
-          .catch(() => { });
+          .catch(() => {});
       }
 
       getAllPostDispatch({
@@ -233,19 +256,6 @@ export default compose(
         .catch(() => {
           setIsLoadingPage(false);
         });
-
-      window.addEventListener("scroll", async (e) => {
-        // Khoảng cách từ đỉnh scroll bar đến đỉnh của browser
-        const scrollTop = document.documentElement.scrollTop;
-        // Toàn bộ height của 1 element(đó là toàn bộ quảng đường scroll)
-        const realHeight = document.documentElement.offsetHeight;
-        // Height khi scroll (scrollTop thay đổi liên tục)
-        const heightOnSroll = scrollTop + window.innerHeight;
-
-        if (heightOnSroll >= realHeight - 100 && scrollTop) {
-          onHandleScrollToBottom();
-        }
-      });
 
       // Phát triển sau
       if (token) {
@@ -293,9 +303,7 @@ export default compose(
       //----------------------------------------------------
     },
     componentWillUnmount() {
-      // you need to unbind the same listener that was binded.
-      console.log("event unmount");
-      window.removeEventListener("scroll", this.onScroll, false);
+      window.removeEventListener("scroll", this.props.onScroll);
     },
   })
 );

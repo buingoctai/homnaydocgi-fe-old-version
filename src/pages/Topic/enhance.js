@@ -1,8 +1,8 @@
 import { connect } from "react-redux";
 import { compose, withHandlers, withState, lifecycle } from "recompose";
 
-import { asyncGetDetailPost } from "../../pages/Blog/Store/actions"
-import { asyncGetAllPost } from "./Store/actions";
+import { asyncGetDetailPost } from "../../pages/Blog/Store/actions";
+import { asyncGetAllPost, asyncSearchArticles } from "./Store/actions";
 
 const mapStateToProps = (state) => {
   const { topicReducers, blogReducers } = state;
@@ -15,10 +15,12 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getAllPostDispatch: (payload) => asyncGetAllPost(payload),
     getDetailPostDispatch: (payload) => asyncGetDetailPost(payload),
+    searchArticlesDispatch: (payload) => asyncSearchArticles(payload),
   };
 };
 export default compose(
   withState("userName", "setUserName", ""),
+  withState("searchingTxt", "setSearchingTxt", ""),
   withState("isShowPaging", "setIsShowPaging", true),
   withState("isLoadingSubPage", "setIsLoadingSubPage", false),
   withState("isOpenDetaiContainer", "setIsOpenDetaiContainer", false),
@@ -61,19 +63,38 @@ export default compose(
         setIsOpenDetaiContainer(!isOpenDetaiContainer);
       }
     },
+    onSearchArticle: (props) => (searchTxt) => {
+      const { searchArticlesDispatch, setSearchingTxt } = props;
+      setSearchingTxt(searchTxt);
+      searchArticlesDispatch({
+        searchTxt,
+      });
+    },
   }),
   lifecycle({
     componentDidMount() {
+      window.removeEventListener("scroll", this.onScroll, false);
+
       if (!this.props.location.topic) {
         window.location.href = `${process.env.REACT_APP_URL}/home`;
       }
+
       const userData = JSON.parse(localStorage.getItem("userData"));
       if (userData) {
         const { name } = userData;
         this.props.setUserName(name);
       }
-      const topic = this.props.location.topic;
-      this.props.getAllPostDispatch({ topicName: topic });
+      if (this.props.location.searchTxt) {
+      } else {
+      }
+      if (this.props.location.searchTxt) {
+        this.props.setSearchingTxt(this.props.location.searchTxt);
+        this.props.searchArticlesDispatch({
+          searchTxt: this.props.location.searchTxt,
+        });
+      } else {
+        this.props.getAllPostDispatch({ topicName: this.props.location.topic });
+      }
     },
   })
 );

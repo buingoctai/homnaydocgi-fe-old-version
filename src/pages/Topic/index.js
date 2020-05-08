@@ -22,16 +22,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Topic = (props) => {
-  const { topic } = props.location;
+  console.log("props=", props);
+  const { topic, searchTxt } = props.location;
   const {
     userName,
+    searchingTxt,
     allPost,
     isShowPaging,
     detailPost,
     isOpenDetaiContainer,
     showingPost,
     isLoadingSubPage,
-    onHandleOpenDetailContainer
+    onHandleOpenDetailContainer,
+    onSearchArticle,
   } = props;
   const responsiveObj = {
     is_maxWidth_500px: useMediaQuery("(max-width:500px)"),
@@ -44,9 +47,22 @@ const Topic = (props) => {
     <React.Fragment>
       <CssBaseline />
       <Container className={classes.container}>
-        <Header title="HÔM NAY ĐỌC GÌ?" currentUser={userName} />
+        <Header
+          title="HÔM NAY ĐỌC GÌ?"
+          currentUser={userName}
+          searchTxtOnHomePage={searchTxt}
+          onSearchArticle={onSearchArticle}
+        />
         <div style={{ marginTop: "70px" }} />
-        <Main title={`Tất cả bài viết ${translatePostGroupTitle(topic)}`} />
+        <Main
+          title={
+            searchingTxt
+              ? `Tất cả bài viết chứa ký tự '${translatePostGroupTitle(
+                  searchingTxt
+                )}'`
+              : `Tất cả bài viết ${translatePostGroupTitle(topic)}`
+          }
+        />
         <PostGrid
           posts={allPost.data}
           responsiveObj={responsiveObj}

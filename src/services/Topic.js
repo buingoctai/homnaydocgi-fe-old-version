@@ -6,3 +6,10 @@ export const getAllPost = (param) => {
     data: { ...param },
   });
 };
+
+export const searchArticles = (param) => {
+  return request(`${process.env.REACT_APP_API}/blog/searchArticles`, {
+    method: "POST",
+    data: { ...param },
+  });
+};
