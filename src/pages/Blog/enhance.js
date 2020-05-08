@@ -185,7 +185,6 @@ export default compose(
         eventLabel: "label",
       });
       const {
-        allTopic,
         currentPageIndex,
         authencationDispatch,
         getProfileDispatch,

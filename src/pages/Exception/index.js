@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import axios from "axios";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Alert, AlertTitle } from "@material-ui/lab";
 
@@ -46,7 +45,7 @@ const Exception = (props) => {
       <Alert severity="error">
         <AlertTitle>{`${codeMessage[1]} ${
           codeContent[codeMessage[1]]
-        }`}</AlertTitle>
+          }`}</AlertTitle>
         Lỗi server —{" "}
         <strong>Hệ thống đã tự động liên hệ Bùi Ngọc Tài admin</strong>
       </Alert>

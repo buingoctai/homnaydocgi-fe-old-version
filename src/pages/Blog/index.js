@@ -11,7 +11,7 @@ import TopicOption from "./components/TopicOption";
 import Header from "../../components/Header";
 import MainFeaturedPost from "./PostWrap/MainFeaturedPost";
 import FeaturedPost from "./PostWrap/FeaturedPost";
-import DetailPost from "./PostWrap/DetailPost";
+import DetailPost from "../../components/DetailPost";
 import Main from "../../components/Main";
 import Footer from "../../components/Footer";
 import PostGrid from "../../components/PostGrid";
@@ -72,6 +72,7 @@ const Blog = (props) => {
     onHandleSuggestSendArticle,
     onHandleOpenDetailContainer,
     onGetFeaturedTopic,
+    onSearchArticle,
   } = props;
   const classes = useStyles({ ...responsiveObj });
 
@@ -85,6 +86,7 @@ const Blog = (props) => {
           onHandleNavigateAdminPage={onHandleNavigateAdminPage}
           onHandleSubscribeNotifiByBot={onHandleSubscribeNotifiByBot}
           onHandleSuggestSendArticle={onHandleSuggestSendArticle}
+          onSearchArticle={onSearchArticle}
         />
         {isLoadingPage && (
           <div className={classes.totalContentLoadingWrap}>

@@ -8,9 +8,7 @@ import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
 import Typography from "@material-ui/core/Typography";
-import Avatar from "@material-ui/core/Avatar";
 import Chip from "@material-ui/core/Chip";
-import Tooltip from '@material-ui/core/Tooltip';
 import FaceIcon from '@material-ui/icons/Face';
 import DrawerMenu from "../../components/DrawerMenu";
 
@@ -77,10 +75,13 @@ const Header = (props) => {
   const is_maxWidth_1000px = useMediaQuery("(max-width:1000px)");
   const classes = useStyles({ ...props, is_maxWidth_1000px });
   const [showAppName, setShowAppName] = useState(true);
+  const [searchTxt, setSearchTxt] = useState('');
+
 
   const {
     onHandleSubscribeNotifiByBot,
     onHandleSuggestSendArticle,
+    onSearchArticle,
     title,
     currentUser,
   } = props;
@@ -91,6 +92,10 @@ const Header = (props) => {
     history.push('/home');
     window.location.reload();
   };
+  const onChangeSearchTxt = (txt) => {
+    setSearchTxt(txt);
+    onSearchArticle(txt);
+  }
 
   useEffect(() => {
     setTimeout(() => {
@@ -128,6 +133,8 @@ const Header = (props) => {
               className={classes.searchPlaceholder}
               fullWidth={true}
               size="small"
+              value={searchTxt}
+              onChange={(node) => onChangeSearchTxt(node.target.value)}
             />
             <SearchIcon />
           </IconButton>
