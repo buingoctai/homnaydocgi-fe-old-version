@@ -170,26 +170,30 @@ export default compose(
         userName,
         suggestSubscribeNotifiByBotDispatch,
         setIsOpenFeedBack,
+        setScrollCount,
       } = props;
       setIsOpenFeedBack(false);
 
-      suggestSubscribeNotifiByBotDispatch({
-        id_msg_user: "",
-        message: `${userName}: ${feedback}`,
-      })
-        .then(({ message }) => {})
-        .catch(() => {});
+      if (feedback) {
+        suggestSubscribeNotifiByBotDispatch({
+          id_msg_user: "",
+          message: `${userName}: ${feedback}`,
+        })
+          .then(({ message }) => {})
+          .catch(() => {});
+      } else {
+        setScrollCount(0);
+      }
     },
   }),
   withHandlers({
-    onScroll: (props) => {
+    onScroll: (props) => () => {
       // Tính năng tạm thời
       const { scrollCount, setScrollCount, setIsOpenFeedBack } = props;
       const count = scrollCount + 1;
-      if (count === 8) {
+      if (count === 20) {
         setIsOpenFeedBack(true);
       }
-
       setScrollCount(count);
 
       //------------------

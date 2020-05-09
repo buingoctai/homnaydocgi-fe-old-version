@@ -23,6 +23,9 @@ const FeedBack = ({ visible = false, onSubmitFeedBack }) => {
   const onOK = () => {
     onSubmitFeedBack(feedback);
   };
+  const onClose = () => {
+    onSubmitFeedBack("");
+  };
 
   return (
     <div className={classes.dialogContainer}>
@@ -47,9 +50,9 @@ const FeedBack = ({ visible = false, onSubmitFeedBack }) => {
               <FormControl component="fieldset" className={classes.formControl}>
                 <FormLabel component="legend">
                   Cảm ơn bạn đã dành thời gian trải nghiệm website. Vui lòng
-                  <strong>Góp ý</strong> để <strong>Tài Bùi Admin</strong> nâng
-                  cấp web tốt hơn. Góp ý của bạn sẽ gửi trực tiếp đến Tài thông
-                  qua <strong>Facebook Messenger</strong>
+                  <strong> góp ý</strong> để <strong>Tài Bùi Admin</strong> nâng
+                  cấp website tốt hơn. Góp ý của bạn sẽ gửi trực tiếp đến Tài
+                  thông qua <strong>Facebook Messenger</strong>
                 </FormLabel>
                 <TextField
                   id="standard-basic"
@@ -64,6 +67,9 @@ const FeedBack = ({ visible = false, onSubmitFeedBack }) => {
         <DialogActions>
           <Button onClick={onOK} color="primary" disabled={!feedback}>
             Gửi
+          </Button>
+          <Button onClick={onClose} color="primary">
+            Đóng
           </Button>
         </DialogActions>
       </Dialog>
