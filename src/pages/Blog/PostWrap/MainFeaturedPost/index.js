@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
   mainPostContainer: {
-    flexFlow: 1,
+    flexGrow: 1,
     position: "relative",
     display: "flex",
     flexDirection: "column",
@@ -37,7 +37,9 @@ export default function MainFeaturedPost(props) {
 
   return (
     <div className={classes.mainPostContainer}>
-      <span style={{ fontSize: "20px", fontWeight: "bold", color: "#551A99" }}>Tin mới nhất</span>
+      <span style={{ fontSize: "20px", fontWeight: "bold", color: "#551A99" }}>
+        Tin mới nhất
+      </span>
       <div className={classes.imageWrap}>
         <img src={post.ImageUrl} width="100%" alt="" />
       </div>

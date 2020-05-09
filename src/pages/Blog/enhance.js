@@ -55,6 +55,8 @@ export default compose(
   withState("isShowPaging", "setIsShowPaging", true),
   withState("isStopCallApiGetAllPost", "setIsStopCallApiGetAllPost", false),
   withState("isOpenChoseTopic", "setIsOpenChoseTopic", true),
+  withState("scrollCount", "setScrollCount", 0),
+  withState("isOpenFeedBack", "setIsOpenFeedBack", false),
   connect(mapStateToProps, mapDispatchToProps),
   withHandlers({
     onHandleSubscribeNotifiByBot: (props) => {
@@ -163,9 +165,34 @@ export default compose(
         })
         .catch(() => {});
     },
+    onSubmitFeedBack: (props) => (feedback) => {
+      const {
+        userName,
+        suggestSubscribeNotifiByBotDispatch,
+        setIsOpenFeedBack,
+      } = props;
+      setIsOpenFeedBack(false);
+
+      suggestSubscribeNotifiByBotDispatch({
+        id_msg_user: "",
+        message: `${userName}: ${feedback}`,
+      })
+        .then(({ message }) => {})
+        .catch(() => {});
+    },
   }),
   withHandlers({
     onScroll: (props) => {
+      // Tính năng tạm thời
+      const { scrollCount, setScrollCount, setIsOpenFeedBack } = props;
+      const count = scrollCount + 1;
+      if (count === 8) {
+        setIsOpenFeedBack(true);
+      }
+
+      setScrollCount(count);
+
+      //------------------
       const { onHandleScrollToBottom } = props;
       // Khoảng cách từ đỉnh scroll bar đến đỉnh của browser
       const scrollTop = document.documentElement.scrollTop;
@@ -189,7 +216,7 @@ export default compose(
   lifecycle({
     componentDidMount() {
       window.addEventListener("scroll", this.props.onScroll);
-      window.addEventListener("beforeunload", (e) => this.props.onExitApp(e));
+      // window.addEventListener("beforeunload", (e) => this.props.onExitApp(e));
       ReactGA.initialize("UA-165562758-1");
       ReactGA.set({
         page:

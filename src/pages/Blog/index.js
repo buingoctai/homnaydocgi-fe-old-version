@@ -5,6 +5,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import TextField from "@material-ui/core/TextField";
 
 import DraggableDialog from "../../components/Dialog";
 import TopicOption from "./components/TopicOption";
@@ -15,6 +16,7 @@ import DetailPost from "../../components/DetailPost";
 import Main from "../../components/Main";
 import Footer from "../../components/Footer";
 import PostGrid from "../../components/PostGrid";
+import FeedBack from "./components/FeedBack";
 import enhance from "./enhance";
 
 const useStyles = makeStyles((theme) => ({
@@ -51,6 +53,7 @@ const Blog = (props) => {
     is_minWidth_2000px: useMediaQuery("(min-width:2000px)"),
   };
   const {
+    isOpenFeedBack,
     isOpenChoseTopic,
     setIsOpenChoseTopic,
     isLoadingPage,
@@ -73,6 +76,7 @@ const Blog = (props) => {
     onHandleOpenDetailContainer,
     onGetFeaturedTopic,
     onSearchArticle,
+    onSubmitFeedBack,
   } = props;
   const classes = useStyles({ ...responsiveObj });
 
@@ -109,6 +113,11 @@ const Blog = (props) => {
           onGetFeaturedTopic: onGetFeaturedTopic,
         })}
 
+        {FeedBack({
+          visible: isOpenFeedBack,
+          onSubmitFeedBack: onSubmitFeedBack,
+        })}
+
         {!isLoadingPage && (
           <main>
             <div
@@ -123,7 +132,7 @@ const Blog = (props) => {
                 responsiveObj={responsiveObj}
                 onHandleOpenDetailContainer={onHandleOpenDetailContainer}
               />
-              <div style={{ flexGrow: "2" }}>ĐANG PHÁT TRIỂN</div>
+              <div style={{ flexGrow: "2" }} />
             </div>
 
             <Grid container spacing={4}>
