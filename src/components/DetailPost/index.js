@@ -154,6 +154,15 @@ export default function DetailPost(props) {
             )}
             <br />
             <br />
+
+            <audio controls>
+              <source
+                src="https://static.openfpt.vn/text2speech-v5/short/2020-05-11/leminh.0.f22b1f0268e2615382f4eb51337a9b60.mp3"
+                type="audio/mpeg"
+              />
+              Your browser does not support the audio element.
+            </audio>
+
             <Typography
               variant="h6"
               color="textSecondary"
