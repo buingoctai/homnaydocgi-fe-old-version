@@ -97,7 +97,7 @@ const Blog = (props) => {
             <span className={classes.loadingMessage}>Đang tải bài viết</span>
             <LinearProgress
               color="primary"
-              style={{ height: "3px", width: "30%" }}
+              style={{ height: "3px", width: "20%" }}
             />
           </div>
         )}

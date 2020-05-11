@@ -22,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Topic = (props) => {
-  console.log("props=", props);
   const { topic, searchTxt } = props.location;
   const {
     userName,

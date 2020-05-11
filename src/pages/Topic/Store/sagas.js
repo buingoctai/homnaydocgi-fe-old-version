@@ -8,7 +8,6 @@ function* getAllPostEffect(payload, resolve, reject) {
   const response = yield call(getAllPost, payload);
 
   if (response) {
-    console.log(response);
     yield put(saveAllPost({ data: response.data }));
     resolve(response);
   } else {
@@ -20,7 +19,6 @@ function* searchArticlesEffect(payload, resolve, reject) {
   const response = yield call(searchArticles, payload);
 
   if (response) {
-    console.log(response);
     yield put(saveAllPost({ data: response.data }));
     resolve(response);
   } else {
