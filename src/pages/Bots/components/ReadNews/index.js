@@ -22,7 +22,7 @@ class ReadNews extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      url: "https://viblo.asia/newest",
+      url: "https://cafebiz.vn/ceo-dong-a-solutions-tran-bang-viet-wefit-with-fee-chung-toi-on-neu-co-tien-20200513104543872.chn",
       crawlingStatus: null,
       data: null,
       taskID: null,
