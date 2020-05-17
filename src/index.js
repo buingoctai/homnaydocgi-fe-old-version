@@ -15,6 +15,7 @@ import reducers from "./store/reducers";
 import blogReducers from "./pages/Blog/Store/reducers";
 import adminReducers from "./pages/Admin/Store/reducers";
 import topicReducers from "./pages/Topic/Store/reducers";
+import readNewReducers from "./pages/Bots/Store/reducers";
 import { submitDataSuccess } from "./store/sagas";
 import { sagaMiddleware } from "./store/actions";
 import initialState from "./store/state";
@@ -24,7 +25,13 @@ import "./index.css";
 
 //const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
-  combineReducers({ reducers, blogReducers, adminReducers, topicReducers }),
+  combineReducers({
+    reducers,
+    blogReducers,
+    adminReducers,
+    topicReducers,
+    readNewReducers,
+  }),
   initialState,
   //compose(applyMiddleware(sagaMiddleware), composeWithDevTools())
   composeWithDevTools(applyMiddleware(sagaMiddleware))

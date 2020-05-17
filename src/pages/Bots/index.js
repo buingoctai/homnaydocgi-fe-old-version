@@ -1,4 +1,6 @@
 import React from "react";
+import Container from "@material-ui/core/Container";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -8,6 +10,10 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import ReadNews from "./components/ReadNews";
+import Header from "../../components/Header";
+import Footer from "../../components/Footer";
+import enhance from "./enhance";
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -42,13 +48,20 @@ function a11yProps(index) {
 }
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  container: {
+    width: "90%",
+    paddingLeft: (props) => (props.is_maxWidth_500px ? "0px" : "none"),
+    paddingRight: (props) => (props.is_maxWidth_500px ? "0px" : "none"),
+  },
+  tabWrap: {
     backgroundColor: theme.palette.background.paper,
-    width: 500,
+    width: "70%",
+    marginTop: "50px",
   },
 }));
 
-export default function FullWidthTabs() {
+const Bots = (props) => {
+  const { allPost, mp3 } = props;
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -62,38 +75,50 @@ export default function FullWidthTabs() {
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "center" }}>
-      <div className={classes.root}>
-        <AppBar position="static" color="default">
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            indicatorColor="primary"
-            textColor="primary"
-            variant="fullWidth"
-            aria-label="full width tabs example"
-          >
-            <Tab label="Bot Đọc Báo" {...a11yProps(0)} />
-            <Tab label="Bot Tâm Sự" {...a11yProps(1)} />
-            <Tab label="..." {...a11yProps(2)} />
-          </Tabs>
-        </AppBar>
-        <SwipeableViews
-          axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-          index={value}
-          onChangeIndex={handleChangeIndex}
-        >
-          <TabPanel value={value} index={0} dir={theme.direction}>
-            <ReadNews />
-          </TabPanel>
-          <TabPanel value={value} index={1} dir={theme.direction}>
-            Item Two
-          </TabPanel>
-          <TabPanel value={value} index={2} dir={theme.direction}>
-            Item Three
-          </TabPanel>
-        </SwipeableViews>
-      </div>
-    </div>
+    <React.Fragment>
+      <CssBaseline />
+      <Container className={classes.container}>
+        <Header
+          title="HÔM NAY ĐỌC GÌ?"
+          currentUser={"userName"}
+          onSearchArticle={null}
+        />
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <div className={classes.tabWrap}>
+            <AppBar position="static" color="default">
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                indicatorColor="primary"
+                textColor="primary"
+                variant="fullWidth"
+                aria-label="full width tabs example"
+              >
+                <Tab label="Bot Đọc Báo" {...a11yProps(0)} />
+                <Tab label="Bot Tâm Sự" {...a11yProps(1)} />
+                <Tab label="..." {...a11yProps(2)} />
+              </Tabs>
+            </AppBar>
+            <SwipeableViews
+              axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+              index={value}
+              onChangeIndex={handleChangeIndex}
+            >
+              <TabPanel value={value} index={0} dir={theme.direction}>
+                <ReadNews allPost={allPost} mp3={mp3} />
+              </TabPanel>
+              <TabPanel value={value} index={1} dir={theme.direction}>
+                Item Two
+              </TabPanel>
+              <TabPanel value={value} index={2} dir={theme.direction}>
+                Item Three
+              </TabPanel>
+            </SwipeableViews>
+          </div>
+        </div>
+      </Container>
+    </React.Fragment>
   );
-}
+};
+
+export default enhance(Bots);

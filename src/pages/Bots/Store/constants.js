@@ -1,0 +1,4 @@
+const SAVE_MP3 = "SAVE_MP3";
+const SAVE_ALL_POST = "SAVE_ALL_POST";
+
+export { SAVE_MP3, SAVE_ALL_POST };

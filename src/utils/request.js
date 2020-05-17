@@ -37,6 +37,14 @@ axios.interceptors.request.use((config) => {
   const newConfig = config;
   newConfig.timeout = REQUEST_TIMEOUT;
 
+  if (config.url.includes("api.fpt.ai")) {
+    newConfig.url = newConfig.url + "?api_key=qb8Eh2CAuM0qnTGTgxYKkKYlbBSyZtFC";
+    newConfig.headers = {
+      ...config.headers,
+      voice: "lannhi",
+      speed: "+3",
+    };
+  }
   if (token) {
     newConfig.headers = { ...config.headers, Authorization: `Bearer ${token}` };
   }
