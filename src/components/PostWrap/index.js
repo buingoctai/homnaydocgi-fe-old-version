@@ -49,7 +49,7 @@ const PostWrap = (props) => {
         <img
           src={post.imageUrl}
           alt="Ảnh"
-          style={{ width: "250px", height: "153px" }}
+          style={{ width: "250px", height: "160px" }}
         />
       </div>
       <div className={classes.contentWrap}>
