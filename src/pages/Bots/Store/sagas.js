@@ -1,7 +1,11 @@
 import { call, put } from "redux-saga/effects";
-import { getAllArticle, getMp3 } from "../../../services/ReadNew";
+import {
+  getAllArticle,
+  getAudioArticle,
+  createAudioArticle,
+} from "../../../services/ReadNew";
 
-import { saveAllArticle, saveMp3 } from "./actions";
+import { saveAllArticle } from "./actions";
 
 function* getAllArticleEffect(payload, resolve, reject) {
   const response = yield call(getAllArticle, payload);
@@ -14,15 +18,24 @@ function* getAllArticleEffect(payload, resolve, reject) {
   }
 }
 
-function* getMp3Effect(payload, resolve, reject) {
-  const response = yield call(getMp3, payload);
+function* getAudioArticleEffect(payload, resolve, reject) {
+  const response = yield call(getAudioArticle, payload);
 
   if (response) {
-    yield put(saveMp3(response));
-    resolve("");
+    resolve(response);
   } else {
     reject("Error calling api");
   }
 }
 
-export { getAllArticleEffect, getMp3Effect };
+function* createAudioArticleEffect(payload, resolve, reject) {
+  const response = yield call(createAudioArticle, payload);
+
+  if (response) {
+    resolve(response);
+  } else {
+    reject("Error calling api");
+  }
+}
+
+export { getAllArticleEffect, getAudioArticleEffect, createAudioArticleEffect };

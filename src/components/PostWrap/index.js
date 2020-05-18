@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-import { findByLabelText } from "@testing-library/react";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import AudioPlayer from "react-h5-audio-player";
+import "react-h5-audio-player/lib/styles.css";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -20,50 +21,76 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     backgroundColor: "#f1f3f4",
     marginLeft: "20px",
-    '@global': {
-      'h3': {
+    "@global": {
+      h3: {
         marginTop: "0px",
-        marginBottom: "0px"
+        marginBottom: "0px",
       },
-      'p': {
+      p: {
         marginTop: "0px",
-        marginBottom: "0px"
-      }
+        marginBottom: "0px",
+      },
     },
-
   },
   buttonGroupWrap: {
     display: "flex",
-    marginTop: "36px"
-  }
+    justifyContent: "flex-end",
+    marginTop: "36px",
+  },
 }));
 const PostWrap = (props) => {
   const classes = useStyles();
-  const { post, mp3 } = props;
+  const { post, currentAudioArticle, onClickListenArticle } = props;
+  const [switchAudio, setSwitchAudio] = useState(false);
 
   return (
     <div className={classes.container}>
       <div className={classes.imageWrap}>
-        <img src={post.imageUrl} alt="Ảnh" style={{ width: "250px", height: "150px" }} />
+        <img
+          src={post.imageUrl}
+          alt="Ảnh"
+          style={{ width: "250px", height: "153px" }}
+        />
       </div>
       <div className={classes.contentWrap}>
         <h3>{post.title}</h3>
         <p>{`${post.content.substring(0, 100)}...`}</p>
-        {/* <audio controls preload="auto">
-          <source
-            src="https://static.openfpt.vn/text2speech-v5/short/2020-05-18/banmai.0.bbb407922c0a43a4676eaa403fd5a50e.mp3"
-            type="audio/mpeg"
 
+        {currentAudioArticle.id === post.id ? (
+          <AudioPlayer
+            autoPlay
+            src={
+              switchAudio
+                ? currentAudioArticle.audio[1]
+                : currentAudioArticle.audio[0]
+            }
+            onEnded={() => setSwitchAudio(true)}
+            style={{
+              paddingBottom: "0px",
+              boxShadow: "none",
+              backgroundColor: "#F1F3F4",
+            }}
           />
-          Your browser does not support the audio element.
-        </audio> */}
-
-
-
-        <ButtonGroup disableElevation variant="contained" color="primary" className={classes.buttonGroupWrap}>
-          <Button>Nghe</Button>
-          <Button>Thêm</Button>
-        </ButtonGroup>
+        ) : (
+          <ButtonGroup
+            disableElevation
+            color="primary"
+            variant="text"
+            className={classes.buttonGroupWrap}
+          >
+            <Button
+              onClick={() =>
+                onClickListenArticle({
+                  id: post.id,
+                  content: post.content,
+                })
+              }
+            >
+              Nghe
+            </Button>
+            <Button>Thêm</Button>
+          </ButtonGroup>
+        )}
       </div>
     </div>
   );

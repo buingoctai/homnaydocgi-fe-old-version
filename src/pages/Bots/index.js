@@ -11,7 +11,6 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import ReadNews from "./components/ReadNews";
 import Header from "../../components/Header";
-import Footer from "../../components/Footer";
 import enhance from "./enhance";
 
 function TabPanel(props) {
@@ -61,7 +60,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Bots = (props) => {
-  const { allArticle, mp3 } = props;
+  const {
+    allArticle,
+    currentAudioArticle,
+    currentPageIndex,
+    onClickListenArticle,
+    onChangePageIndex,
+  } = props;
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -95,8 +100,8 @@ const Bots = (props) => {
                 aria-label="full width tabs example"
               >
                 <Tab label="Bot Đọc Báo" {...a11yProps(0)} />
-                <Tab label="Bot Tâm Sự" {...a11yProps(1)} />
-                <Tab label="..." {...a11yProps(2)} />
+                <Tab label="Bot Call Video" {...a11yProps(1)} />
+                <Tab label="Bot Chat" {...a11yProps(2)} />
               </Tabs>
             </AppBar>
             <SwipeableViews
@@ -105,7 +110,13 @@ const Bots = (props) => {
               onChangeIndex={handleChangeIndex}
             >
               <TabPanel value={value} index={0} dir={theme.direction}>
-                <ReadNews allArticle={allArticle} mp3={mp3} />
+                <ReadNews
+                  allArticle={allArticle}
+                  currentAudioArticle={currentAudioArticle}
+                  currentPageIndex={currentPageIndex}
+                  onClickListenArticle={onClickListenArticle}
+                  onChangePageIndex={onChangePageIndex}
+                />
               </TabPanel>
               <TabPanel value={value} index={1} dir={theme.direction}>
                 ĐANG PHÁT TRIỂN

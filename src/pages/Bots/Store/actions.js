@@ -1,7 +1,10 @@
 import { sagaMiddleware } from "../../../store/actions";
-import { SAVE_ALL_ARTICLE, SAVE_MP3 } from "./constants";
-import { getAllArticleEffect, getMp3Effect } from "./sagas";
-
+import { SAVE_ALL_ARTICLE, SAVE_AUDIO_LIST } from "./constants";
+import {
+  getAllArticleEffect,
+  getAudioArticleEffect,
+  createAudioArticleEffect,
+} from "./sagas";
 
 const getAllArticle = (payload, resolve, reject) => {
   sagaMiddleware.run(getAllArticleEffect, payload, resolve, reject);
@@ -13,13 +16,23 @@ export const asyncGetAllArticle = (payload) => {
   });
 };
 
-const getMp3 = (payload, resolve, reject) => {
-  sagaMiddleware.run(getMp3Effect, payload, resolve, reject);
+const getAudioArticle = (payload, resolve, reject) => {
+  sagaMiddleware.run(getAudioArticleEffect, payload, resolve, reject);
 };
 
-export const asyncGetMp3 = (payload) => {
+export const asynGetAudioArticle = (payload) => {
   return new Promise((resolve, reject) => {
-    getMp3(payload, resolve, reject);
+    getAudioArticle(payload, resolve, reject);
+  });
+};
+
+const createAudioArticle = (payload, resolve, reject) => {
+  sagaMiddleware.run(createAudioArticleEffect, payload, resolve, reject);
+};
+
+export const asynCreateAudioArticle = (payload) => {
+  return new Promise((resolve, reject) => {
+    createAudioArticle(payload, resolve, reject);
   });
 };
 
@@ -30,9 +43,9 @@ export const saveAllArticle = (payload) => {
   };
 };
 
-export const saveMp3 = (payload) => {
+export const saveAudioList = (payload) => {
   return {
-    type: SAVE_MP3,
+    type: SAVE_AUDIO_LIST,
     payload,
   };
 };

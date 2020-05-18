@@ -1,36 +1,83 @@
 import { connect } from "react-redux";
 import { compose, withHandlers, withState, lifecycle } from "recompose";
-import { asyncGetAllArticle, asyncGetMp3 } from "../../pages/Bots/Store/actions";
+import {
+  asyncGetAllArticle,
+  asynGetAudioArticle,
+  asynCreateAudioArticle,
+  saveAudioList,
+} from "../../pages/Bots/Store/actions";
 
 const mapStateToProps = (state) => {
   const { readNewReducers } = state;
   return {
     allArticle: readNewReducers.allArticle,
-    mp3: readNewReducers.mp3,
+    audioList: readNewReducers.audioList,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
     getAllArticleDispatch: (payload) => asyncGetAllArticle(payload),
-    getMp3Dispatch: (payload) => asyncGetMp3(payload),
+    getAudioArticleDispatch: (payload) => asynGetAudioArticle(payload),
+    createAudioArticleDispatch: (payload) => asynCreateAudioArticle(payload),
+    saveAudioListDispatch: (payload) => dispatch(saveAudioList(payload)),
   };
 };
 export default compose(
   withState("showingPost", "setShowingPost", {}),
+  withState("currentAudioArticle", "setCurrentAudioArticle", {}),
+  withState("currentPageIndex", "setCurrentPageIndex", 1),
   connect(mapStateToProps, mapDispatchToProps),
-  withHandlers({}),
+  withHandlers({
+    onClickListenArticle: (props) => ({ id, content }) => {
+      const {
+        audioList,
+        getAudioArticleDispatch,
+        createAudioArticleDispatch,
+        saveAudioListDispatch,
+        setCurrentAudioArticle,
+      } = props;
+
+      const [currentAudioArticle] = audioList.filter((item) => item.id === id);
+      if (currentAudioArticle) {
+        setCurrentAudioArticle(currentAudioArticle);
+      } else {
+        getAudioArticleDispatch({ id: id })
+          .then((res) => {
+            if (res.audio.length === 0) {
+              createAudioArticleDispatch({ id: id, text: content })
+                .then((res) => {
+                  const newAudioList = [...audioList, res];
+                  saveAudioListDispatch(newAudioList);
+                  setCurrentAudioArticle(res);
+                })
+                .catch();
+            } else {
+              const newAudioList = [...audioList, res];
+              saveAudioListDispatch(newAudioList);
+              setCurrentAudioArticle(res);
+            }
+          })
+          .catch();
+      }
+    },
+    onChangePageIndex: (props) => (pageIndex) => {
+      const { getAllArticleDispatch, setCurrentPageIndex } = props;
+      getAllArticleDispatch({
+        paging: { pageIndex: pageIndex, pageSize: 10 },
+        orderList: { orderType: "DESC", orderBy: "title" },
+      })
+        .then(() => {
+          setCurrentPageIndex(pageIndex);
+        })
+        .catch();
+    },
+  }),
   lifecycle({
     componentDidMount() {
-      this.props
-        .getAllArticleDispatch({
-          paging: { pageIndex: 1, pageSize: 10 },
-          orderList: { orderType: "DESC", orderBy: "title" },
-        })
-        .then(() => {
-          const [firstItem] = this.props.allArticle.data
-          this.props.getMp3Dispatch({ text: firstItem.content });
-        })
-        .catch(() => { });
+      this.props.getAllArticleDispatch({
+        paging: { pageIndex: 1, pageSize: 10 },
+        orderList: { orderType: "DESC", orderBy: "title" },
+      });
     },
   })
 );

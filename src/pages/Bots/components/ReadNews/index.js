@@ -7,6 +7,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
 import PostWrap from "../../../../components/PostWrap";
+import Paging from "../../../../components/Pagination";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -21,13 +22,16 @@ const useStyles = makeStyles((theme) => ({
 const ReadNews = (props) => {
   const classes = useStyles();
   const {
-    allArticle: { data },
-    mp3,
+    allArticle: { data, totalRecord },
+    currentAudioArticle,
+    currentPageIndex,
+    onClickListenArticle,
+    onChangePageIndex,
   } = props;
 
   return (
     <div>
-      <FormControl className={classes.formControl}>
+      {/* <FormControl className={classes.formControl}>
         <InputLabel id="demo-simple-select-label">Đầu Báo</InputLabel>
         <Select
           labelId="demo-simple-select-label"
@@ -53,9 +57,20 @@ const ReadNews = (props) => {
           <MenuItem value={30}>Công Nghệ</MenuItem>
         </Select>
       </FormControl>
-      <Button variant="contained">Chọn</Button>
+      <Button variant="contained">Chọn</Button> */}
       {data.length > 0 &&
-        data.map((item) => <PostWrap post={item} mp3={mp3} />)}
+        data.map((item) => (
+          <PostWrap
+            post={item}
+            onClickListenArticle={onClickListenArticle}
+            currentAudioArticle={currentAudioArticle}
+          />
+        ))}
+      <Paging
+        currentPageIndex={currentPageIndex}
+        totalRecord={totalRecord}
+        onChangePageIndex={onChangePageIndex}
+      />
     </div>
   );
 };

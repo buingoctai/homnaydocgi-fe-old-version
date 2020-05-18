@@ -7,10 +7,16 @@ export const getAllArticle = (param) => {
   });
 };
 
-export const getMp3 = ({ text }) => {
-  console.log("text=", text);
-  return request("https://api.fpt.ai/hmi/tts/v5", {
+export const getAudioArticle = (params) => {
+  return request(`${process.env.REACT_APP_API}/readNew/getAudioArticle`, {
     method: "POST",
-    data: text,
+    data: { ...params },
+  });
+};
+
+export const createAudioArticle = (params) => {
+  return request(`${process.env.REACT_APP_API}/readNew/createAudioArticle`, {
+    method: "POST",
+    data: { ...params },
   });
 };

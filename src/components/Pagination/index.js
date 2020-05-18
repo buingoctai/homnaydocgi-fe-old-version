@@ -2,7 +2,7 @@ import React from "react";
 import Pagination from "@material-ui/lab/Pagination";
 
 const Paging = (props) => {
-  const { currentPageIndex, totalRecord } = props;
+  const { currentPageIndex, totalRecord, onChangePageIndex } = props;
 
   return (
     <Pagination
@@ -13,6 +13,8 @@ const Paging = (props) => {
         display: "flex",
         justifyContent: "center",
       }}
+      color="primary"
+      onChange={(event, pageIndex) => onChangePageIndex(pageIndex)}
     />
   );
 };
