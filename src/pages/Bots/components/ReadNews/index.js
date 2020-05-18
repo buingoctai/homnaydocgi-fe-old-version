@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 const ReadNews = (props) => {
   const classes = useStyles();
   const {
-    allPost: { data },
+    allArticle: { data },
     mp3,
   } = props;
 

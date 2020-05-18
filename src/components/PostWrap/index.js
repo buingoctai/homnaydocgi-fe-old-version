@@ -1,5 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { findByLabelText } from "@testing-library/react";
 
 const useStyles = makeStyles((theme) => ({
@@ -18,7 +20,22 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     backgroundColor: "#f1f3f4",
     marginLeft: "20px",
+    '@global': {
+      'h3': {
+        marginTop: "0px",
+        marginBottom: "0px"
+      },
+      'p': {
+        marginTop: "0px",
+        marginBottom: "0px"
+      }
+    },
+
   },
+  buttonGroupWrap: {
+    display: "flex",
+    marginTop: "36px"
+  }
 }));
 const PostWrap = (props) => {
   const classes = useStyles();
@@ -27,18 +44,26 @@ const PostWrap = (props) => {
   return (
     <div className={classes.container}>
       <div className={classes.imageWrap}>
-        <img src={post.imageUrl} alt="Ảnh" style={{ width: "300px" }} />
+        <img src={post.imageUrl} alt="Ảnh" style={{ width: "250px", height: "150px" }} />
       </div>
       <div className={classes.contentWrap}>
         <h3>{post.title}</h3>
-        <p>{`${post.content.substring(1, 200)}...`}</p>
-        <audio controls>
+        <p>{`${post.content.substring(0, 100)}...`}</p>
+        {/* <audio controls preload="auto">
           <source
-            src="https://static.openfpt.vn/text2speech-v5/short/2020-05-16/leminh.0.145e5fb39450a06881e34aad8cef49be.mp3"
+            src="https://static.openfpt.vn/text2speech-v5/short/2020-05-18/banmai.0.bbb407922c0a43a4676eaa403fd5a50e.mp3"
             type="audio/mpeg"
+
           />
           Your browser does not support the audio element.
-        </audio>
+        </audio> */}
+
+
+
+        <ButtonGroup disableElevation variant="contained" color="primary" className={classes.buttonGroupWrap}>
+          <Button>Nghe</Button>
+          <Button>Thêm</Button>
+        </ButtonGroup>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 const state = {
-  allPost: { data: [], totalRecord: 0 },
+  allArticle: { data: [], totalRecord: 0 },
   mp3: {},
 };
 

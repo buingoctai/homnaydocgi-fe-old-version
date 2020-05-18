@@ -1,17 +1,17 @@
 import { connect } from "react-redux";
 import { compose, withHandlers, withState, lifecycle } from "recompose";
-import { asyncGetAllPost, asyncGetMp3 } from "../../pages/Bots/Store/actions";
+import { asyncGetAllArticle, asyncGetMp3 } from "../../pages/Bots/Store/actions";
 
 const mapStateToProps = (state) => {
   const { readNewReducers } = state;
   return {
-    allPost: readNewReducers.allPost,
+    allArticle: readNewReducers.allArticle,
     mp3: readNewReducers.mp3,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    getAllPostDispatch: (payload) => asyncGetAllPost(payload),
+    getAllArticleDispatch: (payload) => asyncGetAllArticle(payload),
     getMp3Dispatch: (payload) => asyncGetMp3(payload),
   };
 };
@@ -22,14 +22,15 @@ export default compose(
   lifecycle({
     componentDidMount() {
       this.props
-        .getAllPostDispatch({
+        .getAllArticleDispatch({
           paging: { pageIndex: 1, pageSize: 10 },
           orderList: { orderType: "DESC", orderBy: "title" },
         })
-        // .then(() => {
-        //   this.props.getMp3Dispatch({ text: this.props.lastedPost.content });
-        // })
-        .catch(() => {});
+        .then(() => {
+          const [firstItem] = this.props.allArticle.data
+          this.props.getMp3Dispatch({ text: firstItem.content });
+        })
+        .catch(() => { });
     },
   })
 );

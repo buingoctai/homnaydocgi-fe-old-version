@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Bots = (props) => {
-  const { allPost, mp3 } = props;
+  const { allArticle, mp3 } = props;
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -105,13 +105,13 @@ const Bots = (props) => {
               onChangeIndex={handleChangeIndex}
             >
               <TabPanel value={value} index={0} dir={theme.direction}>
-                <ReadNews allPost={allPost} mp3={mp3} />
+                <ReadNews allArticle={allArticle} mp3={mp3} />
               </TabPanel>
               <TabPanel value={value} index={1} dir={theme.direction}>
-                Item Two
+                ĐANG PHÁT TRIỂN
               </TabPanel>
               <TabPanel value={value} index={2} dir={theme.direction}>
-                Item Three
+                ĐANG PHÁT TRIỂN
               </TabPanel>
             </SwipeableViews>
           </div>

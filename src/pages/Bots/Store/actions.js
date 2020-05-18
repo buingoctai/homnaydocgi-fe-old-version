@@ -1,14 +1,15 @@
 import { sagaMiddleware } from "../../../store/actions";
-import { SAVE_ALL_POST, SAVE_MP3 } from "./constants";
-import { getAllPostEffect, getMp3Effect } from "./sagas";
+import { SAVE_ALL_ARTICLE, SAVE_MP3 } from "./constants";
+import { getAllArticleEffect, getMp3Effect } from "./sagas";
 
-const getAllPost = (payload, resolve, reject) => {
-  sagaMiddleware.run(getAllPostEffect, payload, resolve, reject);
+
+const getAllArticle = (payload, resolve, reject) => {
+  sagaMiddleware.run(getAllArticleEffect, payload, resolve, reject);
 };
 
-export const asyncGetAllPost = (payload) => {
+export const asyncGetAllArticle = (payload) => {
   return new Promise((resolve, reject) => {
-    getAllPost(payload, resolve, reject);
+    getAllArticle(payload, resolve, reject);
   });
 };
 
@@ -22,9 +23,9 @@ export const asyncGetMp3 = (payload) => {
   });
 };
 
-export const saveAllPost = (payload) => {
+export const saveAllArticle = (payload) => {
   return {
-    type: SAVE_ALL_POST,
+    type: SAVE_ALL_ARTICLE,
     payload,
   };
 };
