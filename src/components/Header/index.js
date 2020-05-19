@@ -34,7 +34,8 @@ const useStyles = makeStyles((theme) => ({
       props.is_maxWidth_1000px ? "1px 1px white" : "2px 2px white",
     position: "relative",
     animationName: "$titleAmination",
-    animationDuration: "2s",
+    animationDuration: "6s",
+    animationIterationCount: 'infinite',
     fontSize: (props) => (props.is_maxWidth_1000px ? "15px" : "40px"),
   },
 

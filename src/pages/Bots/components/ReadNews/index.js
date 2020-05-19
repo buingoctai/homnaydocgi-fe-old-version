@@ -9,6 +9,7 @@ import Button from "@material-ui/core/Button";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import PostWrap from "../../../../components/PostWrap";
 import Paging from "../../../../components/Pagination";
+import Loading from "../../../../components/Loading";
 
 const useStyles = makeStyles((theme) => ({
   totalContentLoadingWrap: {
@@ -48,14 +49,15 @@ const ReadNews = (props) => {
 
   return (
     <div>
-      {totalRecord === 0 ? (
-        <div className={classes.totalContentLoadingWrap}>
-          <span className={classes.loadingMessage}>Đang tải bài viết</span>
-          <LinearProgress
-            color="primary"
-            style={{ height: "3px", width: "20%" }}
-          />
-        </div>
+      {0 === 0 ? (
+        // <div className={classes.totalContentLoadingWrap}>
+        //   <span className={classes.loadingMessage}>Đang tải bài viết</span>
+        //   <LinearProgress
+        //     color="primary"
+        //     style={{ height: "3px", width: "20%" }}
+        //   />
+        // </div>
+        <Loading />
       ) : (
           <>
             {data.map((item) => (
