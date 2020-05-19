@@ -28,7 +28,12 @@ export default compose(
   withState("currentPageIndex", "setCurrentPageIndex", 1),
   connect(mapStateToProps, mapDispatchToProps),
   withHandlers({
-    onClickListenArticle: (props) => ({ id, content, setCurrentAudio }) => {
+    onClickListenArticle: (props) => ({
+      id,
+      content,
+      setCurrentAudio,
+      setIsLoading,
+    }) => {
       const {
         audioList,
         getAudioArticleDispatch,
@@ -40,7 +45,8 @@ export default compose(
       const [currentAudioArticle] = audioList.filter((item) => item.id === id);
       if (currentAudioArticle) {
         setCurrentAudioArticle(currentAudioArticle);
-        setCurrentAudio(currentAudioArticle.audio[0])
+        setCurrentAudio(currentAudioArticle.audio[0]);
+        setIsLoading(false);
       } else {
         getAudioArticleDispatch({ id: id })
           .then((res) => {
@@ -50,12 +56,14 @@ export default compose(
                   const newAudioList = [...audioList, res];
                   saveAudioListDispatch(newAudioList);
                   setCurrentAudioArticle(res);
+                  setIsLoading(false);
                 })
                 .catch();
             } else {
               const newAudioList = [...audioList, res];
               saveAudioListDispatch(newAudioList);
               setCurrentAudioArticle(res);
+              setIsLoading(false);
             }
           })
           .catch();

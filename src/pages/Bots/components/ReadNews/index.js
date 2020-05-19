@@ -9,7 +9,6 @@ import Button from "@material-ui/core/Button";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import PostWrap from "../../../../components/PostWrap";
 import Paging from "../../../../components/Pagination";
-import Loading from "../../../../components/Loading";
 
 const useStyles = makeStyles((theme) => ({
   totalContentLoadingWrap: {
@@ -43,38 +42,38 @@ const ReadNews = (props) => {
     allArticle: { data, totalRecord },
     currentAudioArticle,
     currentPageIndex,
+    responsiveObj,
     onClickListenArticle,
     onChangePageIndex,
   } = props;
 
   return (
     <div>
-      {0 === 0 ? (
-        // <div className={classes.totalContentLoadingWrap}>
-        //   <span className={classes.loadingMessage}>Đang tải bài viết</span>
-        //   <LinearProgress
-        //     color="primary"
-        //     style={{ height: "3px", width: "20%" }}
-        //   />
-        // </div>
-        <Loading />
+      {totalRecord === 0 ? (
+        <div className={classes.totalContentLoadingWrap}>
+          <span className={classes.loadingMessage}>Đang tải bài viết</span>
+          <LinearProgress
+            color="primary"
+            style={{ height: "3px", width: "20%" }}
+          />
+        </div>
       ) : (
-          <>
-            {data.map((item) => (
-              <PostWrap
-                post={item}
-                onClickListenArticle={onClickListenArticle}
-                currentAudioArticle={currentAudioArticle}
-              />
-            ))}
-            < Paging
-              currentPageIndex={currentPageIndex}
-              totalRecord={totalRecord}
-              onChangePageIndex={onChangePageIndex}
+        <>
+          {data.map((item) => (
+            <PostWrap
+              post={item}
+              responsiveObj={responsiveObj}
+              onClickListenArticle={onClickListenArticle}
+              currentAudioArticle={currentAudioArticle}
             />
-          </>
-        )}
-
+          ))}
+          <Paging
+            currentPageIndex={currentPageIndex}
+            totalRecord={totalRecord}
+            onChangePageIndex={onChangePageIndex}
+          />
+        </>
+      )}
     </div>
   );
 };

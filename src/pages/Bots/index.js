@@ -1,4 +1,5 @@
 import React from "react";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import PropTypes from "prop-types";
@@ -9,9 +10,9 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import MusicVideoIcon from '@material-ui/icons/MusicVideo';
-import VideoCallIcon from '@material-ui/icons/VideoCall';
-import ChatIcon from '@material-ui/icons/Chat';
+import MusicVideoIcon from "@material-ui/icons/MusicVideo";
+import VideoCallIcon from "@material-ui/icons/VideoCall";
+import ChatIcon from "@material-ui/icons/Chat";
 import ReadNews from "./components/ReadNews";
 import Header from "../../components/Header";
 import enhance from "./enhance";
@@ -55,18 +56,32 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: (props) => (props.is_maxWidth_500px ? "0px" : "none"),
     paddingRight: (props) => (props.is_maxWidth_500px ? "0px" : "none"),
   },
+
   tabWrap: {
     backgroundColor: theme.palette.background.paper,
-    width: "70%",
-    marginTop: "50px",
+    width: (props) => (props.is_maxWidth_500px ? "95%" : "70%"),
+    marginTop: (props) => (props.is_maxWidth_500px ? "5px" : "50px"),
   },
   tabLabelWrap: {
     display: "flex",
     alignItems: "center",
-  }
+  },
+  tabpanelWrap: {
+    "@global": {
+      ".MuiBox-root-278": {
+        padding: "0px 0px",
+      },
+    },
+  },
 }));
 
 const Bots = (props) => {
+  const responsiveObj = {
+    is_maxWidth_500px: useMediaQuery("(max-width:500px)"),
+    is_maxWidth_1000px: useMediaQuery("(max-width:1000px)"),
+    is_minWidth_2000px: useMediaQuery("(min-width:2000px)"),
+  };
+
   const {
     allArticle,
     currentAudioArticle,
@@ -74,7 +89,7 @@ const Bots = (props) => {
     onClickListenArticle,
     onChangePageIndex,
   } = props;
-  const classes = useStyles();
+  const classes = useStyles({ ...responsiveObj });
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
 
@@ -106,9 +121,51 @@ const Bots = (props) => {
                 variant="fullWidth"
                 aria-label="full width tabs example"
               >
-                <Tab label={<div className={classes.tabLabelWrap}><MusicVideoIcon /><span style={{ paddingLeft: "5px" }}>Đọc Báo</span></div>} {...a11yProps(0)} />
-                <Tab label={<div className={classes.tabLabelWrap}><VideoCallIcon /><span style={{ paddingLeft: "5px" }}>Gọi Video</span></div>} {...a11yProps(1)} />
-                <Tab label={<div className={classes.tabLabelWrap}><ChatIcon /><span style={{ paddingLeft: "5px" }}>Chat</span></div>} {...a11yProps(2)} />
+                <Tab
+                  label={
+                    <div className={classes.tabLabelWrap}>
+                      <MusicVideoIcon />
+                      {!responsiveObj.is_maxWidth_500px && (
+                        <span
+                          style={{ paddingLeft: "5px", fontWeight: "1000" }}
+                        >
+                          Đọc Báo
+                        </span>
+                      )}
+                    </div>
+                  }
+                  {...a11yProps(0)}
+                />
+                <Tab
+                  label={
+                    <div className={classes.tabLabelWrap}>
+                      <VideoCallIcon />
+                      {!responsiveObj.is_maxWidth_500px && (
+                        <span
+                          style={{ paddingLeft: "5px", fontWeight: "1000" }}
+                        >
+                          Gọi Video
+                        </span>
+                      )}
+                    </div>
+                  }
+                  {...a11yProps(1)}
+                />
+                <Tab
+                  label={
+                    <div className={classes.tabLabelWrap}>
+                      <ChatIcon />
+                      {!responsiveObj.is_maxWidth_500px && (
+                        <span
+                          style={{ paddingLeft: "5px", fontWeight: "1000" }}
+                        >
+                          Chat
+                        </span>
+                      )}
+                    </div>
+                  }
+                  {...a11yProps(2)}
+                />
               </Tabs>
             </AppBar>
             <SwipeableViews
@@ -116,13 +173,19 @@ const Bots = (props) => {
               index={value}
               onChangeIndex={handleChangeIndex}
             >
-              <TabPanel value={value} index={0} dir={theme.direction}>
+              <TabPanel
+                value={value}
+                index={0}
+                dir={theme.direction}
+                className={classes.tabpanelWrap}
+              >
                 <ReadNews
                   allArticle={allArticle}
                   currentAudioArticle={currentAudioArticle}
                   currentPageIndex={currentPageIndex}
                   onClickListenArticle={onClickListenArticle}
                   onChangePageIndex={onChangePageIndex}
+                  responsiveObj={responsiveObj}
                 />
               </TabPanel>
               <TabPanel value={value} index={1} dir={theme.direction}>
