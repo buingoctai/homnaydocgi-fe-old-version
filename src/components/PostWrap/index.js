@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import AudioPlayer from "react-h5-audio-player";
+import "react-h5-audio-player/lib/styles.css";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
-import AudioPlayer from "react-h5-audio-player";
-import "react-h5-audio-player/lib/styles.css";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -35,13 +35,52 @@ const useStyles = makeStyles((theme) => ({
   buttonGroupWrap: {
     display: "flex",
     justifyContent: "flex-end",
-    marginTop: "36px",
+    marginTop: props => props.stayListenStatus ? "36px" : "0px",
   },
+  audioPlayerWrap: {
+    paddingBottom: "0px",
+    paddingTop: "0px",
+    boxShadow: "none",
+    backgroundColor: "#F1F3F4",
+  }
 }));
 const PostWrap = (props) => {
-  const classes = useStyles();
+
   const { post, currentAudioArticle, onClickListenArticle } = props;
-  const [switchAudio, setSwitchAudio] = useState(false);
+  const { id, audio } = currentAudioArticle;
+
+  const [stayListenStatus, setStayListenStatus] = useState(false);
+  const [currentAudio, setCurrentAudio] = useState('');
+  const [audioIndex, setAudioIndex] = useState(0);
+
+  const nextAudioHandle = () => {
+    setAudioIndex(audioIndex + 1);
+    if (audio[audioIndex + 1]) {
+      setCurrentAudio(audio[audioIndex + 1]);
+    } else {
+      setCurrentAudio('');
+      setStayListenStatus(false);
+    }
+  }
+
+  const pressListenHandle = () => {
+    setStayListenStatus(!stayListenStatus);
+    onClickListenArticle({
+      id: post.id,
+      content: post.content,
+      setCurrentAudio: setCurrentAudio
+    });
+    setAudioIndex(0);
+  }
+  useEffect(() => {
+    if (audio) {
+      setCurrentAudio(audio[audioIndex]);
+
+    }
+  }, [audio]);
+
+  const classes = useStyles({ stayListenStatus: stayListenStatus });
+
 
   return (
     <div className={classes.container}>
@@ -54,43 +93,36 @@ const PostWrap = (props) => {
       </div>
       <div className={classes.contentWrap}>
         <h3>{post.title}</h3>
-        <p>{`${post.content.substring(0, 100)}...`}</p>
+        <p>{stayListenStatus ? `${post.content.substring(0, 100)}...` : `${post.content.substring(0, 250)}...`}</p>
 
-        {currentAudioArticle.id === post.id ? (
+        {id === post.id && stayListenStatus ? (
+
           <AudioPlayer
             autoPlay
             src={
-              switchAudio
-                ? currentAudioArticle.audio[1]
-                : currentAudioArticle.audio[0]
+              currentAudio
             }
-            onEnded={() => setSwitchAudio(true)}
-            style={{
-              paddingBottom: "0px",
-              boxShadow: "none",
-              backgroundColor: "#F1F3F4",
-            }}
+            onEnded={() => nextAudioHandle()}
+            className={classes.audioPlayerWrap}
           />
+
         ) : (
-          <ButtonGroup
-            disableElevation
-            color="primary"
-            variant="text"
-            className={classes.buttonGroupWrap}
-          >
-            <Button
-              onClick={() =>
-                onClickListenArticle({
-                  id: post.id,
-                  content: post.content,
-                })
-              }
+            <ButtonGroup
+              disableElevation
+              color="primary"
+              variant="text"
+              className={classes.buttonGroupWrap}
             >
-              Nghe
+              <Button
+                onClick={() =>
+                  pressListenHandle()
+                }
+              >
+                Nghe
             </Button>
-            <Button>Thêm</Button>
-          </ButtonGroup>
-        )}
+              <Button>Thêm</Button>
+            </ButtonGroup>
+          )}
       </div>
     </div>
   );

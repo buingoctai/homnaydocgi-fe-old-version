@@ -28,7 +28,7 @@ export default compose(
   withState("currentPageIndex", "setCurrentPageIndex", 1),
   connect(mapStateToProps, mapDispatchToProps),
   withHandlers({
-    onClickListenArticle: (props) => ({ id, content }) => {
+    onClickListenArticle: (props) => ({ id, content, setCurrentAudio }) => {
       const {
         audioList,
         getAudioArticleDispatch,
@@ -40,6 +40,7 @@ export default compose(
       const [currentAudioArticle] = audioList.filter((item) => item.id === id);
       if (currentAudioArticle) {
         setCurrentAudioArticle(currentAudioArticle);
+        setCurrentAudio(currentAudioArticle.audio[0])
       } else {
         getAudioArticleDispatch({ id: id })
           .then((res) => {

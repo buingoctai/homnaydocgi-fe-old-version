@@ -124,45 +124,36 @@ export default function DetailPost(props) {
                 />
               </div>
             ) : (
-              <>
-                <Typography
-                  paragraph={true}
-                  align="justify"
-                  color="textPrimary"
-                  key="subContent"
-                >
-                  {newContent.length > 0 &&
-                    newContent.map((item) => (
-                      <>
-                        {item}
-                        <br />
-                      </>
-                    ))}
-                </Typography>
-                <div>
-                  <img
-                    src={showingPost.ImageUrl}
-                    alt="Ảnh"
-                    style={
-                      responsiveObj.is_maxWidth_500px
-                        ? { width: "70%" }
-                        : { width: "30%" }
-                    }
-                  />
-                </div>
-              </>
-            )}
+                <>
+                  <Typography
+                    paragraph={true}
+                    align="justify"
+                    color="textPrimary"
+                    key="subContent"
+                  >
+                    {newContent.length > 0 &&
+                      newContent.map((item) => (
+                        <>
+                          {item}
+                          <br />
+                        </>
+                      ))}
+                  </Typography>
+                  <div>
+                    <img
+                      src={showingPost.ImageUrl}
+                      alt="Ảnh"
+                      style={
+                        responsiveObj.is_maxWidth_500px
+                          ? { width: "70%" }
+                          : { width: "30%" }
+                      }
+                    />
+                  </div>
+                </>
+              )}
             <br />
             <br />
-
-            <audio controls>
-              <source
-                src="https://static.openfpt.vn/text2speech-v5/short/2020-05-11/leminh.0.f22b1f0268e2615382f4eb51337a9b60.mp3"
-                type="audio/mpeg"
-              />
-              Your browser does not support the audio element.
-            </audio>
-
             <Typography
               variant="h6"
               color="textSecondary"

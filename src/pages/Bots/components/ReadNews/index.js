@@ -6,10 +6,27 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
+import LinearProgress from "@material-ui/core/LinearProgress";
 import PostWrap from "../../../../components/PostWrap";
 import Paging from "../../../../components/Pagination";
 
 const useStyles = makeStyles((theme) => ({
+  totalContentLoadingWrap: {
+    height: "100%",
+    width: "100%",
+    marginTop: "200px",
+    marginBottom: "200px",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loadingMessage: {
+    display: "flex",
+    justifyContent: "center",
+    fontSize: "20px",
+    fontWeight: "bold",
+  },
   formControl: {
     margin: theme.spacing(1),
     minWidth: 120,
@@ -31,46 +48,31 @@ const ReadNews = (props) => {
 
   return (
     <div>
-      {/* <FormControl className={classes.formControl}>
-        <InputLabel id="demo-simple-select-label">Đầu Báo</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={10}
-          onChange={null}
-        >
-          <MenuItem value={10}>Tuổi Trẻ</MenuItem>
-          <MenuItem value={20}>Thanh Niên</MenuItem>
-          <MenuItem value={30}>Cafebiz</MenuItem>
-        </Select>
-      </FormControl>
-      <FormControl className={classes.formControl}>
-        <InputLabel id="demo-simple-select-label">Chủ Đề</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={10}
-          onChange={null}
-        >
-          <MenuItem value={10}>Thế Giới</MenuItem>
-          <MenuItem value={20}>Kinh Tế</MenuItem>
-          <MenuItem value={30}>Công Nghệ</MenuItem>
-        </Select>
-      </FormControl>
-      <Button variant="contained">Chọn</Button> */}
-      {data.length > 0 &&
-        data.map((item) => (
-          <PostWrap
-            post={item}
-            onClickListenArticle={onClickListenArticle}
-            currentAudioArticle={currentAudioArticle}
+      {totalRecord === 0 ? (
+        <div className={classes.totalContentLoadingWrap}>
+          <span className={classes.loadingMessage}>Đang tải bài viết</span>
+          <LinearProgress
+            color="primary"
+            style={{ height: "3px", width: "20%" }}
           />
-        ))}
-      <Paging
-        currentPageIndex={currentPageIndex}
-        totalRecord={totalRecord}
-        onChangePageIndex={onChangePageIndex}
-      />
+        </div>
+      ) : (
+          <>
+            {data.map((item) => (
+              <PostWrap
+                post={item}
+                onClickListenArticle={onClickListenArticle}
+                currentAudioArticle={currentAudioArticle}
+              />
+            ))}
+            < Paging
+              currentPageIndex={currentPageIndex}
+              totalRecord={totalRecord}
+              onChangePageIndex={onChangePageIndex}
+            />
+          </>
+        )}
+
     </div>
   );
 };

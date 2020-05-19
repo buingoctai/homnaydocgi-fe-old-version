@@ -9,6 +9,9 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
+import MusicVideoIcon from '@material-ui/icons/MusicVideo';
+import VideoCallIcon from '@material-ui/icons/VideoCall';
+import ChatIcon from '@material-ui/icons/Chat';
 import ReadNews from "./components/ReadNews";
 import Header from "../../components/Header";
 import enhance from "./enhance";
@@ -57,6 +60,10 @@ const useStyles = makeStyles((theme) => ({
     width: "70%",
     marginTop: "50px",
   },
+  tabLabelWrap: {
+    display: "flex",
+    alignItems: "center",
+  }
 }));
 
 const Bots = (props) => {
@@ -99,9 +106,9 @@ const Bots = (props) => {
                 variant="fullWidth"
                 aria-label="full width tabs example"
               >
-                <Tab label="Bot Đọc Báo" {...a11yProps(0)} />
-                <Tab label="Bot Call Video" {...a11yProps(1)} />
-                <Tab label="Bot Chat" {...a11yProps(2)} />
+                <Tab label={<div className={classes.tabLabelWrap}><MusicVideoIcon /><span style={{ paddingLeft: "5px" }}>Đọc Báo</span></div>} {...a11yProps(0)} />
+                <Tab label={<div className={classes.tabLabelWrap}><VideoCallIcon /><span style={{ paddingLeft: "5px" }}>Gọi Video</span></div>} {...a11yProps(1)} />
+                <Tab label={<div className={classes.tabLabelWrap}><ChatIcon /><span style={{ paddingLeft: "5px" }}>Chat</span></div>} {...a11yProps(2)} />
               </Tabs>
             </AppBar>
             <SwipeableViews
