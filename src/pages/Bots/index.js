@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -13,8 +13,12 @@ import Box from "@material-ui/core/Box";
 import MusicVideoIcon from "@material-ui/icons/MusicVideo";
 import VideoCallIcon from "@material-ui/icons/VideoCall";
 import ChatIcon from "@material-ui/icons/Chat";
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import TocIcon from '@material-ui/icons/Toc';
 import ReadNews from "./components/ReadNews";
+import NotificationsIcon from '@material-ui/icons/Notifications';
 import Header from "../../components/Header";
+import BarChart from "../../components/BarChart";
 import enhance from "./enhance";
 
 function TabPanel(props) {
@@ -57,10 +61,35 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: (props) => (props.is_maxWidth_500px ? "0px" : "none"),
   },
 
+  rootWrap: {
+    display: "flex",
+    justifyContent: "center",
+    flexDirection: "row",
+    marginTop: (props) => (props.is_maxWidth_500px ? "5px" : "50px"),
+  },
+
   tabWrap: {
     backgroundColor: theme.palette.background.paper,
     width: (props) => (props.is_maxWidth_500px ? "95%" : "70%"),
-    marginTop: (props) => (props.is_maxWidth_500px ? "5px" : "50px"),
+  },
+  personalizedUserWrap: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    flexGrow: "0.5"
+  },
+  personalizedChartWrap: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    flexGrow: "1"
+
+  },
+  icon: {
+    fontSize: "40px",
+    marginBottom: "50px"
   },
   tabLabelWrap: {
     display: "flex",
@@ -91,7 +120,8 @@ const Bots = (props) => {
   } = props;
   const classes = useStyles({ ...responsiveObj });
   const theme = useTheme();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
+  const [hidingUserIcon, setHidingUserIcon] = useState(true);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -100,6 +130,25 @@ const Bots = (props) => {
   const handleChangeIndex = (index) => {
     setValue(index);
   };
+
+
+  const onScroll = () => {
+    // Khoảng cách từ đỉnh scroll bar đến đỉnh của browser
+    const scrollTop = document.documentElement.scrollTop;
+    if (scrollTop >= 100) {
+      setHidingUserIcon(false);
+    }
+    if (scrollTop === 0) {
+      setHidingUserIcon(true);
+    }
+  }
+  useEffect(() => {
+    window.addEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+    }
+  }, []);
+
 
   return (
     <React.Fragment>
@@ -110,7 +159,14 @@ const Bots = (props) => {
           currentUser={"userName"}
           onSearchArticle={null}
         />
-        <div style={{ display: "flex", justifyContent: "center" }}>
+        <div className={classes.rootWrap}>
+          <div className={classes.personalizedUserWrap}>
+            {!hidingUserIcon && (
+              <AccountCircleIcon className={classes.icon} />
+            )}
+            <NotificationsIcon className={classes.icon} />
+            <TocIcon className={classes.icon} />
+          </div>
           <div className={classes.tabWrap}>
             <AppBar position="static" color="default">
               <Tabs
@@ -195,6 +251,9 @@ const Bots = (props) => {
                 ĐANG PHÁT TRIỂN
               </TabPanel>
             </SwipeableViews>
+          </div>
+          <div className={classes.personalizedChartWrap}>
+            <BarChart />
           </div>
         </div>
       </Container>

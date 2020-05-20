@@ -69,7 +69,7 @@ export default compose(
         .then(({ message }) => {
           alert(message);
         })
-        .catch(() => {});
+        .catch(() => { });
     },
     onHandleSuggestSendArticle: (props) => {
       const { setDialogContent } = props;
@@ -163,7 +163,7 @@ export default compose(
           const savedData = { topic: [...selectedTopics], name: name };
           localStorage.setItem("userData", JSON.stringify(savedData));
         })
-        .catch(() => {});
+        .catch(() => { });
     },
     onSubmitFeedBack: (props) => (feedback) => {
       const {
@@ -179,8 +179,8 @@ export default compose(
           id_msg_user: "",
           message: `${userName}: ${feedback}`,
         })
-          .then(({ message }) => {})
-          .catch(() => {});
+          .then(({ message }) => { })
+          .catch(() => { });
       } else {
         setScrollCount(0);
       }
@@ -212,7 +212,6 @@ export default compose(
   }),
   withHandlers({
     onExitApp: (props) => (e) => {
-      console.log("on scroll, e=", e);
       e.preventDefault("buin goc");
       e.returnValue = "Vui long cho chung toi feedback";
     },
@@ -273,7 +272,7 @@ export default compose(
           .then(() => {
             getGetAllTopicDispatch();
           })
-          .catch(() => {});
+          .catch(() => { });
       }
 
       getAllPostDispatch({

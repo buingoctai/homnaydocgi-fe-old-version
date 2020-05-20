@@ -17,6 +17,9 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: `1px solid ${theme.palette.divider}`,
     backgroundColor: "#808182",
     padding: (props) => (props.is_maxWidth_1000px ? "0px 2px" : null),
+    transition: "transform 2s",
+    transform: props => props.hidingUserIcon ? "none" : "translateY(-100%)",
+
   },
 
   userBtnWrap: {
@@ -74,9 +77,9 @@ const useStyles = makeStyles((theme) => ({
 const Header = (props) => {
   const history = useHistory();
   const is_maxWidth_1000px = useMediaQuery("(max-width:1000px)");
-  const classes = useStyles({ ...props, is_maxWidth_1000px });
   const [showAppName, setShowAppName] = useState(true);
   const [searchTxt, setSearchTxt] = useState("");
+  const [hidingUserIcon, setHidingUserIcon] = useState(true);
 
   const {
     onHandleSubscribeNotifiByBot,
@@ -86,6 +89,7 @@ const Header = (props) => {
     currentUser,
     searchTxtOnHomePage,
   } = props;
+  const classes = useStyles({ ...props, is_maxWidth_1000px, hidingUserIcon });
 
   const handleDeleteUser = () => {
     localStorage.removeItem("userData");
@@ -105,6 +109,19 @@ const Header = (props) => {
       onSearchArticle(txt);
     }
   };
+
+  const onScroll = () => {
+    // Khoảng cách từ đỉnh scroll bar đến đỉnh của browser
+    const scrollTop = document.documentElement.scrollTop;
+    if (scrollTop >= 100) {
+      console.log('tat menu');
+      setHidingUserIcon(false);
+    }
+    if (scrollTop === 0) {
+      setHidingUserIcon(true);
+    }
+  }
+
   useEffect(() => {
     setTimeout(() => {
       setShowAppName(false);
@@ -112,6 +129,10 @@ const Header = (props) => {
   });
   useEffect(() => {
     setSearchTxt(searchTxtOnHomePage);
+    window.addEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+    }
   }, []);
   return (
     <React.Fragment>

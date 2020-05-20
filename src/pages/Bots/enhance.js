@@ -72,7 +72,7 @@ export default compose(
     onChangePageIndex: (props) => (pageIndex) => {
       const { getAllArticleDispatch, setCurrentPageIndex } = props;
       getAllArticleDispatch({
-        paging: { pageIndex: pageIndex, pageSize: 10 },
+        paging: { pageIndex: pageIndex, pageSize: 5 },
         orderList: { orderType: "DESC", orderBy: "title" },
       })
         .then(() => {
@@ -83,8 +83,9 @@ export default compose(
   }),
   lifecycle({
     componentDidMount() {
+
       this.props.getAllArticleDispatch({
-        paging: { pageIndex: 1, pageSize: 10 },
+        paging: { pageIndex: 1, pageSize: 5 },
         orderList: { orderType: "DESC", orderBy: "title" },
       });
     },

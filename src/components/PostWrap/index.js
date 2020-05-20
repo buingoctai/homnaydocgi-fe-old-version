@@ -3,6 +3,8 @@ import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
+import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Loading from "../Loading";
 
@@ -175,9 +177,9 @@ const PostWrap = (props) => {
               onClick={() => pressListenHandle()}
               className={classes.button}
             >
-              Nghe
+              <PlayCircleFilledIcon />
             </Button>
-            <Button className={classes.button}>Thêm</Button>
+            <Button className={classes.button}><AddCircleIcon /></Button>
           </ButtonGroup>
         )}
         {isLoading && <Loading responsiveObj={responsiveObj} />}
