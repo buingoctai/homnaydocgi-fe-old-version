@@ -11,7 +11,7 @@ const request = (url, options) => {
 
 const HandleStatus = (response) => {
   const { status, data } = response;
-  if (status === 200) {
+  if (status === 200 || status === 201 || status === 201) {
     return data;
   } else {
     axios({

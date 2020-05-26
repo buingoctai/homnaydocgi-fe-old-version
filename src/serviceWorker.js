@@ -12,12 +12,12 @@
 
 const isLocalhost = Boolean(
   window.location.hostname === "localhost" ||
-    // [::1] is the IPv6 localhost address.
-    window.location.hostname === "[::1]" ||
-    // 127.0.0.0/8 are considered localhost for IPv4.
-    window.location.hostname.match(
-      /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
-    )
+  // [::1] is the IPv6 localhost address.
+  window.location.hostname === "[::1]" ||
+  // 127.0.0.0/8 are considered localhost for IPv4.
+  window.location.hostname.match(
+    /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
+  )
 );
 
 export function register(config) {
@@ -43,7 +43,7 @@ export function register(config) {
         navigator.serviceWorker.ready.then(() => {
           console.log(
             "This web app is being served cache-first by a service " +
-              "worker. To learn more, visit https://bit.ly/CRA-PWA"
+            "worker. To learn more, visit https://bit.ly/CRA-PWA"
           );
         });
       } else {
@@ -71,7 +71,7 @@ function registerValidSW(swUrl, config) {
               // content until all client tabs are closed.
               console.log(
                 "New content is available and will be used when all " +
-                  "tabs for this page are closed. See https://bit.ly/CRA-PWA."
+                "tabs for this page are closed. See https://bit.ly/CRA-PWA."
               );
 
               // Execute callback
@@ -138,4 +138,41 @@ export function unregister() {
         console.error(error.message);
       });
   }
+}
+
+
+
+// Ask User Permission 
+const pushServerPublicKey =
+  'BIN2Jc5Vmkmy-S3AUrcMlpKxJpLeVRAfu9WBqUbJ70SJOCWGCGXKY-Xzyh7HDr6KbRDGYHjqZ06OcS3BjD7uAm8';
+
+export async function askUserPermission() {
+  return await Notification.requestPermission();
+}
+
+export async function createNotificationSubscription() {
+  //wait for service worker installation to be ready
+
+  const serviceWorker = await navigator.serviceWorker.ready;
+
+  // subscribe and return the subscription
+  return await serviceWorker.pushManager.subscribe({
+    userVisibleOnly: true,
+    applicationServerKey: pushServerPublicKey
+  });
+}
+
+export function getUserSubscription() {
+  //wait for service worker installation to be ready, and then
+  return navigator.serviceWorker.ready
+    .then(function (serviceWorker) {
+      return serviceWorker.pushManager.getSubscription();
+    })
+    .then(function (pushSubscription) {
+      return pushSubscription;
+    });
+}
+
+export function isPushNotificationSupported() {
+  return 'serviceWorker' in navigator && 'PushManager' in window;
 }

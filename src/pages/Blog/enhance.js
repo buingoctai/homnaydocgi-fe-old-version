@@ -1,4 +1,5 @@
 import ReactGA from "react-ga";
+import axios from "axios";
 import { connect } from "react-redux";
 import { compose, withHandlers, withState, lifecycle } from "recompose";
 import { getCookie } from "../../utils/utils";
@@ -15,6 +16,9 @@ import {
   asyncGetAllTopic,
   saveAllPost,
 } from "./Store/actions";
+
+// Push Notification
+import * as serviceWorker from "../../serviceWorker";
 
 const mapStateToProps = (state) => {
   const { reducers, blogReducers } = state;
@@ -57,8 +61,41 @@ export default compose(
   withState("isOpenChoseTopic", "setIsOpenChoseTopic", true),
   withState("scrollCount", "setScrollCount", 0),
   withState("isOpenFeedBack", "setIsOpenFeedBack", false),
+  // Push Notification
+  withState("userConsent", "setUserConsent", [Notification.permission]),
+  withState("userSubscription", "setUserSubscription", null),
+  withState('pushServerSubscriptionId', 'setPushServerSubscriptionId', ''),
   connect(mapStateToProps, mapDispatchToProps),
   withHandlers({
+    // Push Notification
+    onClickAskUserPermission: props => {
+      const { setUserConsent } = props;
+      serviceWorker.askUserPermission().then(consent => {
+        setUserConsent(consent);
+      });
+    },
+    onClickSusbribeToPushNotification: props => {
+      const { setUserSubscription } = props;
+      serviceWorker.createNotificationSubscription().then((subscrition) => {
+        console.log('subscrition=', subscrition);
+        setUserSubscription(subscrition);
+      }).catch(() => console.log('lỗi tạo push subcription'));
+    },
+    onClickSendSubscriptionToPushServer: props => {
+      const { userSubscription, setPushServerSubscriptionId } = props;
+      axios.post(`${process.env.REACT_APP_API}/user/subscription`, { data: userSubscription })
+        .then((res) => {
+          setPushServerSubscriptionId(res.id)
+        })
+        .catch(() => console.log('lỗi gửi push subscription đến push server'));
+    },
+    onClickSendNotification: props => {
+      const { pushServerSubscriptionId } = props;
+      axios.get(`${process.env.REACT_APP_API}/user/subscription/${pushServerSubscriptionId}`).catch((error) => {
+        console.log("lỗi gửi thông báo");
+      });
+    },
+    //-------------------------------
     onHandleSubscribeNotifiByBot: (props) => {
       const { suggestSubscribeNotifiByBotDispatch, setDialogContent } = props;
       setDialogContent({ visible: true, content: "MSG3" });
@@ -218,6 +255,20 @@ export default compose(
   }),
   lifecycle({
     componentDidMount() {
+      // Push Notification
+      const pushNotificationSupported = serviceWorker.isPushNotificationSupported();
+      if (pushNotificationSupported) {
+
+        serviceWorker.register();
+      }
+
+      const getExixtingSubscription = async () => {
+        const existingSubscription = await serviceWorker.getUserSubscription();
+        this.props.setUserSubscription(existingSubscription);
+      };
+      getExixtingSubscription();
+
+
       window.addEventListener("scroll", this.props.onScroll);
       // window.addEventListener("beforeunload", (e) => this.props.onExitApp(e));
       ReactGA.initialize("UA-165562758-1");
@@ -335,5 +386,7 @@ export default compose(
     componentWillUnmount() {
       window.removeEventListener("scroll", this.props.onScroll);
     },
+
+
   })
 );

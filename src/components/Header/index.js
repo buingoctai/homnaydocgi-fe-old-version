@@ -84,6 +84,8 @@ const Header = (props) => {
   const {
     onHandleSubscribeNotifiByBot,
     onHandleSuggestSendArticle,
+    onClickSendSubscriptionToPushServer,
+    onClickSendNotification,
     onSearchArticle,
     title,
     currentUser,
@@ -114,7 +116,6 @@ const Header = (props) => {
     // Khoảng cách từ đỉnh scroll bar đến đỉnh của browser
     const scrollTop = document.documentElement.scrollTop;
     if (scrollTop >= 100) {
-      console.log('tat menu');
       setHidingUserIcon(false);
     }
     if (scrollTop === 0) {
@@ -179,14 +180,28 @@ const Header = (props) => {
               onClick={onHandleSubscribeNotifiByBot}
               className={classes.subcribeBtnWrap}
             >
-              ĐĂNG KÝ
+              nhận thông báo
             </Button>
             <Button
               size="small"
               onClick={onHandleSuggestSendArticle}
               className={classes.suggestSupplyArticleBtnWrap}
             >
-              GỬI BÀI VIẾT
+              tạo push subcription
+            </Button>
+            <Button
+              size="small"
+              onClick={onClickSendSubscriptionToPushServer}
+              className={classes.suggestSupplyArticleBtnWrap}
+            >
+              gửi nó đến push server
+            </Button>
+            <Button
+              size="small"
+              onClick={onClickSendNotification}
+              className={classes.suggestSupplyArticleBtnWrap}
+            >
+              gửi thông báo
             </Button>
           </>
         )}

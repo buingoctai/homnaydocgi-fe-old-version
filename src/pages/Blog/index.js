@@ -67,15 +67,22 @@ const Blog = (props) => {
     mainPosts,
     featuredPosts,
     allPost,
-    dialogContent,
+    dialogContent } = props;
+
+  const {
     setDialogContent,
     onHandleNavigateAdminPage,
     onHandleSubscribeNotifiByBot,
     onHandleSuggestSendArticle,
+    onClickSusbribeToPushNotification,
+    onClickSendSubscriptionToPushServer,
+    onClickSendNotification,
     onHandleOpenDetailContainer,
     onGetFeaturedTopic,
     onSearchArticle,
     onSubmitFeedBack,
+    // Push Notification
+    onClickAskUserPermission
   } = props;
   const classes = useStyles({ ...responsiveObj });
 
@@ -87,9 +94,14 @@ const Blog = (props) => {
           title="HÔM NAY ĐỌC GÌ?"
           currentUser={userName}
           onHandleNavigateAdminPage={onHandleNavigateAdminPage}
-          onHandleSubscribeNotifiByBot={onHandleSubscribeNotifiByBot}
-          onHandleSuggestSendArticle={onHandleSuggestSendArticle}
+          // onHandleSubscribeNotifiByBot={onHandleSubscribeNotifiByBot}
+          // onHandleSuggestSendArticle={onHandleSuggestSendArticle}
           onSearchArticle={onSearchArticle}
+          // Push Notification
+          onHandleSubscribeNotifiByBot={onClickAskUserPermission}
+          onHandleSuggestSendArticle={onClickSusbribeToPushNotification}
+          onClickSendSubscriptionToPushServer={onClickSendSubscriptionToPushServer}
+          onClickSendNotification={onClickSendNotification}
         />
         {isLoadingPage && (
           <div className={classes.totalContentLoadingWrap}>
