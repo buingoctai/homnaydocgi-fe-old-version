@@ -18,8 +18,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#808182",
     padding: (props) => (props.is_maxWidth_1000px ? "0px 2px" : null),
     transition: "transform 2s",
-    transform: props => props.hidingUserIcon ? "none" : "translateY(-100%)",
-
+    transform: (props) => (props.hidingUserIcon ? "none" : "translateY(-100%)"),
   },
 
   userBtnWrap: {
@@ -38,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     animationName: "$titleAmination",
     animationDuration: "6s",
-    animationIterationCount: 'infinite',
+    animationIterationCount: "infinite",
     fontSize: (props) => (props.is_maxWidth_1000px ? "15px" : "40px"),
   },
 
@@ -83,7 +82,7 @@ const Header = (props) => {
 
   const {
     onHandleSubscribeNotifiByBot,
-    onHandleSuggestSendArticle,
+    onClickSusbribeToPushNotification,
     onClickSendSubscriptionToPushServer,
     onClickSendNotification,
     onSearchArticle,
@@ -121,7 +120,7 @@ const Header = (props) => {
     if (scrollTop === 0) {
       setHidingUserIcon(true);
     }
-  }
+  };
 
   useEffect(() => {
     setTimeout(() => {
@@ -133,7 +132,7 @@ const Header = (props) => {
     window.addEventListener("scroll", onScroll);
     return () => {
       window.removeEventListener("scroll", onScroll);
-    }
+    };
   }, []);
   return (
     <React.Fragment>
@@ -184,7 +183,7 @@ const Header = (props) => {
             </Button>
             <Button
               size="small"
-              onClick={onHandleSuggestSendArticle}
+              onClick={onClickSusbribeToPushNotification}
               className={classes.suggestSupplyArticleBtnWrap}
             >
               tạo push subcription

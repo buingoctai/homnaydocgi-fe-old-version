@@ -64,36 +64,51 @@ export default compose(
   // Push Notification
   withState("userConsent", "setUserConsent", [Notification.permission]),
   withState("userSubscription", "setUserSubscription", null),
-  withState('pushServerSubscriptionId', 'setPushServerSubscriptionId', ''),
+  withState("pushServerSubscriptionId", "setPushServerSubscriptionId", ""),
   connect(mapStateToProps, mapDispatchToProps),
   withHandlers({
     // Push Notification
-    onClickAskUserPermission: props => {
+    onClickAskUserPermission: (props) => {
       const { setUserConsent } = props;
-      serviceWorker.askUserPermission().then(consent => {
+      serviceWorker.askUserPermission().then((consent) => {
         setUserConsent(consent);
       });
     },
-    onClickSusbribeToPushNotification: props => {
+    onClickSusbribeToPushNotification: (props) => {
       const { setUserSubscription } = props;
-      serviceWorker.createNotificationSubscription().then((subscrition) => {
-        console.log('subscrition=', subscrition);
-        setUserSubscription(subscrition);
-      }).catch(() => console.log('lỗi tạo push subcription'));
-    },
-    onClickSendSubscriptionToPushServer: props => {
-      const { userSubscription, setPushServerSubscriptionId } = props;
-      axios.post(`${process.env.REACT_APP_API}/user/subscription`, { data: userSubscription })
-        .then((res) => {
-          setPushServerSubscriptionId(res.id)
+      console.log("onClickSusbribeToPushNotification");
+      console.log(
+        "onClickSusbribeToPushNotification serviceWorker",
+        serviceWorker
+      );
+      serviceWorker
+        .createNotificationSubscription()
+        .then((subscrition) => {
+          console.log("subscrition=", subscrition);
+          setUserSubscription(subscrition);
         })
-        .catch(() => console.log('lỗi gửi push subscription đến push server'));
+        .catch(() => console.log("lỗi tạo push subcription"));
     },
-    onClickSendNotification: props => {
+    onClickSendSubscriptionToPushServer: (props) => {
+      const { userSubscription, setPushServerSubscriptionId } = props;
+      axios
+        .post(`${process.env.REACT_APP_API}/user/subscription`, {
+          data: userSubscription,
+        })
+        .then((res) => {
+          setPushServerSubscriptionId(res.id);
+        })
+        .catch(() => console.log("lỗi gửi push subscription đến push server"));
+    },
+    onClickSendNotification: (props) => {
       const { pushServerSubscriptionId } = props;
-      axios.get(`${process.env.REACT_APP_API}/user/subscription/${pushServerSubscriptionId}`).catch((error) => {
-        console.log("lỗi gửi thông báo");
-      });
+      axios
+        .get(
+          `${process.env.REACT_APP_API}/user/subscription/${pushServerSubscriptionId}`
+        )
+        .catch((error) => {
+          console.log("lỗi gửi thông báo");
+        });
     },
     //-------------------------------
     onHandleSubscribeNotifiByBot: (props) => {
@@ -106,7 +121,7 @@ export default compose(
         .then(({ message }) => {
           alert(message);
         })
-        .catch(() => { });
+        .catch(() => {});
     },
     onHandleSuggestSendArticle: (props) => {
       const { setDialogContent } = props;
@@ -200,7 +215,7 @@ export default compose(
           const savedData = { topic: [...selectedTopics], name: name };
           localStorage.setItem("userData", JSON.stringify(savedData));
         })
-        .catch(() => { });
+        .catch(() => {});
     },
     onSubmitFeedBack: (props) => (feedback) => {
       const {
@@ -216,8 +231,8 @@ export default compose(
           id_msg_user: "",
           message: `${userName}: ${feedback}`,
         })
-          .then(({ message }) => { })
-          .catch(() => { });
+          .then(({ message }) => {})
+          .catch(() => {});
       } else {
         setScrollCount(0);
       }
@@ -258,16 +273,19 @@ export default compose(
       // Push Notification
       const pushNotificationSupported = serviceWorker.isPushNotificationSupported();
       if (pushNotificationSupported) {
-
+        console.log("call serviceWorker.register");
         serviceWorker.register();
       }
 
       const getExixtingSubscription = async () => {
         const existingSubscription = await serviceWorker.getUserSubscription();
+        console.log(
+          "in getExixtingSubscription, existingSubscription=",
+          existingSubscription
+        );
         this.props.setUserSubscription(existingSubscription);
       };
       getExixtingSubscription();
-
 
       window.addEventListener("scroll", this.props.onScroll);
       // window.addEventListener("beforeunload", (e) => this.props.onExitApp(e));
@@ -323,7 +341,7 @@ export default compose(
           .then(() => {
             getGetAllTopicDispatch();
           })
-          .catch(() => { });
+          .catch(() => {});
       }
 
       getAllPostDispatch({
@@ -386,7 +404,5 @@ export default compose(
     componentWillUnmount() {
       window.removeEventListener("scroll", this.props.onScroll);
     },
-
-
   })
 );

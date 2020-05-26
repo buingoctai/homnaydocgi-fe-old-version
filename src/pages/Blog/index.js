@@ -67,7 +67,8 @@ const Blog = (props) => {
     mainPosts,
     featuredPosts,
     allPost,
-    dialogContent } = props;
+    dialogContent,
+  } = props;
 
   const {
     setDialogContent,
@@ -82,7 +83,7 @@ const Blog = (props) => {
     onSearchArticle,
     onSubmitFeedBack,
     // Push Notification
-    onClickAskUserPermission
+    onClickAskUserPermission,
   } = props;
   const classes = useStyles({ ...responsiveObj });
 
@@ -99,8 +100,10 @@ const Blog = (props) => {
           onSearchArticle={onSearchArticle}
           // Push Notification
           onHandleSubscribeNotifiByBot={onClickAskUserPermission}
-          onHandleSuggestSendArticle={onClickSusbribeToPushNotification}
-          onClickSendSubscriptionToPushServer={onClickSendSubscriptionToPushServer}
+          onClickSusbribeToPushNotification={onClickSusbribeToPushNotification}
+          onClickSendSubscriptionToPushServer={
+            onClickSendSubscriptionToPushServer
+          }
           onClickSendNotification={onClickSendNotification}
         />
         {isLoadingPage && (

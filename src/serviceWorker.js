@@ -12,15 +12,16 @@
 
 const isLocalhost = Boolean(
   window.location.hostname === "localhost" ||
-  // [::1] is the IPv6 localhost address.
-  window.location.hostname === "[::1]" ||
-  // 127.0.0.0/8 are considered localhost for IPv4.
-  window.location.hostname.match(
-    /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
-  )
+    // [::1] is the IPv6 localhost address.
+    window.location.hostname === "[::1]" ||
+    // 127.0.0.0/8 are considered localhost for IPv4.
+    window.location.hostname.match(
+      /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
+    )
 );
 
 export function register(config) {
+  console.log("in register, process.env.NODE_ENV=", process.env.NODE_ENV);
   if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
@@ -43,7 +44,7 @@ export function register(config) {
         navigator.serviceWorker.ready.then(() => {
           console.log(
             "This web app is being served cache-first by a service " +
-            "worker. To learn more, visit https://bit.ly/CRA-PWA"
+              "worker. To learn more, visit https://bit.ly/CRA-PWA"
           );
         });
       } else {
@@ -71,7 +72,7 @@ function registerValidSW(swUrl, config) {
               // content until all client tabs are closed.
               console.log(
                 "New content is available and will be used when all " +
-                "tabs for this page are closed. See https://bit.ly/CRA-PWA."
+                  "tabs for this page are closed. See https://bit.ly/CRA-PWA."
               );
 
               // Execute callback
@@ -140,11 +141,9 @@ export function unregister() {
   }
 }
 
-
-
-// Ask User Permission 
+// Ask User Permission
 const pushServerPublicKey =
-  'BIN2Jc5Vmkmy-S3AUrcMlpKxJpLeVRAfu9WBqUbJ70SJOCWGCGXKY-Xzyh7HDr6KbRDGYHjqZ06OcS3BjD7uAm8';
+  "BIN2Jc5Vmkmy-S3AUrcMlpKxJpLeVRAfu9WBqUbJ70SJOCWGCGXKY-Xzyh7HDr6KbRDGYHjqZ06OcS3BjD7uAm8";
 
 export async function askUserPermission() {
   return await Notification.requestPermission();
@@ -158,7 +157,7 @@ export async function createNotificationSubscription() {
   // subscribe and return the subscription
   return await serviceWorker.pushManager.subscribe({
     userVisibleOnly: true,
-    applicationServerKey: pushServerPublicKey
+    applicationServerKey: pushServerPublicKey,
   });
 }
 
@@ -174,5 +173,5 @@ export function getUserSubscription() {
 }
 
 export function isPushNotificationSupported() {
-  return 'serviceWorker' in navigator && 'PushManager' in window;
+  return "serviceWorker" in navigator && "PushManager" in window;
 }
