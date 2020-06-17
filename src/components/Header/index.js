@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
@@ -10,6 +11,9 @@ import SearchIcon from "@material-ui/icons/Search";
 import Typography from "@material-ui/core/Typography";
 import Chip from "@material-ui/core/Chip";
 import FaceIcon from "@material-ui/icons/Face";
+import NotificationsActiveIcon from "@material-ui/icons/NotificationsActive";
+import PostAddIcon from "@material-ui/icons/PostAdd";
+
 import DrawerMenu from "../../components/DrawerMenu";
 
 const useStyles = makeStyles((theme) => ({
@@ -80,16 +84,7 @@ const Header = (props) => {
   const [searchTxt, setSearchTxt] = useState("");
   const [hidingUserIcon, setHidingUserIcon] = useState(true);
 
-  const {
-    onHandleSubscribeNotifiByBot,
-    onClickSusbribeToPushNotification,
-    onClickSendSubscriptionToPushServer,
-    onClickSendNotification,
-    onSearchArticle,
-    title,
-    currentUser,
-    searchTxtOnHomePage,
-  } = props;
+  const { onSearchArticle, title, currentUser, searchTxtOnHomePage } = props;
   const classes = useStyles({ ...props, is_maxWidth_1000px, hidingUserIcon });
 
   const handleDeleteUser = () => {
@@ -176,31 +171,17 @@ const Header = (props) => {
           <>
             <Button
               size="small"
-              onClick={onHandleSubscribeNotifiByBot}
+              onClick={null}
               className={classes.subcribeBtnWrap}
             >
-              nhận thông báo
+              <NotificationsActiveIcon />
             </Button>
             <Button
               size="small"
-              onClick={onClickSusbribeToPushNotification}
+              onClick={null}
               className={classes.suggestSupplyArticleBtnWrap}
             >
-              tạo push subcription
-            </Button>
-            <Button
-              size="small"
-              onClick={onClickSendSubscriptionToPushServer}
-              className={classes.suggestSupplyArticleBtnWrap}
-            >
-              gửi nó đến push server
-            </Button>
-            <Button
-              size="small"
-              onClick={onClickSendNotification}
-              className={classes.suggestSupplyArticleBtnWrap}
-            >
-              gửi thông báo
+              <PostAddIcon />
             </Button>
           </>
         )}

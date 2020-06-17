@@ -134,7 +134,6 @@ export default compose(
       // }
 
       window.location.href = `${process.env.REACT_APP_URL}/home`;
-
     },
   })
 );

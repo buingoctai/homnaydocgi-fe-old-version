@@ -115,10 +115,10 @@ const Blog = (props) => {
             />
           </div>
         )}
-        {/* {DraggableDialog({
+        {DraggableDialog({
           ...dialogContent,
           setDialogContent: setDialogContent,
-        })} */}
+        })}
 
         {TopicOption({
           visible: isOpenChoseTopic,
@@ -127,10 +127,10 @@ const Blog = (props) => {
           onGetFeaturedTopic: onGetFeaturedTopic,
         })}
 
-        {/* {FeedBack({
+        {FeedBack({
           visible: isOpenFeedBack,
           onSubmitFeedBack: onSubmitFeedBack,
-        })} */}
+        })}
 
         {!isLoadingPage && (
           <main>

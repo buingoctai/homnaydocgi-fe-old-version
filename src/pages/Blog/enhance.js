@@ -243,7 +243,7 @@ export default compose(
       // Tính năng tạm thời
       const { scrollCount, setScrollCount, setIsOpenFeedBack } = props;
       const count = scrollCount + 1;
-      if (count === 20) {
+      if (count === 100) {
         setIsOpenFeedBack(true);
       }
       setScrollCount(count);
@@ -264,7 +264,7 @@ export default compose(
   }),
   withHandlers({
     onExitApp: (props) => (e) => {
-      e.preventDefault("buin goc");
+      e.preventDefault("");
       e.returnValue = "Vui long cho chung toi feedback";
     },
   }),
@@ -307,6 +307,7 @@ export default compose(
         eventAction: "action",
         eventLabel: "label",
       });
+
       const {
         currentPageIndex,
         authencationDispatch,

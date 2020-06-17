@@ -20,8 +20,7 @@ import { submitDataSuccess } from "./store/sagas";
 import { sagaMiddleware } from "./store/actions";
 import initialState from "./store/state";
 import blogState from "./pages/Blog/Store/state";
-// import App from "./pages/App";
-import App from "./App";
+import App from "./pages/App";
 import "./index.css";
 
 //const sagaMiddleware = createSagaMiddleware();
