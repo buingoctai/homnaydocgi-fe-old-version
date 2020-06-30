@@ -36,7 +36,7 @@
     "typescript": "^3.8.3"
   },
   "scripts": {
-    "dev": "react-scripts start",
+    "start": "react-scripts start",
     "build": "rm -rf build/ && REACT_APP_STAGE=pro react-scripts build && npm run-script sw",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

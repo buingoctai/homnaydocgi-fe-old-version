@@ -1,7 +1,5 @@
 import { connect } from "react-redux";
 import { compose, withHandlers, withState, lifecycle } from "recompose";
-import { getCookie } from "../../utils/utils";
-import { COOKIE_NAMES } from "../../utils/constants";
 
 import { saveTokenToCookie } from "../../store/actions";
 import { asyncSubmitUserData } from "./Store/actions";
@@ -128,11 +126,6 @@ export default compose(
   }),
   lifecycle({
     componentDidMount() {
-      const token = getCookie(COOKIE_NAMES.ACCESS_TOKEN);
-      // if (token) {
-      //   window.location.href = "http://localhost:300/home";
-      // }
-
       window.location.href = `${process.env.REACT_APP_URL}/home`;
     },
   })

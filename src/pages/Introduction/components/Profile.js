@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const [name, workingPlace, address, phone] = Object.keys(authorBrielf);
+const [name, workingPlace, phone] = Object.keys(authorBrielf);
 const Profile = () => {
   const classes = useStyles();
   return (

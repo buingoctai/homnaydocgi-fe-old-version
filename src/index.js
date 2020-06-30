@@ -6,8 +6,6 @@ import {
   createStore,
   applyMiddleware,
   combineReducers,
-  CombinedState,
-  compose,
 } from "redux";
 import createSagaMiddleware from "redux-saga";
 import { Provider } from "react-redux";
