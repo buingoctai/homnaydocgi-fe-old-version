@@ -18,7 +18,7 @@ import PostGrid from "../../components/PostGrid";
 import FeedBack from "./components/FeedBack";
 import enhance from "./enhance";
 
-import AuthorArticlePost from "./PostWrap/AuthorArticlePost";
+import AuthorPost from "./PostWrap/AuthorPost";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -149,7 +149,7 @@ const Blog = (props) => {
                 onHandleOpenDetailContainer={onHandleOpenDetailContainer}
               />
               <div style={{ flexGrow: "2" }} />
-              <AuthorArticlePost
+              <AuthorPost
                 post={mainPosts}
                 responsiveObj={responsiveObj}
                 onHandleOpenDetailContainer={onHandleOpenDetailContainer}

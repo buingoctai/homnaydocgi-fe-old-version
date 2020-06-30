@@ -35,7 +35,7 @@ const userStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function AuthorArticlePost(props) {
+export default function AuthorPost(props) {
     const { post, responsiveObj, onHandleOpenDetailContainer } = props;
     const classes = userStyles({ ...responsiveObj });
 
@@ -61,6 +61,6 @@ export default function AuthorArticlePost(props) {
     )
 }
 
-AuthorArticlePost.propTypes = {
+AuthorPost.propTypes = {
     post: PropTypes.object,
 };
