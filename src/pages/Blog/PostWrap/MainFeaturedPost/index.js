@@ -10,9 +10,11 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     display: "flex",
     flexDirection: "column",
+    height: "fix-content"
   },
   imageWrap: {
-    width: (props) => (props.is_maxWidth_500px ? "100%" : "50%"),
+    // width: (props) => (props.is_maxWidth_500px ? "100%" : "50%"),
+    width: "100%",
     position: "relative",
     transition: "transform 0.3s",
     "&:hover": {
