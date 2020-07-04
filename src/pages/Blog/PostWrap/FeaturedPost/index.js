@@ -43,53 +43,53 @@ export default function FeaturedPost(props) {
 
   return post.data
     ? post.data.map((post, index) => (
-      <Grid item xs={12} md={6} key={index} className={classes.container}>
-        <Link
-          to={{ pathname: "/home/topic", topic: post.Topic }}
-          style={{ textDecoration: "none" }}
-        >
-          <span className={classes.topicNameWrap}>
-            {translatePostGroupTitle(post.Topic)}
-          </span>
-        </Link>
+        <Grid item xs={12} md={6} key={index} className={classes.container}>
+          <Link
+            to={{ pathname: "/home/topic", topic: post.Topic }}
+            style={{ textDecoration: "none" }}
+          >
+            <span className={classes.topicNameWrap}>
+              {translatePostGroupTitle(post.Topic)}
+            </span>
+          </Link>
 
-        <CardActionArea component="a">
-          <Card className={classes.card}>
-            <div className={classes.cardDetails}>
-              <CardContent>
-                <Typography
-                  component="h2"
-                  variant="h6"
-                  style={{ fontSize: "15px" }}
-                >
-                  {post && `${post.Title.substring(0, 30)}...`}
-                </Typography>
-                <Typography variant="subtitle2" color="textSecondary">
-                  {post && moment(post.SubmitDate).format("DD-MM-YYYY")}
-                </Typography>
-                <Typography variant="subtitle2" paragraph>
-                  {post && `${post.Brief}...`}
-                </Typography>
-                <Button
-                  variant="contained"
-                  onClick={() => onHandleOpenDetailContainer(post.Id)}
-                  style={{ backgroundColor: "#ffff" }}
-                >
-                  Đọc tiếp…
+          <CardActionArea component="a">
+            <Card className={classes.card}>
+              <div className={classes.cardDetails}>
+                <CardContent>
+                  <Typography
+                    component="h2"
+                    variant="h6"
+                    style={{ fontSize: "15px" }}
+                  >
+                    {post && `${post.Title.substring(0, 30)}...`}
+                  </Typography>
+                  <Typography variant="subtitle2" color="textSecondary">
+                    {post && moment(post.SubmitDate).format("DD-MM-YYYY")}
+                  </Typography>
+                  <Typography variant="subtitle2" paragraph>
+                    {post && `${post.Brief}...`}
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    onClick={() => onHandleOpenDetailContainer(post.Id)}
+                    style={{ backgroundColor: "#ffff" }}
+                  >
+                    Đọc tiếp…
                   </Button>
-              </CardContent>
-            </div>
-            <Hidden xsDown>
-              <CardMedia
-                className={classes.cardMedia}
-                image={post.ImageUrl}
-                title={post.imageTitle}
-              />
-            </Hidden>
-          </Card>
-        </CardActionArea>
-      </Grid>
-    ))
+                </CardContent>
+              </div>
+              <Hidden xsDown>
+                <CardMedia
+                  className={classes.cardMedia}
+                  image={post.ImageUrl}
+                  title={post.imageTitle}
+                />
+              </Hidden>
+            </Card>
+          </CardActionArea>
+        </Grid>
+      ))
     : null;
 }
 

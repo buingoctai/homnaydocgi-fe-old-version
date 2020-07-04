@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: `1px solid ${theme.palette.divider}`,
     backgroundColor: "#808182",
     padding: (props) => (props.is_maxWidth_1000px ? "0px 2px" : null),
-    transition: "transform 2s",
+    transition: "transform 1s",
     transform: (props) => (props.hidingUserIcon ? "none" : "translateY(-100%)"),
   },
 

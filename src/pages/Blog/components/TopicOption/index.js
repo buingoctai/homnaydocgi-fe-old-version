@@ -111,15 +111,15 @@ const TopicOption = ({
           </Alert>
         </DialogContent>
         <DialogActions>
+          <Button onClick={onDefault} color="primary" autoFocus>
+            Mặc định
+          </Button>
           <Button
             onClick={onOK}
             color="primary"
             disabled={!selectedTopics.length || !name}
           >
             Chọn
-          </Button>
-          <Button onClick={onDefault} color="primary" autoFocus>
-            Mặc định
           </Button>
         </DialogActions>
       </Dialog>
