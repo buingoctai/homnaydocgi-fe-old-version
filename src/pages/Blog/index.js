@@ -18,6 +18,10 @@ import PostGrid from "../../components/PostGrid";
 import FeedBack from "./components/FeedBack";
 import enhance from "./enhance";
 
+first_slider
+import AuthorPost from "./PostWrap/AuthorPost";
+import { render } from "@testing-library/react";
+
 const useStyles = makeStyles((theme) => ({
   container: {
     width: "90%",
@@ -115,7 +119,7 @@ const Blog = (props) => {
             />
           </div>
         )}
-        {DraggableDialog({
+        {/* {DraggableDialog({
           ...dialogContent,
           setDialogContent: setDialogContent,
         })}
@@ -125,7 +129,7 @@ const Blog = (props) => {
           setIsOpenChoseTopic: setIsOpenChoseTopic,
           allTopic: allTopic,
           onGetFeaturedTopic: onGetFeaturedTopic,
-        })}
+        })} */}
 
         {FeedBack({
           visible: isOpenFeedBack,
@@ -139,6 +143,9 @@ const Blog = (props) => {
                 display: "flex",
                 flexDirection: "row",
                 padding: "20px 0",
+                height: "230px",
+                maxHeight: "235px",
+                marginBottom: "1%"
               }}
             >
               <MainFeaturedPost
@@ -146,7 +153,14 @@ const Blog = (props) => {
                 responsiveObj={responsiveObj}
                 onHandleOpenDetailContainer={onHandleOpenDetailContainer}
               />
-              <div style={{ flexGrow: "2" }} />
+              {/* <div style={{ flexGrow: "2" }} /> */}
+              {!responsiveObj.is_maxWidth_500px &&
+                <AuthorPost
+                  post={mainPosts}
+                  responsiveObj={responsiveObj}
+                  onHandleOpenDetailContainer={onHandleOpenDetailContainer}
+                />
+              }
             </div>
 
             <Grid container spacing={4}>
