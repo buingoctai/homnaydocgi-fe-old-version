@@ -11,8 +11,6 @@ import AssignmentIndIcon from "@material-ui/icons/AssignmentInd";
 import TextField from "@material-ui/core/TextField";
 import { green } from "@material-ui/core/colors";
 import LinearProgress from "@material-ui/core/LinearProgress";
-import Typography from "@material-ui/core/Typography";
-import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import FormLabel from "@material-ui/core/FormLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormGroup from "@material-ui/core/FormGroup";
@@ -20,7 +18,6 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 
 import DraggableDialog from "../../../components/Dialog";
-import { contentIntro } from "../../../utils/constants";
 
 const useStyles = makeStyles((theme) => ({
   loginFormContainer: {

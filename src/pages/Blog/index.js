@@ -18,6 +18,7 @@ import PostGrid from "../../components/PostGrid";
 import FeedBack from "./components/FeedBack";
 import enhance from "./enhance";
 
+first_slider
 import AuthorPost from "./PostWrap/AuthorPost";
 import { render } from "@testing-library/react";
 
