@@ -19,7 +19,6 @@ import {
 
 // Push Notification
 import * as serviceWorker from "../../serviceWorker";
-import { findNodeByComponentName, Utils } from "react-fiber-traverse";
 
 const mapStateToProps = (state) => {
   const { reducers, blogReducers } = state;
@@ -160,15 +159,6 @@ export default compose(
 
         getDetailPostDispatch({ id: postId })
           .then(() => {
-            const root = document.getElementById("root");
-            const rootFiberNode = Utils.getRootFiberNodeFromDOM(root);
-            const someFiberNode = findNodeByComponentName(
-              rootFiberNode,
-              "onHandleOpenDetailContainer"
-            );
-            console.log("rootFiberNode=", rootFiberNode);
-            console.log("someFiberNode, child=", someFiberNode.child);
-
             setIsLoadingSubPage(false);
           })
           .catch(() => {
