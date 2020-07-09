@@ -9,6 +9,7 @@ import {
 } from "./Store/actions";
 
 import { asyncGetDetailPost } from "../Blog/Store/actions";
+import moment from "moment";
 
 const mapStateToProps = (state) => {
   const { adminReducers, blogReducers } = state;
@@ -33,7 +34,7 @@ export default compose(
     title: "",
     content: "",
     topic: "",
-    submitDate: "",
+    submitDate: moment(),
     imageUrl: "",
   }),
   withState("selected", "setSelected", []),

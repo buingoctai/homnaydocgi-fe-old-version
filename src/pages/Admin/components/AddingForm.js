@@ -1,5 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
+import moment from "moment";
 
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
@@ -8,6 +10,7 @@ import Button from "@material-ui/core/Button";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
+import KeyboardReturnIcon from "@material-ui/icons/KeyboardReturn";
 
 import { translatePostGroupTitle } from "../../../utils/utils";
 
@@ -79,6 +82,9 @@ const AddingForm = (props) => {
 
   return (
     <Paper className={classes.paper}>
+      <Link to={{ pathname: "/home" }} style={{ textDecoration: "none" }}>
+        <KeyboardReturnIcon color="primary" />
+      </Link>
       <Typography component="h1" variant="h4" align="center">
         MẪU THÔNG TIN
       </Typography>
@@ -191,7 +197,7 @@ const AddingForm = (props) => {
             id="date"
             label="Thời gian"
             type="date"
-            defaultValue="2017-05-24"
+            defaultValue={moment().format("YYYY-MM-DD")}
             InputLabelProps={{
               shrink: true,
             }}
@@ -206,14 +212,14 @@ const AddingForm = (props) => {
           <Button
             variant="contained"
             color="primary"
-            disabled={
-              !author ||
-              !title ||
-              !content ||
-              !topic ||
-              !imageUrl ||
-              !submitDate
-            }
+            // disabled={
+            //   !author ||
+            //   !title ||
+            //   !content ||
+            //   !topic ||
+            //   !imageUrl ||
+            //   !submitDate
+            // }
             onClick={onHandleSubmitArticle}
           >
             THÊM/SỬA
