@@ -94,15 +94,21 @@ const Blog = (props) => {
       {
         name: "Tuan Nguyen",
         description: "CTO tại VCCORP",
+        image:
+          "https://scontent-hkt1-1.xx.fbcdn.net/v/t1.0-9/38149369_10216412207723069_415017780664860672_n.jpg?_nc_cat=107&_nc_sid=a4a2d7&_nc_ohc=SNk8DlYsadEAX_xbwhD&_nc_ht=scontent-hkt1-1.xx&oh=cc84562c81babdbcbd4c91a35899e995&oe=5F2E649E",
       },
       {
         name: "Nguyen Phi Van",
         description: "Board Advisor at Austria-Vietnam Innovation Council",
+        image:
+          "https://scontent-hkt1-1.xx.fbcdn.net/v/t1.0-9/106505010_1405071963215891_7426207842881977826_o.jpg?_nc_cat=110&_nc_sid=09cbfe&_nc_ohc=OYaMfoVH8J8AX83AUDz&_nc_ht=scontent-hkt1-1.xx&oh=8ed8aa8efaae51e21548cca0e50e9790&oe=5F2CF107",
       },
       {
         name: "David Trieu",
         description:
           "Project Director tại Hệ Sinh Thái Khởi Nghiệp IoT Việt Nam",
+        image:
+          "https://scontent-hkt1-1.xx.fbcdn.net/v/t31.0-8/20900824_1147057698772455_2980176105139356507_o.jpg?_nc_cat=108&_nc_sid=09cbfe&_nc_ohc=Nv4zjWZ7IXkAX-STMvm&_nc_ht=scontent-hkt1-1.xx&oh=cf42e18bcef0fbc41a64a3de75620206&oe=5F2B2C7C",
       },
     ],
   };

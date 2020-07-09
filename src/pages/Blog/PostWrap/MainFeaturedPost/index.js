@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
   imageWrap: {
     // width: (props) => (props.is_maxWidth_500px ? "100%" : "50%"),
-    width: "350px",
+    width: "100%",
     position: "relative",
     transition: "transform 0.3s",
     "&:hover": {
@@ -43,7 +43,7 @@ export default function MainFeaturedPost(props) {
         Nội dung mới nhất
       </span>
       <div className={classes.imageWrap}>
-        <img src={post.ImageUrl} width="100%" alt="" />
+        <img src={post.ImageUrl} width="200px" height="170px" alt="" />
       </div>
       <div className={classes.titleWrap}>
         <Typography
