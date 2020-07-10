@@ -41,6 +41,12 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     fontSize: "13px",
     padding: "10px 20px",
+    "@global": {
+      ".MuiTypography-colorPrimary ": {
+        color: "#202020",
+        fontWeight: "bold",
+      },
+    },
   },
   loadingWrap: {
     display: "flex",
@@ -92,7 +98,6 @@ const PostGrid = (props) => {
                 <Paper variant="outlined">
                   <Typography
                     variant="h6"
-                    color="primary"
                     align="justify"
                     className={classes.title}
                   >
