@@ -24,6 +24,10 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: (props) => (props.is_maxWidth_500px ? "0px" : "none"),
     paddingRight: (props) => (props.is_maxWidth_500px ? "0px" : "none"),
   },
+  featuredContent: {},
+  featureGrid: {
+    width: (props) => (props.is_maxWidth_500px ? "100%" : "50%"),
+  },
   mainGrid: {
     marginTop: theme.spacing(3),
   },
@@ -198,15 +202,18 @@ const Blog = (props) => {
                 />
               )}
             </div>
+            <div className={classes.featuredContent}>
+              <Grid container spacing={4} className={classes.featureGrid}>
+                <FeaturedPost
+                  key="featured post"
+                  post={featuredPosts}
+                  responsiveObj={responsiveObj}
+                  onHandleOpenDetailContainer={onHandleOpenDetailContainer}
+                />
+              </Grid>
+              <div className={classes.developing}>ĐANG PHÁT TRIỂN</div>
+            </div>
 
-            <Grid container spacing={4}>
-              <FeaturedPost
-                key="featured post"
-                post={featuredPosts}
-                responsiveObj={responsiveObj}
-                onHandleOpenDetailContainer={onHandleOpenDetailContainer}
-              />
-            </Grid>
             <Grid container spacing={5} className={classes.mainGrid}>
               <Main title="Tất cả" />
               <PostGrid

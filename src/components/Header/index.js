@@ -23,6 +23,8 @@ const useStyles = makeStyles((theme) => ({
     padding: (props) => (props.is_maxWidth_1000px ? "0px 2px" : null),
     transition: "transform 1s",
     transform: (props) => (props.hidingUserIcon ? "none" : "translateY(-100%)"),
+    height: "46px",
+    minHeight: "20px",
   },
 
   userBtnWrap: {
@@ -42,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     animationName: "$titleAmination",
     animationDuration: "6s",
     animationIterationCount: "infinite",
-    fontSize: (props) => (props.is_maxWidth_1000px ? "15px" : "40px"),
+    fontSize: (props) => (props.is_maxWidth_1000px ? "15px" : "30px"),
   },
 
   "@keyframes titleAmination": {

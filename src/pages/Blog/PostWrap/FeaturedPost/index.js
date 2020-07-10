@@ -15,10 +15,15 @@ import moment from "moment";
 import { translatePostGroupTitle } from "../../../../utils/utils";
 
 const useStyles = makeStyles({
-  transition: "transform 0.5s",
+  transition: "transform 0.25s",
   container: {
     "&:hover": {
-      transform: "scale(1.05)",
+      transform: "scale(1.025)",
+    },
+    "@global": {
+      ".MuiPaper-elevation1": {
+        boxShadow: "none",
+      },
     },
   },
   card: {
@@ -26,14 +31,17 @@ const useStyles = makeStyles({
   },
   cardDetails: {
     flex: 1,
+    backgroundColor: "#fafafa",
   },
   cardMedia: {
     width: 160,
   },
   topicNameWrap: {
-    fontSize: "20px",
+    fontSize: "12px",
     fontWeight: "bold",
     marginBottom: "5px",
+    color: "#757575",
+    marginLeft: "15px",
   },
 });
 
@@ -43,7 +51,7 @@ export default function FeaturedPost(props) {
 
   return post.data
     ? post.data.map((post, index) => (
-        <Grid item xs={12} md={6} key={index} className={classes.container}>
+        <Grid item xs={12} md={12} key={index} className={classes.container}>
           <Link
             to={{ pathname: "/home/topic", topic: post.Topic }}
             style={{ textDecoration: "none" }}
@@ -60,9 +68,11 @@ export default function FeaturedPost(props) {
                   <Typography
                     component="h2"
                     variant="h6"
-                    style={{ fontSize: "15px" }}
+                    style={{ fontSize: "15px", fontWeight: "bold" }}
                   >
-                    {post && `${post.Title.substring(0, 30)}...`}
+                    <a onClick={() => onHandleOpenDetailContainer(post.Id)}>
+                      {post && post.Title}
+                    </a>
                   </Typography>
                   <Typography variant="subtitle2" color="textSecondary">
                     {post && moment(post.SubmitDate).format("DD-MM-YYYY")}
@@ -70,13 +80,6 @@ export default function FeaturedPost(props) {
                   <Typography variant="subtitle2" paragraph>
                     {post && `${post.Brief}...`}
                   </Typography>
-                  <Button
-                    variant="contained"
-                    onClick={() => onHandleOpenDetailContainer(post.Id)}
-                    style={{ backgroundColor: "#ffff" }}
-                  >
-                    Đọc tiếp…
-                  </Button>
                 </CardContent>
               </div>
               <Hidden xsDown>
