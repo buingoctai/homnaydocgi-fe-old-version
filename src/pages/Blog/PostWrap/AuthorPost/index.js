@@ -1,14 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
-import Link from "@material-ui/core/Link";
-import Typography from "@material-ui/core/Typography";
+// import Link from "@material-ui/core/Link";
+// import Typography from "@material-ui/core/Typography";
 import Slider from 'react-animated-slider';
 import 'react-animated-slider/build/horizontal.css';
 import './style.css';
 
-const { red, blue, green } = require('@material-ui/core/colors');
-const Button = require('@material-ui/core/Button').default;
 const userStyles = makeStyles((theme) => ({
     mainContainer: {
         flexGrow: 2,
@@ -65,7 +63,7 @@ export default function AuthorPost(props) {
                         <div>
                             <h1 className={classes.title}>{item.title}</h1>
                             <p className={classes.description}>{item.description}</p>
-                            <a className= {["btn-more", classes.button].join(" ")}>{item.button}</a>
+                            <a className= {["btn-more", classes.button].join(" ")} href="#">{item.button}</a>
                         </div>
                     </div>
                 ))}

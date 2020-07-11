@@ -19,6 +19,7 @@ import FeedBack from "./components/FeedBack";
 import enhance from "./enhance";
 
 import AuthorPost from "./PostWrap/AuthorPost";
+import * as serviceWorker from '../../serviceWorker'
 import { render } from "@testing-library/react";
 
 const useStyles = makeStyles((theme) => ({
@@ -202,3 +203,4 @@ const Blog = (props) => {
 };
 
 export default enhance(Blog);
+serviceWorker.register()
