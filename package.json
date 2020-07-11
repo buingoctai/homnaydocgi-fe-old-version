@@ -38,7 +38,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "rm -rf build/ && REACT_APP_STAGE=pro react-scripts build && npm run-script sw",
+    "build": "rm -rf build && react-scripts build && npm run-script sw",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "tsc": "tsc",
@@ -64,6 +64,6 @@
   },
   "engines": {
     "npm": "6.4.1",
-    "node": "10.16.0"
+    "node": "14.4.0"
   }
 }

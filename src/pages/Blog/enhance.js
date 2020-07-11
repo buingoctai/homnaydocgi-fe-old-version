@@ -22,7 +22,7 @@ import * as serviceWorker from "../../serviceWorker";
 
 const mapStateToProps = (state) => {
   const { reducers, blogReducers } = state;
-  console.log("run again mapstatetoprops");
+
   return {
     currentUser: reducers.currentUser,
     mainPosts: blogReducers.mainPosts,
@@ -77,15 +77,9 @@ export default compose(
     },
     onClickSusbribeToPushNotification: (props) => {
       const { setUserSubscription } = props;
-      console.log("onClickSusbribeToPushNotification");
-      console.log(
-        "onClickSusbribeToPushNotification serviceWorker",
-        serviceWorker
-      );
       serviceWorker
         .createNotificationSubscription()
         .then((subscrition) => {
-          console.log("subscrition=", subscrition);
           setUserSubscription(subscrition);
         })
         .catch(() => console.log("lỗi tạo push subcription"));
@@ -245,7 +239,7 @@ export default compose(
       // Tính năng tạm thời
       const { scrollCount, setScrollCount, setIsOpenFeedBack } = props;
       const count = scrollCount + 1;
-      if (count === 100) {
+      if (count === 200) {
         setIsOpenFeedBack(true);
       }
       setScrollCount(count);
@@ -275,7 +269,6 @@ export default compose(
       // Push Notification
       const pushNotificationSupported = serviceWorker.isPushNotificationSupported();
       if (pushNotificationSupported) {
-        console.log("call serviceWorker.register");
         serviceWorker.register();
       }
 

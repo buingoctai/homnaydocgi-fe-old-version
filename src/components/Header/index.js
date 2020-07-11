@@ -56,7 +56,12 @@ const useStyles = makeStyles((theme) => ({
   },
   searchPlaceholder: {
     fontWeight: "bold",
-    fontSize: (props) => (props.is_maxWidth_1000px ? "5px" : "15px"),
+    fontSize: (props) => (props.is_maxWidth_1000px ? "5px" : "10px"),
+    "@global": {
+      ".MuiInput-underline:before": {
+        borderBottom: "none",
+      },
+    },
   },
   subcribeBtnWrap: {
     marginRight: (props) => (props.is_maxWidth_1000px ? "0px" : "10px"),
@@ -164,7 +169,6 @@ const Header = (props) => {
               size="small"
               value={searchTxt}
               onChange={(node) => onChangeSearchTxt(node.target.value)}
-              autoFocus
             />
             <SearchIcon />
           </IconButton>

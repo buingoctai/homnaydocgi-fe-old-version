@@ -6,11 +6,23 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 // import Markdown from "./Markdown";
 
+const useStyles = makeStyles({
+  title: {
+    "@global": {
+      ".MuiTypography-h6": {
+        color: "#551A99",
+        fontWeight: "bold",
+      },
+    },
+  },
+});
+
 export default function Main(props) {
+  const classes = useStyles();
   const { title } = props;
 
   return (
-    <Grid item xs={12} md={8}>
+    <Grid item xs={12} md={8} className={classes.title}>
       <Typography variant="h6" gutterBottom>
         {title}
       </Typography>

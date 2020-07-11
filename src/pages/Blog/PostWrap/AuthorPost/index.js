@@ -6,10 +6,8 @@ import Slider from "react-animated-slider";
 import "react-animated-slider/build/horizontal.css";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
-import Avatar from "@material-ui/core/Avatar";
 import "./style.css";
 
-const { red, blue, green } = require("@material-ui/core/colors");
 const userStyles = makeStyles(() => ({
   container: {
     flexGrow: 1,
@@ -44,20 +42,10 @@ const userStyles = makeStyles(() => ({
 const AuthorPost = (props) => {
   const { responsiveObj, type, title, data, navigateTime } = props;
   const classes = userStyles({ ...responsiveObj });
-  const content = [
-    { title: "A1", description: "Author1", button: "Read more", image: "red" },
-    { title: "A2", description: "Author2", button: "Read more", image: "blue" },
-    {
-      title: "A3",
-      description: "Author3",
-      button: "Read more",
-      image: "green",
-    },
-  ];
 
   const slideWrap = () => {
     if (type === "image") {
-      return data.map((item, index) => (
+      return data.map((item) => (
         <div>
           <img src={item} width="100%" alt="" />
         </div>
