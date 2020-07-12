@@ -63,7 +63,7 @@ export default compose(
   withState("scrollCount", "setScrollCount", 0),
   withState("isOpenFeedBack", "setIsOpenFeedBack", false),
   // Push Notification
-  withState("userConsent", "setUserConsent", [Notification.permission]),
+  // withState("userConsent", "setUserConsent", [Notification.permission]),
   withState("userSubscription", "setUserSubscription", null),
   withState("pushServerSubscriptionId", "setPushServerSubscriptionId", ""),
   connect(mapStateToProps, mapDispatchToProps),

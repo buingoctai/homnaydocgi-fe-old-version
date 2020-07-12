@@ -21,15 +21,15 @@ const HandleStatus = (response) => {
         recipient: { id: FACEBOOK_DEV.ADMIN_MESSENGER_ID },
         message: { text: `Thông báo lỗi Nodejs Server: ${data}` },
       },
-    });
-    // .then(() => {
-    //   window.location.href = `${process.env.REACT_APP_URL}/exception?codeMessage=${status}`;
-    //   return;
-    // })
-    // .catch(() => {
-    //   window.location.href = `${process.env.REACT_APP_URL}/exception?codeMessage=${status}`;
-    //   return;
-    // });
+    })
+      .then(() => {
+        window.location.href = `${process.env.REACT_APP_URL}/exception?codeMessage=${status}`;
+        return;
+      })
+      .catch(() => {
+        window.location.href = `${process.env.REACT_APP_URL}/exception?codeMessage=${status}`;
+        return;
+      });
   }
 };
 axios.interceptors.request.use((config) => {
