@@ -23,8 +23,8 @@ const useStyles = makeStyles((theme) => ({
   itemWrap: {
     position: "relative",
     animationName: "$listAmination",
-    animationDuration: "4s",
-    transition: "transform 1s",
+    animationDuration: "3.5s",
+    transition: "transform 0.5s",
     "&:hover": {
       transform: "scale(1.1)",
     },
