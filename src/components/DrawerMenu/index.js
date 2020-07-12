@@ -9,6 +9,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 import MenuIcon from "@material-ui/icons/Menu";
 import RadioIcon from "@material-ui/icons/Radio";
 import SubjectIcon from "@material-ui/icons/Subject";
+import FacebookIcon from "@material-ui/icons/Facebook";
+import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import { translateUrl } from "../../utils/utils";
 const useStyles = makeStyles({
   container: {
@@ -95,6 +97,28 @@ export default function DrawerMenu() {
             </Link>
           </ListItem>
         ))}
+        <ListItem button key={"text"}>
+          <Link
+            style={{ textDecoration: "none" }}
+            href="https://www.facebook.com/bui.ngoctai.71/"
+          >
+            <ListItemIcon>
+              <FacebookIcon color="primary" />
+            </ListItemIcon>
+            <ListItemText>Facebook</ListItemText>
+          </Link>
+        </ListItem>
+        <ListItem button key={"text"}>
+          <Link
+            style={{ textDecoration: "none" }}
+            href="https://www.linkedin.com/in/b%C3%B9i-ng%E1%BB%8Dc-t%C3%A0i-0010a6152/?lipi=urn%3Ali%3Apage%3Ad_flagship3_feed%3Bq8uomy%2BNRKit63nDG4gSfg%3D%3D&licu=urn%3Ali%3Acontrol%3Ad_flagship3_feed-nav.settings_view_profile"
+          >
+            <ListItemIcon>
+              <LinkedInIcon color="primary" />
+            </ListItemIcon>
+            <ListItemText>Linkedin</ListItemText>
+          </Link>
+        </ListItem>
       </List>
     </div>
   );

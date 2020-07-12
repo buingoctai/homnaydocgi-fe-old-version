@@ -132,7 +132,7 @@ const PostGrid = (props) => {
           {!isShowPaging && <div className={classes.spaceWrap} />}
         </GridList>
       </div>
-      <div className={classes.developingWrap}>ĐANG PHÁT TRIỂN</div>
+      <div className={classes.developingWrap} />
     </div>
   );
 };

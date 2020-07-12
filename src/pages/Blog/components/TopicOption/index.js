@@ -71,9 +71,7 @@ const TopicOption = ({
             <AlertTitle>Thông báo</AlertTitle>
             <div style={{ display: "flex" }}>
               <FormControl component="fieldset" className={classes.formControl}>
-                <FormLabel component="legend">
-                  Chọn Topic Bạn Muốn Trải Nghiệm
-                </FormLabel>
+                <FormLabel component="legend">Chủ đề bạn quan tâm</FormLabel>
                 <TextField
                   required
                   // id="standard-basic"
@@ -83,7 +81,7 @@ const TopicOption = ({
                   autoFocus
                   error
                   id={name ? "standard-basic" : "standard-error"}
-                  label={name ? "Tên Bạn" : "Nhập Tên Của Bạn"}
+                  label={name ? "Biệt danh" : "Biệt danh của bạn"}
                 />
                 <FormGroup>
                   {allTopic.length > 0 &&
