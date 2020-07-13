@@ -1,11 +1,6 @@
-import ReactGA from "react-ga";
-import axios from "axios";
 import { connect } from "react-redux";
 import { compose, withHandlers, withState, lifecycle } from "recompose";
-import { getCookie } from "../../utils/utils";
-import { COOKIE_NAMES, DEFAULT_TOPIC } from "../../utils/constants";
-
-import { asyncAuthencation, asyncGetProfile } from "../../store/actions";
+import { DEFAULT_TOPIC } from "../../utils/constants";
 
 import {
   asyncGetMainPosts,
@@ -17,14 +12,10 @@ import {
   saveAllPost,
 } from "./Store/actions";
 
-// Push Notification
-import * as serviceWorker from "../../serviceWorker";
-
 const mapStateToProps = (state) => {
-  const { reducers, blogReducers } = state;
+  const { blogReducers } = state;
 
   return {
-    currentUser: reducers.currentUser,
     mainPosts: blogReducers.mainPosts,
     featuredPosts: blogReducers.featuredPosts,
     allPost: blogReducers.allPost,
@@ -34,8 +25,6 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    authencationDispatch: (payload) => asyncAuthencation(payload),
-    getProfileDispatch: (payload) => asyncGetProfile(payload),
     getMainPostsDispatch: (payload) => asyncGetMainPosts(payload),
     getFeaturedPostsDispatch: (payload) => asyncGetFeaturedPosts(payload),
     getAllPostDispatch: (payload) => asyncGetAllPost(payload),
@@ -62,66 +51,8 @@ export default compose(
   withState("isOpenChoseTopic", "setIsOpenChoseTopic", true),
   withState("scrollCount", "setScrollCount", 0),
   withState("isOpenFeedBack", "setIsOpenFeedBack", false),
-  // Push Notification
-  // withState("userConsent", "setUserConsent", [Notification.permission]),
-  withState("userSubscription", "setUserSubscription", null),
-  withState("pushServerSubscriptionId", "setPushServerSubscriptionId", ""),
   connect(mapStateToProps, mapDispatchToProps),
   withHandlers({
-    // Push Notification
-    onClickAskUserPermission: (props) => {
-      const { setUserConsent } = props;
-      serviceWorker.askUserPermission().then((consent) => {
-        setUserConsent(consent);
-      });
-    },
-    onClickSusbribeToPushNotification: (props) => {
-      const { setUserSubscription } = props;
-      serviceWorker
-        .createNotificationSubscription()
-        .then((subscrition) => {
-          setUserSubscription(subscrition);
-        })
-        .catch(() => console.log("lỗi tạo push subcription"));
-    },
-    onClickSendSubscriptionToPushServer: (props) => {
-      const { userSubscription, setPushServerSubscriptionId } = props;
-      axios
-        .post(`${process.env.REACT_APP_API}/user/subscription`, {
-          data: userSubscription,
-        })
-        .then((res) => {
-          setPushServerSubscriptionId(res.id);
-        })
-        .catch(() => console.log("lỗi gửi push subscription đến push server"));
-    },
-    onClickSendNotification: (props) => {
-      const { pushServerSubscriptionId } = props;
-      axios
-        .get(
-          `${process.env.REACT_APP_API}/user/subscription/${pushServerSubscriptionId}`
-        )
-        .catch((error) => {
-          console.log("lỗi gửi thông báo");
-        });
-    },
-    //-------------------------------
-    onHandleSubscribeNotifiByBot: (props) => {
-      const { suggestSubscribeNotifiByBotDispatch, setDialogContent } = props;
-      setDialogContent({ visible: true, content: "MSG3" });
-      suggestSubscribeNotifiByBotDispatch({
-        id_msg_user: "",
-        message: "BẠN ĐÃ ĐĂNG KÝ THÀNH CÔNG GỬI THÔNG BÁO QUA MESSENGER FB",
-      })
-        .then(({ message }) => {
-          alert(message);
-        })
-        .catch(() => {});
-    },
-    onHandleSuggestSendArticle: (props) => {
-      const { setDialogContent } = props;
-      setDialogContent({ visible: true, content: "MSG4" });
-    },
     onHandleOpenDetailContainer: (props) => (postId) => {
       const {
         getDetailPostDispatch,
@@ -239,12 +170,6 @@ export default compose(
       // Tính năng tạm thời
       const { scrollCount, setScrollCount, setIsOpenFeedBack } = props;
       const count = scrollCount + 1;
-      if (count === 200) {
-        setIsOpenFeedBack(true);
-      }
-      setScrollCount(count);
-
-      //------------------
       const { onHandleScrollToBottom } = props;
       // Khoảng cách từ đỉnh scroll bar đến đỉnh của browser
       const scrollTop = document.documentElement.scrollTop;
@@ -253,76 +178,33 @@ export default compose(
       // Height khi scroll (scrollTop thay đổi liên tục)
       const heightOnSroll = scrollTop + window.innerHeight;
 
+      if (count === 200) {
+        setIsOpenFeedBack(true);
+      }
+      setScrollCount(count);
       if (heightOnSroll >= realHeight - 100 && scrollTop) {
         onHandleScrollToBottom();
       }
     },
   }),
-  withHandlers({
-    onExitApp: (props) => (e) => {
-      e.preventDefault("");
-      e.returnValue = "Vui long cho chung toi feedback";
-    },
-  }),
   lifecycle({
     componentDidMount() {
-      // Push Notification
-      const pushNotificationSupported = serviceWorker.isPushNotificationSupported();
-      if (pushNotificationSupported) {
-        serviceWorker.register();
-      }
-
-      const getExixtingSubscription = async () => {
-        const existingSubscription = await serviceWorker.getUserSubscription();
-        console.log(
-          "in getExixtingSubscription, existingSubscription=",
-          existingSubscription
-        );
-        this.props.setUserSubscription(existingSubscription);
-      };
-      getExixtingSubscription();
-
       window.addEventListener("scroll", this.props.onScroll);
-      // window.addEventListener("beforeunload", (e) => this.props.onExitApp(e));
-      ReactGA.initialize("UA-165562758-1");
-      ReactGA.set({
-        page:
-          "https://homnaydocgi.herokuapp.com/home/T%C3%8DNH-S%C3%93NG-H%E1%BA%A0T-TRONG-PH%E1%BA%A6N-M%E1%BB%80M",
-      });
-      ReactGA.pageview(
-        "https://homnaydocgi.herokuapp.com/home/T%C3%8DNH-S%C3%93NG-H%E1%BA%A0T-TRONG-PH%E1%BA%A6N-M%E1%BB%80M"
-      );
-      ReactGA.event({
-        category: "Link",
-        action: "Click",
-      });
-      ReactGA.send({
-        hitType: "event",
-        eventCategory: "category",
-        eventAction: "action",
-        eventLabel: "label",
-      });
-
       const {
         currentPageIndex,
-        authencationDispatch,
-        getProfileDispatch,
         getMainPostsDispatch,
         getFeaturedPostsDispatch,
         getAllPostDispatch,
         getGetAllTopicDispatch,
-        setDialogContent,
         setIsLoadingPage,
         setIsOpenChoseTopic,
         saveAllPostDispatch,
         setUserName,
       } = this.props;
-      const token = getCookie(COOKIE_NAMES.ACCESS_TOKEN);
+      const userData = JSON.parse(localStorage.getItem("userData"));
 
-      // Phát triển trc (giả định)
       setIsLoadingPage(true);
       getMainPostsDispatch();
-      const userData = JSON.parse(localStorage.getItem("userData"));
       if (userData) {
         const { topic, name } = userData;
         setUserName(name);
@@ -351,51 +233,6 @@ export default compose(
         .catch(() => {
           setIsLoadingPage(false);
         });
-
-      // Phát triển sau
-      if (token) {
-        // fetch user inform
-        setIsLoadingPage(true);
-        authencationDispatch({})
-          .then((response) => {
-            const { id } = response;
-            if (id) {
-              getProfileDispatch({ userId: id })
-                .then(() => {
-                  getMainPostsDispatch()
-                    .then(() => {
-                      setIsLoadingPage(false);
-                    })
-                    .catch(() => {
-                      setIsLoadingPage(false);
-                    });
-                })
-                .catch((err) => console.log(err));
-            } else {
-              setDialogContent({ visible: true, content: "MSG1" });
-              setTimeout(
-                () => setDialogContent({ visible: true, content: "MSG1" }),
-                5000
-              );
-              setTimeout(
-                () => (window.location.href = process.env.REACT_APP_URL),
-                5000
-              );
-            }
-          })
-          .catch((err) => console.log(err));
-      } else {
-        setDialogContent(true);
-        setTimeout(
-          () => setDialogContent({ visible: true, content: "MSG1" }),
-          1000
-        );
-        // setTimeout(
-        //   () => (window.location.href = "https://contentcollection.azurewebsites.net//"),
-        //   5000
-        // );
-      }
-      //----------------------------------------------------
     },
     componentWillUnmount() {
       window.removeEventListener("scroll", this.props.onScroll);

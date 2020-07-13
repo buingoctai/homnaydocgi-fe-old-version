@@ -74,18 +74,10 @@ const Blog = (props) => {
   } = props;
 
   const {
-    onHandleNavigateAdminPage,
-    onHandleSubscribeNotifiByBot,
-    onHandleSuggestSendArticle,
-    onClickSusbribeToPushNotification,
-    onClickSendSubscriptionToPushServer,
-    onClickSendNotification,
     onHandleOpenDetailContainer,
     onGetFeaturedTopic,
     onSearchArticle,
     onSubmitFeedBack,
-    // Push Notification
-    onClickAskUserPermission,
   } = props;
   const classes = useStyles({ ...responsiveObj });
 
@@ -157,7 +149,7 @@ const Blog = (props) => {
         name: "Trieu Nguyen",
         description: "Owner and Founder tại USPA.tech",
         image:
-          "https://scontent-hkt1-1.xx.fbcdn.net/v/t1.0-9/83882074_10218559214863899_6642744394501849088_n.jpg?_nc_cat=102&_nc_sid=09cbfe&_nc_ohc=ZTiSsDSudsgAX_FgI_C&_nc_ht=scontent-hkt1-1.xx&oh=96846c539609c933baf148991af1c4f9&oe=5F300BC7",
+          "https://scontent-hkg4-1.xx.fbcdn.net/v/t1.0-9/83406528_10157169667584506_4978266553792331776_o.jpg?_nc_cat=109&_nc_sid=a4a2d7&_nc_ohc=VgyQf8_iPy8AX-2uxDk&_nc_ht=scontent-hkg4-1.xx&oh=0437a89cd7625ffd8a0286927bb383a4&oe=5F327840",
       },
 
       {
@@ -232,17 +224,7 @@ const Blog = (props) => {
         <Header
           title="HÔM NAY ĐỌC GÌ?"
           currentUser={userName}
-          onHandleNavigateAdminPage={onHandleNavigateAdminPage}
-          // onHandleSubscribeNotifiByBot={onHandleSubscribeNotifiByBot}
-          // onHandleSuggestSendArticle={onHandleSuggestSendArticle}
           onSearchArticle={onSearchArticle}
-          // Push Notification
-          onHandleSubscribeNotifiByBot={onClickAskUserPermission}
-          onClickSusbribeToPushNotification={onClickSusbribeToPushNotification}
-          onClickSendSubscriptionToPushServer={
-            onClickSendSubscriptionToPushServer
-          }
-          onClickSendNotification={onClickSendNotification}
         />
         {isLoadingPage && (
           <div className={classes.totalContentLoadingWrap}>
