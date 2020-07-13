@@ -100,18 +100,25 @@ export default function DrawerMenu() {
         <ListItem button key={"text"}>
           <Link
             style={{ textDecoration: "none" }}
-            href="https://www.facebook.com/bui.ngoctai.71/"
+            onClick={() =>
+              window.open("https://www.facebook.com/bui.ngoctai.71/", "_blank")
+            }
           >
             <ListItemIcon>
               <FacebookIcon color="primary" />
             </ListItemIcon>
-            <ListItemText>Facebook</ListItemText>
+            <ListItemText>Tài đẹp trai</ListItemText>
           </Link>
         </ListItem>
         <ListItem button key={"text"}>
           <Link
             style={{ textDecoration: "none" }}
-            href="https://www.linkedin.com/in/b%C3%B9i-ng%E1%BB%8Dc-t%C3%A0i-0010a6152/?lipi=urn%3Ali%3Apage%3Ad_flagship3_feed%3Bq8uomy%2BNRKit63nDG4gSfg%3D%3D&licu=urn%3Ali%3Acontrol%3Ad_flagship3_feed-nav.settings_view_profile"
+            onClick={() =>
+              window.open(
+                "https://www.linkedin.com/in/b%C3%B9i-ng%E1%BB%8Dc-t%C3%A0i-0010a6152/?lipi=urn%3Ali%3Apage%3Ad_flagship3_feed%3Bq8uomy%2BNRKit63nDG4gSfg%3D%3D&licu=urn%3Ali%3Acontrol%3Ad_flagship3_feed-nav.settings_view_profile",
+                "_blank"
+              )
+            }
           >
             <ListItemIcon>
               <LinkedInIcon color="primary" />

@@ -123,6 +123,7 @@ const PostGrid = (props) => {
             <Paging
               currentPageIndex={currentPageIndex}
               totalRecord={totalRecord}
+              onChangePageIndex={() => console.log("")}
             />
           ) : (
             <GridListTile cols={3} className={classes.loadingWrap}>

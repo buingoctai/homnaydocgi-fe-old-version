@@ -68,6 +68,7 @@ const useStyles = makeStyles((theme) => ({
     right: "-20px",
     padding: theme.spacing(2),
     color: theme.palette.text.secondary,
+    backgroundColor: "#FFFFED",
     textAlign: "center",
     position: "absolute",
     overflowY: "scroll",
@@ -124,34 +125,34 @@ export default function DetailPost(props) {
                 />
               </div>
             ) : (
-                <>
-                  <Typography
-                    paragraph={true}
-                    align="justify"
-                    color="textPrimary"
-                    key="subContent"
-                  >
-                    {newContent.length > 0 &&
-                      newContent.map((item) => (
-                        <>
-                          {item}
-                          <br />
-                        </>
-                      ))}
-                  </Typography>
-                  <div>
-                    <img
-                      src={showingPost.ImageUrl}
-                      alt="Ảnh"
-                      style={
-                        responsiveObj.is_maxWidth_500px
-                          ? { width: "70%" }
-                          : { width: "30%" }
-                      }
-                    />
-                  </div>
-                </>
-              )}
+              <>
+                <Typography
+                  paragraph={true}
+                  align="justify"
+                  color="textPrimary"
+                  key="subContent"
+                >
+                  {newContent.length > 0 &&
+                    newContent.map((item) => (
+                      <>
+                        {item}
+                        <br />
+                      </>
+                    ))}
+                </Typography>
+                <div>
+                  <img
+                    src={showingPost.ImageUrl}
+                    alt="Ảnh"
+                    style={
+                      responsiveObj.is_maxWidth_500px
+                        ? { width: "70%" }
+                        : { width: "30%" }
+                    }
+                  />
+                </div>
+              </>
+            )}
             <br />
             <br />
             <Typography
