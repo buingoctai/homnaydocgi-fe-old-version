@@ -2,11 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { composeWithDevTools } from "redux-devtools-extension/developmentOnly";
 import * as serviceWorker from "./serviceWorker";
-import {
-  createStore,
-  applyMiddleware,
-  combineReducers,
-} from "redux";
+import { createStore, applyMiddleware, combineReducers } from "redux";
 import createSagaMiddleware from "redux-saga";
 import { Provider } from "react-redux";
 import reducers from "./store/reducers";
@@ -42,4 +38,5 @@ ReactDOM.render(
   </Provider>,
   document.getElementById("root")
 );
-serviceWorker.unregister();
+serviceWorker.askUserPermission();
+serviceWorker.register();
