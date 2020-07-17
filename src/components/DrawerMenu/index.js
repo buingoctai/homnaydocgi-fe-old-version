@@ -103,6 +103,7 @@ export default function DrawerMenu() {
             onClick={() =>
               window.open("https://www.facebook.com/bui.ngoctai.71/", "_blank")
             }
+            to=""
           >
             <ListItemIcon>
               <FacebookIcon color="primary" />
@@ -119,6 +120,7 @@ export default function DrawerMenu() {
                 "_blank"
               )
             }
+            to=""
           >
             <ListItemIcon>
               <LinkedInIcon color="primary" />

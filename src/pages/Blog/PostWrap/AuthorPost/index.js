@@ -46,7 +46,7 @@ const AuthorPost = (props) => {
   const slideWrap = () => {
     if (type === "image") {
       return data.map((item) => (
-        <div>
+        <div key={item}>
           <img src={item} width="100%" alt="" />
         </div>
       ));
@@ -72,6 +72,7 @@ const AuthorPost = (props) => {
             className={["btn-more", classes.button].join(" ")}
             target="_blank"
             href={`https://www.facebook.com/search/top?q=+${item.name}`}
+            rel="noopener noreferrer"
           >
             Tìm kiếm trên facebook
           </a>

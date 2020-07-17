@@ -167,7 +167,7 @@ const Header = (props) => {
               className={classes.searchPlaceholder}
               fullWidth={true}
               size="small"
-              value={searchTxt}
+              value={searchTxt || ""}
               onChange={(node) => onChangeSearchTxt(node.target.value)}
             />
             <SearchIcon />
