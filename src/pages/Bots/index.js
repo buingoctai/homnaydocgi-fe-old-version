@@ -15,6 +15,7 @@ import VideoCallIcon from "@material-ui/icons/VideoCall";
 import ChatIcon from "@material-ui/icons/Chat";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import TocIcon from "@material-ui/icons/Toc";
+
 import ReadNews from "./components/ReadNews";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import Header from "../../components/Header";
@@ -111,6 +112,8 @@ const Bots = (props) => {
   };
 
   const {
+    userName,
+    postList,
     allArticle,
     currentAudioArticle,
     currentPageIndex,
@@ -153,8 +156,8 @@ const Bots = (props) => {
       <Container className={classes.container}>
         <Header
           title="HÔM NAY ĐỌC GÌ?"
-          currentUser={"userName"}
-          onSearchArticle={() => console.log("")}
+          currentUser={userName}
+          postList={postList}
         />
         <div className={classes.rootWrap}>
           <div className={classes.personalizedUserWrap}>

@@ -4,6 +4,8 @@ import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import ClearIcon from "@material-ui/icons/Clear";
+import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
+import BookmarkIcon from "@material-ui/icons/Bookmark";
 import Button from "@material-ui/core/Button";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
@@ -74,6 +76,11 @@ const useStyles = makeStyles((theme) => ({
     overflowY: "scroll",
     overflowX: "hidden",
   },
+  titleBookMarkWrap: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
 }));
 
 export default function DetailPost(props) {
@@ -83,7 +90,10 @@ export default function DetailPost(props) {
     isOpenDetaiContainer,
     responsiveObj,
     loading,
+    isBookMarkedPost,
     onHandleOpenDetailContainer,
+    onSaveListPost,
+    onUnSaveListPost,
   } = props;
   const newContent = post.Content ? post.Content.split("\n") : [];
   const classes = useStyles({
@@ -99,7 +109,7 @@ export default function DetailPost(props) {
             ? `${classes.girdWrap} ${classes.largeGridWrap}`
             : `${classes.girdWrap} ${classes.smallGridWrap}`
         }
-        onBlur={() => console.log("on blur")}
+        onBlur={() => {}}
       >
         <Grid item xs={12} className={classes.itemGridWrap} key="itemGridWrap">
           {isOpenDetaiContainer && (
@@ -113,9 +123,26 @@ export default function DetailPost(props) {
           )}
 
           <Paper className={classes.paperWrap} key="itemGridWrap">
-            <Typography variant="h6" color="primary" key="title">
-              {showingPost.Title}
-            </Typography>
+            <div className={classes.titleBookMarkWrap}>
+              <Typography
+                variant="h6"
+                color="primary"
+                key="title"
+                style={{ flexGrow: "1" }}
+              >
+                {showingPost.Title}
+              </Typography>
+
+              {isBookMarkedPost ? (
+                <Button onClick={() => onUnSaveListPost(showingPost.Id)}>
+                  <BookmarkIcon />
+                </Button>
+              ) : (
+                <Button onClick={() => onSaveListPost(showingPost.Id)}>
+                  <BookmarkBorderIcon />
+                </Button>
+              )}
+            </div>
             <br />
             {loading ? (
               <div style={{ display: "flex", justifyContent: "center" }}>

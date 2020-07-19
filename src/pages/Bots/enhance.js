@@ -1,5 +1,8 @@
 import { connect } from "react-redux";
 import { compose, withHandlers, withState, lifecycle } from "recompose";
+
+import UserDataHandler from "../../components/HOC/UserDataHandler";
+import { userDataCRUD } from "../../utils/utils";
 import {
   asyncGetAllArticle,
   asynGetAudioArticle,
@@ -23,6 +26,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 export default compose(
+  UserDataHandler,
   withState("showingPost", "setShowingPost", {}),
   withState("currentAudioArticle", "setCurrentAudioArticle", {}),
   withState("currentPageIndex", "setCurrentPageIndex", 1),
@@ -83,6 +87,9 @@ export default compose(
   }),
   lifecycle({
     componentDidMount() {
+      const { name = "", postList = [] } = userDataCRUD({ action: "GET" });
+      this.props.setUserName(name);
+      this.props.setPostList([...postList]);
 
       this.props.getAllArticleDispatch({
         paging: { pageIndex: 1, pageSize: 5 },

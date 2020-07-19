@@ -71,13 +71,16 @@ const Blog = (props) => {
     mainPosts,
     featuredPosts,
     allPost,
+    isBookMarkedPost,
+    postList,
   } = props;
 
   const {
     onHandleOpenDetailContainer,
     onGetFeaturedTopic,
-    onSearchArticle,
     onSubmitFeedBack,
+    onSaveListPost,
+    onUnSaveListPost,
   } = props;
   const classes = useStyles({ ...responsiveObj });
 
@@ -224,7 +227,7 @@ const Blog = (props) => {
         <Header
           title="HÔM NAY ĐỌC GÌ?"
           currentUser={userName}
-          onSearchArticle={onSearchArticle}
+          postList={postList}
         />
         {isLoadingPage && (
           <div className={classes.totalContentLoadingWrap}>
@@ -316,7 +319,10 @@ const Blog = (props) => {
             isOpenDetaiContainer={isOpenDetaiContainer}
             responsiveObj={responsiveObj}
             loading={isLoadingSubPage}
+            isBookMarkedPost={isBookMarkedPost}
             onHandleOpenDetailContainer={onHandleOpenDetailContainer}
+            onSaveListPost={onSaveListPost}
+            onUnSaveListPost={onUnSaveListPost}
           />
         )}
 

@@ -24,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Topic = (props) => {
-  const { topic, searchTxt } = props.location;
   const {
     userName,
     searchingTxt,
@@ -34,8 +33,14 @@ const Topic = (props) => {
     isOpenDetaiContainer,
     showingPost,
     isLoadingSubPage,
+    isBookMarkedPost,
+    postList,
+    isSavedPostsStatus,
     onHandleOpenDetailContainer,
     onSearchArticle,
+    onSaveListPost,
+    onUnSaveListPost,
+    setSearchingTxt,
   } = props;
   const responsiveObj = {
     is_maxWidth_500px: useMediaQuery("(max-width:500px)"),
@@ -51,8 +56,10 @@ const Topic = (props) => {
         <Header
           title="HÔM NAY ĐỌC GÌ?"
           currentUser={userName}
-          searchTxtOnHomePage={searchTxt}
           onSearchArticle={onSearchArticle}
+          setSearchingTxt={setSearchingTxt}
+          searchingTxt={searchingTxt}
+          postList={postList}
         />
         <div style={{ marginTop: "20px" }} />
         <Link to={{ pathname: "/home" }} style={{ textDecoration: "none" }}>
@@ -61,12 +68,11 @@ const Topic = (props) => {
 
         <Main
           title={
-            searchingTxt
-              ? `Tất cả bài viết chứa ký tự '${translatePostGroupTitle(
-                  searchingTxt
-                )}'`
-              : `Tất cả bài viết ${translatePostGroupTitle(topic)}`
+            isSavedPostsStatus
+              ? "Tất cả bài viết bạn đã lưu"
+              : `Tất cả bài viết liên quan '${searchingTxt}'`
           }
+          isSavedPostsStatus={isSavedPostsStatus}
         />
         <PostGrid
           posts={allPost.data}
@@ -82,7 +88,10 @@ const Topic = (props) => {
             isOpenDetaiContainer={isOpenDetaiContainer}
             responsiveObj={responsiveObj}
             loading={isLoadingSubPage}
+            isBookMarkedPost={isBookMarkedPost}
             onHandleOpenDetailContainer={onHandleOpenDetailContainer}
+            onSaveListPost={onSaveListPost}
+            onUnSaveListPost={onUnSaveListPost}
           />
         )}
       </Container>

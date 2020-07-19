@@ -63,7 +63,6 @@ function* getDetailPostEffect(payload, resolve, reject) {
   yield put(saveDetailPost({ ...response }));
 
   if (response) {
-    console.log("response=", response);
     resolve(response);
   } else {
     reject("Error calling api");

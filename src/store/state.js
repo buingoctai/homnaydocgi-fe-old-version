@@ -1,6 +1,3 @@
-const state = {
-  id_token: "",
-  currentUser: "",
-};
+const state = {};
 
 export default state;

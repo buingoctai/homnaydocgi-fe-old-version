@@ -1,13 +1,14 @@
 import { connect } from "react-redux";
 import { compose, withHandlers, withState, lifecycle } from "recompose";
 import { DEFAULT_TOPIC } from "../../utils/constants";
-
+import { userDataCRUD } from "../../utils/utils";
+import OpenDetaiPostHandler from "../../components/HOC/OpenDetaiPostHandler";
+import UserDataHandler from "../../components/HOC/UserDataHandler";
 import {
   asyncGetMainPosts,
   asyncGetFeaturedPosts,
   asyncGetAllPost,
   asyncSuggestSubscribeNotifiByBot,
-  asyncGetDetailPost,
   asyncGetAllTopic,
   saveAllPost,
 } from "./Store/actions";
@@ -16,10 +17,6 @@ const mapStateToProps = (state) => {
   const { blogReducers } = state;
 
   return {
-    mainPosts: blogReducers.mainPosts,
-    featuredPosts: blogReducers.featuredPosts,
-    allPost: blogReducers.allPost,
-    detailPost: blogReducers.detailPost,
     allTopic: blogReducers.allTopic,
   };
 };
@@ -31,20 +28,17 @@ const mapDispatchToProps = (dispatch) => {
     suggestSubscribeNotifiByBotDispatch: (payload) =>
       asyncSuggestSubscribeNotifiByBot(payload),
     saveAllPostDispatch: (payload) => dispatch(saveAllPost(payload)),
-    getDetailPostDispatch: (payload) => asyncGetDetailPost(payload),
     getGetAllTopicDispatch: (payload) => asyncGetAllTopic(payload),
   };
 };
 export default compose(
-  withState("userName", "setUserName", ""),
+  UserDataHandler,
+  OpenDetaiPostHandler,
   withState("isLoadingPage", "setIsLoadingPage", false),
-  withState("isLoadingSubPage", "setIsLoadingSubPage", false),
-  withState("isOpenDetaiContainer", "setIsOpenDetaiContainer", false),
   withState("dialogContent", "setDialogContent", {
     visible: false,
     content: "",
   }),
-  withState("showingPost", "setShowingPost", {}),
   withState("currentPageIndex", "setCurrentPageIndex", 1),
   withState("isShowPaging", "setIsShowPaging", true),
   withState("isStopCallApiGetAllPost", "setIsStopCallApiGetAllPost", false),
@@ -53,47 +47,6 @@ export default compose(
   withState("isOpenFeedBack", "setIsOpenFeedBack", false),
   connect(mapStateToProps, mapDispatchToProps),
   withHandlers({
-    onHandleOpenDetailContainer: (props) => (postId) => {
-      const {
-        getDetailPostDispatch,
-        setIsOpenDetaiContainer,
-        setShowingPost,
-        setIsLoadingSubPage,
-        mainPosts,
-        featuredPosts,
-        allPost,
-        isOpenDetaiContainer,
-      } = props;
-      let refresh = window.location.protocol + "//" + window.location.host;
-
-      if (isOpenDetaiContainer) {
-        refresh = refresh + "/home";
-        setIsOpenDetaiContainer(!isOpenDetaiContainer);
-        window.history.pushState({ path: refresh }, "", refresh);
-      } else {
-        const mergedPosts = featuredPosts.data
-          .concat(allPost.data)
-          .concat([mainPosts]);
-        const [detailPost] = mergedPosts.filter((item) => item.Id === postId);
-        const find = " ";
-        const re = new RegExp(find, "g");
-        const titleUrl = detailPost.Title.replace(re, "-");
-        refresh = refresh + `/home/${titleUrl}`;
-
-        setIsLoadingSubPage(true);
-
-        getDetailPostDispatch({ id: postId })
-          .then(() => {
-            setIsLoadingSubPage(false);
-          })
-          .catch(() => {
-            setIsLoadingSubPage(false);
-          });
-        window.history.pushState({ path: refresh }, "", refresh);
-        setShowingPost(detailPost);
-        setIsOpenDetaiContainer(!isOpenDetaiContainer);
-      }
-    },
     onHandleScrollToBottom: (props) => () => {
       const {
         getAllPostDispatch,
@@ -133,14 +86,16 @@ export default compose(
         });
     },
     onGetFeaturedTopic: (props) => (selectedTopics, name) => {
-      const { getFeaturedPostsDispatch, setUserName } = props;
+      const { getFeaturedPostsDispatch, setUserName, setPostList } = props;
+
       setUserName(name);
       getFeaturedPostsDispatch({
         featuredLabels: [...selectedTopics],
       })
         .then(() => {
           const savedData = { topic: [...selectedTopics], name: name };
-          localStorage.setItem("userData", JSON.stringify(savedData));
+          setPostList([...selectedTopics]);
+          userDataCRUD({ action: "EDIT", data: savedData });
         })
         .catch(() => {});
     },
@@ -200,19 +155,22 @@ export default compose(
         setIsOpenChoseTopic,
         saveAllPostDispatch,
         setUserName,
+        setTopic,
+        setPostList,
       } = this.props;
-      const userData = JSON.parse(localStorage.getItem("userData"));
 
+      userDataCRUD({ action: "EDIT", data: {} });
+      const { name = "", topic = [], postList = [] } = userDataCRUD({
+        action: "GET",
+      });
+      setUserName(name);
+      setTopic(topic);
+      setPostList(postList);
       setIsLoadingPage(true);
       getMainPostsDispatch();
-      if (userData) {
-        const { topic, name } = userData;
-        setUserName(name);
-        setIsOpenChoseTopic(false);
-        getFeaturedPostsDispatch({
-          featuredLabels: [...topic],
-        });
-      } else {
+
+      if (topic.length === 0) {
+        setPostList([...DEFAULT_TOPIC]);
         getFeaturedPostsDispatch({
           featuredLabels: [...DEFAULT_TOPIC],
         })
@@ -220,6 +178,11 @@ export default compose(
             getGetAllTopicDispatch();
           })
           .catch(() => {});
+      } else {
+        setIsOpenChoseTopic(false);
+        getFeaturedPostsDispatch({
+          featuredLabels: [...topic],
+        });
       }
 
       getAllPostDispatch({

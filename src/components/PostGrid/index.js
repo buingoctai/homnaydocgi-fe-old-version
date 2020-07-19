@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     animationDuration: "3.5s",
     transition: "transform 0.5s",
     "&:hover": {
-      transform: "scale(1.1)",
+      transform: "scale(1.05)",
     },
   },
   "@keyframes listAmination": {

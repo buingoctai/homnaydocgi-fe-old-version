@@ -81,7 +81,7 @@ const TopicOption = ({
                   autoFocus
                   error
                   id={name ? "standard-basic" : "standard-error"}
-                  label={name ? "Biệt danh" : "Biệt danh của bạn"}
+                  label={name ? "Tên bạn" : "Cho tôi biết tên bạn"}
                 />
                 <FormGroup>
                   {allTopic.length > 0 &&

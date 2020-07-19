@@ -60,7 +60,7 @@ export default function FeaturedPost(props) {
             </span>
           </Link>
 
-          <CardActionArea component="a">
+          <CardActionArea>
             <Card className={classes.card}>
               <div className={classes.cardDetails}>
                 <CardContent>

@@ -12,8 +12,10 @@ import Typography from "@material-ui/core/Typography";
 import Chip from "@material-ui/core/Chip";
 import FaceIcon from "@material-ui/icons/Face";
 import NotificationsActiveIcon from "@material-ui/icons/NotificationsActive";
-import PostAddIcon from "@material-ui/icons/PostAdd";
+import BookmarksIcon from "@material-ui/icons/Bookmarks";
+import Badge from "@material-ui/core/Badge";
 
+import { userDataCRUD } from "../../utils/utils";
 import DrawerMenu from "../../components/DrawerMenu";
 
 const useStyles = makeStyles((theme) => ({
@@ -68,18 +70,32 @@ const useStyles = makeStyles((theme) => ({
     color: "#ffff",
     fontWeight: "bold",
     fontSize: (props) => (props.is_maxWidth_1000px ? "10px" : "15px"),
-    transition: "transform 0.5s",
+    transition: "transform 0.25s",
     "&:hover": {
-      transform: "scale(1.1)",
+      transform: "scale(1.05)",
+    },
+    "@global": {
+      ".MuiBadge-badge": {
+        minWidth: "0px",
+        width: "15px",
+        height: "15px",
+      },
     },
   },
-  suggestSupplyArticleBtnWrap: {
+  bookMarkbtnWrap: {
     color: "#ffff",
     fontWeight: "bold",
     fontSize: (props) => (props.is_maxWidth_1000px ? "10px" : "15px"),
-    transition: "transform 0.5s",
+    transition: "transform 0.25s",
     "&:hover": {
-      transform: "scale(1.1)",
+      transform: "scale(1.05)",
+    },
+    "@global": {
+      ".MuiBadge-badge": {
+        minWidth: "0px",
+        width: "15px",
+        height: "15px",
+      },
     },
   },
 }));
@@ -88,28 +104,33 @@ const Header = (props) => {
   const history = useHistory();
   const is_maxWidth_1000px = useMediaQuery("(max-width:1000px)");
   const [showAppName, setShowAppName] = useState(true);
-  const [searchTxt, setSearchTxt] = useState("");
+
   const [hidingUserIcon, setHidingUserIcon] = useState(true);
 
-  const { onSearchArticle, title, currentUser, searchTxtOnHomePage } = props;
+  const { onSearchArticle, title, currentUser, searchingTxt, postList } = props;
   const classes = useStyles({ ...props, is_maxWidth_1000px, hidingUserIcon });
 
   const handleDeleteUser = () => {
-    localStorage.removeItem("userData");
+    userDataCRUD({ action: "DELETE" });
     history.push("/home");
     window.location.reload();
   };
   const onChangeSearchTxt = (txt) => {
-    setSearchTxt(txt);
+    if (window.location.pathname === "/home/topic") {
+      onSearchArticle(txt);
+      return;
+    }
+    history.push({
+      pathname: "/home/topic",
+      searchTxt: txt,
+    });
+  };
 
-    if (window.location.pathname === "/home") {
+  const onOpenSavedListPost = () => {
+    if (window.location.pathname !== "/home/topic") {
       history.push({
         pathname: "/home/topic",
-        topic: txt,
-        searchTxt: txt,
       });
-    } else {
-      onSearchArticle(txt);
     }
   };
 
@@ -130,7 +151,6 @@ const Header = (props) => {
     }, 3000);
   });
   useEffect(() => {
-    setSearchTxt(searchTxtOnHomePage);
     window.addEventListener("scroll", onScroll);
     return () => {
       window.removeEventListener("scroll", onScroll);
@@ -167,7 +187,7 @@ const Header = (props) => {
               className={classes.searchPlaceholder}
               fullWidth={true}
               size="small"
-              value={searchTxt || ""}
+              value={searchingTxt || ""}
               onChange={(node) => onChangeSearchTxt(node.target.value)}
             />
             <SearchIcon />
@@ -180,14 +200,25 @@ const Header = (props) => {
               onClick={null}
               className={classes.subcribeBtnWrap}
             >
-              <NotificationsActiveIcon />
+              <Badge color="secondary" overlap="circle">
+                <NotificationsActiveIcon />
+              </Badge>
             </Button>
+
             <Button
               size="small"
-              onClick={null}
-              className={classes.suggestSupplyArticleBtnWrap}
+              onClick={() =>
+                (window.location.href = `${process.env.REACT_APP_URL}/home/topic`)
+              }
+              className={classes.bookMarkbtnWrap}
             >
-              <PostAddIcon />
+              <Badge
+                color="secondary"
+                overlap="circle"
+                badgeContent={postList.length}
+              >
+                <BookmarksIcon />
+              </Badge>
             </Button>
           </>
         )}
@@ -200,7 +231,7 @@ const Header = (props) => {
             className={classes.searchPlaceholder}
             fullWidth={true}
             size="small"
-            value={searchTxt}
+            value={searchingTxt}
             onChange={(node) => onChangeSearchTxt(node.target.value)}
             autoFocus
           />
