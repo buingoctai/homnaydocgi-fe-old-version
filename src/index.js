@@ -38,5 +38,5 @@ ReactDOM.render(
   </Provider>,
   document.getElementById("root")
 );
-serviceWorker.askUserPermission();
-serviceWorker.register();
+
+serviceWorker.unregister();
