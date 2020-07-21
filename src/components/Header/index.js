@@ -107,7 +107,15 @@ const Header = (props) => {
 
   const [hidingUserIcon, setHidingUserIcon] = useState(true);
 
-  const { onSearchArticle, title, currentUser, searchingTxt, postList } = props;
+  const {
+    onSearchArticle,
+    setIsOpenNotification,
+    title,
+    currentUser,
+    searchingTxt,
+    postList,
+    isOpenNotification,
+  } = props;
   const classes = useStyles({ ...props, is_maxWidth_1000px, hidingUserIcon });
 
   const handleDeleteUser = () => {
@@ -195,15 +203,18 @@ const Header = (props) => {
         )}
         {(!showAppName || !is_maxWidth_1000px) && (
           <>
-            <Button
-              size="small"
-              onClick={null}
-              className={classes.subcribeBtnWrap}
-            >
-              <Badge color="secondary" overlap="circle">
-                <NotificationsActiveIcon />
-              </Badge>
-            </Button>
+            {window.location.pathname === "/home" && (
+              <Button
+                size="small"
+                onClick={() => setIsOpenNotification(!isOpenNotification)}
+                className={classes.subcribeBtnWrap}
+                id="notiDividerBtn"
+              >
+                <Badge color="secondary" overlap="circle" badgeContent="3">
+                  <NotificationsActiveIcon />
+                </Badge>
+              </Button>
+            )}
 
             <Button
               size="small"

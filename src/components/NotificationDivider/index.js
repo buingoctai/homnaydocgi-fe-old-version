@@ -10,8 +10,10 @@ const useStyles = makeStyles((theme) => ({
     position: "absolute",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "end",
+    justifyContent: "flex-end",
     width: "100%",
+    paddingRight: "100px",
+    marginTop: "5px",
   },
   listWrap: {
     width: "100%",
@@ -19,16 +21,17 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
     marginLeft: "auto",
-    marginRight: "150px",
     overflowY: "scroll",
     paddingRight: "15px",
     boxSizing: "content-box",
-    maxHeight: "200px",
+    maxHeight: "300px",
+    backgroundColor: "#E7EAED",
   },
 }));
 
-export default function ListDividers() {
+export default function ListDividers(props) {
   const classes = useStyles();
+  const { setIsOpenChoseTopic, setIsOpenFeedBack } = props;
 
   return (
     <div className={classes.container}>
@@ -36,31 +39,39 @@ export default function ListDividers() {
         style={{
           position: "relative",
           overflow: "hidden",
+          borderRadius: "5px",
         }}
+        id="notiDivider"
       >
         <List
           component="nav"
           className={classes.listWrap}
           aria-label="mailbox folders"
         >
-          <ListItem button>
-            <ListItemText primary="Inbox" />
+          <h3
+            style={{
+              color: "#808182",
+              marginTop: "0px",
+              marginBottom: "0px",
+              marginLeft: "10px",
+            }}
+          >
+            Thông báo
+          </h3>
+
+          <ListItem>
+            <ListItemText primary="Cảm ơn bạn đã ghé thăm website!" />
           </ListItem>
           <Divider />
           <ListItem button divider>
-            <ListItemText primary="Drafts" />
+            <ListItemText
+              primary="Chọn chủ đề bạn muốn học hỏi"
+              onClick={() => setIsOpenChoseTopic(true)}
+            />
           </ListItem>
           <Divider light />
-          <ListItem button>
-            <ListItemText primary="Spam" />
-          </ListItem>
-          <Divider light />
-          <ListItem button>
-            <ListItemText primary="Spam" />
-          </ListItem>
-          <Divider light />
-          <ListItem button>
-            <ListItemText primary="Spam" />
+          <ListItem button onClick={() => setIsOpenFeedBack(true)}>
+            <ListItemText primary="Gửi feedback trực tiếp đến Tài Admin. Nội dung sẽ được đến Tài thông qua messenger." />
           </ListItem>
         </List>
       </div>

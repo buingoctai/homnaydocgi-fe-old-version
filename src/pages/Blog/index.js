@@ -58,9 +58,9 @@ const Blog = (props) => {
     is_minWidth_2000px: useMediaQuery("(min-width:2000px)"),
   };
   const {
+    isOpenNotification,
     isOpenFeedBack,
     isOpenChoseTopic,
-    setIsOpenChoseTopic,
     isLoadingPage,
     isLoadingSubPage,
     isOpenDetaiContainer,
@@ -83,6 +83,9 @@ const Blog = (props) => {
     onSubmitFeedBack,
     onSaveListPost,
     onUnSaveListPost,
+    setIsOpenNotification,
+    setIsOpenChoseTopic,
+    setIsOpenFeedBack,
   } = props;
   const classes = useStyles({ ...responsiveObj });
 
@@ -230,6 +233,8 @@ const Blog = (props) => {
           title="HÔM NAY ĐỌC GÌ?"
           currentUser={userName}
           postList={postList}
+          setIsOpenNotification={setIsOpenNotification}
+          isOpenNotification={isOpenNotification}
         />
         {isLoadingPage && (
           <div className={classes.totalContentLoadingWrap}>
@@ -241,7 +246,12 @@ const Blog = (props) => {
           </div>
         )}
 
-        <NotificationDivider />
+        {isOpenNotification && (
+          <NotificationDivider
+            setIsOpenChoseTopic={setIsOpenChoseTopic}
+            setIsOpenFeedBack={setIsOpenFeedBack}
+          />
+        )}
         {TopicOption({
           visible: isOpenChoseTopic,
           setIsOpenChoseTopic: setIsOpenChoseTopic,

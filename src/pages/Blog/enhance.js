@@ -42,9 +42,10 @@ export default compose(
   withState("currentPageIndex", "setCurrentPageIndex", 1),
   withState("isShowPaging", "setIsShowPaging", true),
   withState("isStopCallApiGetAllPost", "setIsStopCallApiGetAllPost", false),
-  withState("isOpenChoseTopic", "setIsOpenChoseTopic", true),
+  withState("isOpenChoseTopic", "setIsOpenChoseTopic", false),
   withState("scrollCount", "setScrollCount", 0),
   withState("isOpenFeedBack", "setIsOpenFeedBack", false),
+  withState("isOpenNotification", "setIsOpenNotification", false),
   connect(mapStateToProps, mapDispatchToProps),
   withHandlers({
     onHandleScrollToBottom: (props) => () => {
@@ -144,7 +145,6 @@ export default compose(
   }),
   lifecycle({
     componentDidMount() {
-      window.addEventListener("scroll", this.props.onScroll);
       const {
         currentPageIndex,
         getMainPostsDispatch,
@@ -152,12 +152,23 @@ export default compose(
         getAllPostDispatch,
         getGetAllTopicDispatch,
         setIsLoadingPage,
-        setIsOpenChoseTopic,
+        setIsOpenNotification,
         saveAllPostDispatch,
         setUserName,
         setTopic,
         setPostList,
       } = this.props;
+
+      window.addEventListener("scroll", this.props.onScroll);
+      window.addEventListener("click", function (e) {
+        if (
+          document.getElementById("notiDivider") &&
+          !document.getElementById("notiDivider").contains(e.target) &&
+          !document.getElementById("notiDividerBtn").contains(e.target)
+        ) {
+          setIsOpenNotification(false);
+        }
+      });
 
       userDataCRUD({ action: "EDIT", data: {} });
       const { name = "", topic = [], postList = [] } = userDataCRUD({
@@ -179,7 +190,7 @@ export default compose(
           .catch(() => {});
       } else {
         setTopic([...topic]);
-        setIsOpenChoseTopic(false);
+
         getFeaturedPostsDispatch({
           featuredLabels: [...topic],
         });
@@ -199,6 +210,7 @@ export default compose(
     },
     componentWillUnmount() {
       window.removeEventListener("scroll", this.props.onScroll);
+      window.removeEventListener("click", this.props.onScroll);
     },
   })
 );
