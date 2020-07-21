@@ -170,7 +170,6 @@ export default compose(
       getMainPostsDispatch();
 
       if (topic.length === 0) {
-        setPostList([...DEFAULT_TOPIC]);
         getFeaturedPostsDispatch({
           featuredLabels: [...DEFAULT_TOPIC],
         })
@@ -179,6 +178,7 @@ export default compose(
           })
           .catch(() => {});
       } else {
+        setTopic([...topic]);
         setIsOpenChoseTopic(false);
         getFeaturedPostsDispatch({
           featuredLabels: [...topic],

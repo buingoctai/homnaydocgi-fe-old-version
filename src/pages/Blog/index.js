@@ -6,6 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
+import NotificationDivider from "../../components/NotificationDivider";
 import TopicOption from "./components/TopicOption";
 import Header from "../../components/Header";
 import MainFeaturedPost from "./PostWrap/MainFeaturedPost";
@@ -20,6 +21,7 @@ import enhance from "./enhance";
 
 const useStyles = makeStyles((theme) => ({
   container: {
+    position: "relative",
     width: "90%",
     paddingLeft: (props) => (props.is_maxWidth_500px ? "0px" : "none"),
     paddingRight: (props) => (props.is_maxWidth_500px ? "0px" : "none"),
@@ -239,6 +241,7 @@ const Blog = (props) => {
           </div>
         )}
 
+        <NotificationDivider />
         {TopicOption({
           visible: isOpenChoseTopic,
           setIsOpenChoseTopic: setIsOpenChoseTopic,
