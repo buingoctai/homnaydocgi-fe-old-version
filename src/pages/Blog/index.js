@@ -18,6 +18,8 @@ import PostGrid from "../../components/PostGrid";
 import FeedBack from "./components/FeedBack";
 import enhance from "./enhance";
 
+import AuthorPost from "./PostWrap/AuthorPost";
+
 const useStyles = makeStyles((theme) => ({
   container: {
     width: "90%",
@@ -147,6 +149,11 @@ const Blog = (props) => {
                 onHandleOpenDetailContainer={onHandleOpenDetailContainer}
               />
               <div style={{ flexGrow: "2" }} />
+              <AuthorPost
+                post={mainPosts}
+                responsiveObj={responsiveObj}
+                onHandleOpenDetailContainer={onHandleOpenDetailContainer}
+              />
             </div>
 
             <Grid container spacing={4}>
