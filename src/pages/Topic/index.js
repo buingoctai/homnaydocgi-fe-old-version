@@ -1,7 +1,9 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import KeyboardReturnIcon from "@material-ui/icons/KeyboardReturn";
 import { makeStyles } from "@material-ui/core/styles";
 
 import Header from "../../components/Header";
@@ -52,7 +54,11 @@ const Topic = (props) => {
           searchTxtOnHomePage={searchTxt}
           onSearchArticle={onSearchArticle}
         />
-        <div style={{ marginTop: "70px" }} />
+        <div style={{ marginTop: "20px" }} />
+        <Link to={{ pathname: "/home" }} style={{ textDecoration: "none" }}>
+          <KeyboardReturnIcon color="primary" />
+        </Link>
+
         <Main
           title={
             searchingTxt

@@ -10,7 +10,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import MenuIcon from "@material-ui/icons/Menu";
 import ComputerIcon from "@material-ui/icons/Computer";
 import FaceIcon from "@material-ui/icons/Face";
-import TocIcon from '@material-ui/icons/Toc';
+import TocIcon from "@material-ui/icons/Toc";
 import { translateUrl } from "../../utils/utils";
 const useStyles = makeStyles({
   list: {
@@ -37,7 +37,7 @@ export default function DrawerMenu() {
   };
   const determineIcon = (text) => {
     switch (text) {
-      case "Trang Chủ":
+      case "Nội dung":
         return <ComputerIcon />;
       case "Dữ liệu Crawl":
         return <TocIcon />;
@@ -58,14 +58,13 @@ export default function DrawerMenu() {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        {[
-          "Trang Chủ",
-          "Dữ liệu Crawl",
-          "Bots"
-        ].map((text, index) => (
+        {["Nội dung", "Dữ liệu Crawl", "Bots"].map((text, index) => (
           <ListItem button key={text}>
-            <ListItemIcon >{determineIcon(text)}</ListItemIcon>
-            <Link to={{ pathname: translateUrl(text) }} style={{ textDecoration: "none" }}>
+            <ListItemIcon>{determineIcon(text)}</ListItemIcon>
+            <Link
+              to={{ pathname: translateUrl(text) }}
+              style={{ textDecoration: "none" }}
+            >
               <ListItemText primary={text} />
             </Link>
           </ListItem>

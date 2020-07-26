@@ -10,11 +10,11 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     display: "flex",
     flexDirection: "column",
-    height: "fix-content"
+    height: "fix-content",
   },
   imageWrap: {
     // width: (props) => (props.is_maxWidth_500px ? "100%" : "50%"),
-    width: "100%",
+    width: "350px",
     position: "relative",
     transition: "transform 0.3s",
     "&:hover": {
@@ -40,7 +40,7 @@ export default function MainFeaturedPost(props) {
   return (
     <div className={classes.mainPostContainer}>
       <span style={{ fontSize: "20px", fontWeight: "bold", color: "#551A99" }}>
-        Tin mới nhất
+        Nội dung mới nhất
       </span>
       <div className={classes.imageWrap}>
         <img src={post.ImageUrl} width="100%" alt="" />

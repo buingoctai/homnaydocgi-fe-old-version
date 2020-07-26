@@ -6,7 +6,6 @@ import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
-import DraggableDialog from "../../components/Dialog";
 import TopicOption from "./components/TopicOption";
 import Header from "../../components/Header";
 import MainFeaturedPost from "./PostWrap/MainFeaturedPost";
@@ -16,11 +15,16 @@ import Main from "../../components/Main";
 import Footer from "../../components/Footer";
 import PostGrid from "../../components/PostGrid";
 import FeedBack from "./components/FeedBack";
+<<<<<<< HEAD
 import enhance from "./enhance";
 
 import AuthorPost from "./PostWrap/AuthorPost";
 import * as serviceWorker from '../../serviceWorker'
 import { render } from "@testing-library/react";
+=======
+import AuthorPost from "./PostWrap/AuthorPost";
+import enhance from "./enhance";
+>>>>>>> 91cd517... adjust slideshow, add button back, adjust css
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -71,11 +75,9 @@ const Blog = (props) => {
     mainPosts,
     featuredPosts,
     allPost,
-    dialogContent,
   } = props;
 
   const {
-    setDialogContent,
     onHandleNavigateAdminPage,
     onHandleSubscribeNotifiByBot,
     onHandleSuggestSendArticle,
@@ -91,6 +93,36 @@ const Blog = (props) => {
   } = props;
   const classes = useStyles({ ...responsiveObj });
 
+  const authorData = {
+    imageList: [
+      "https://scontent.fsgn5-5.fna.fbcdn.net/v/t1.0-9/91651356_10221659159173576_3247397447923662848_o.jpg?_nc_cat=100&_nc_sid=174925&_nc_ohc=pp_EiaNhDC0AX_EUZ74&_nc_ht=scontent.fsgn5-5.fna&oh=4e857736da7d671473062711d27258cc&oe=5F274795",
+      "https://scontent.fdad3-3.fna.fbcdn.net/v/t1.0-9/26230148_10214748987063592_8377186319034611906_n.jpg?_nc_cat=111&_nc_sid=8bfeb9&_nc_ohc=uvu6Qu3c240AX_Osvq-&_nc_ht=scontent.fdad3-3.fna&oh=aed9cb0f661f270fe165ed60fff689e1&oe=5F2612A3",
+    ],
+    infor: [
+      {
+        name: "Tuan Nguyen",
+        description: "CTO tại VCCORP",
+      },
+      {
+        name: "Nguyen Phi Van",
+        description: "Board Advisor at Austria-Vietnam Innovation Council",
+      },
+      {
+        name: "David Trieu",
+        description:
+          "Project Director tại Hệ Sinh Thái Khởi Nghiệp IoT Việt Nam",
+      },
+    ],
+  };
+
+  const authorList = {
+    image: [
+      "https://uploads-ssl.webflow.com/5be2baf97a00671aef1118cd/5e31a33d94b1c0d5e4b58f99_belle%20buzzwords.png",
+      "https://www.intheblack.com/-/media/intheblack/allimages/workplace/2016/business-buzzwords.jpg?h=476&la=en&mw=806&w=806&rev=c39bd5246fcd4ded832348c5b8b591ad",
+      "https://miro.medium.com/max/3000/1*z_tMP7UnBamSyDkB1rav3Q.png",
+    ],
+    author: [...authorData.infor],
+  };
   return (
     <React.Fragment>
       <CssBaseline />
@@ -119,17 +151,13 @@ const Blog = (props) => {
             />
           </div>
         )}
-        {/* {DraggableDialog({
-          ...dialogContent,
-          setDialogContent: setDialogContent,
-        })}
 
         {TopicOption({
           visible: isOpenChoseTopic,
           setIsOpenChoseTopic: setIsOpenChoseTopic,
           allTopic: allTopic,
           onGetFeaturedTopic: onGetFeaturedTopic,
-        })} */}
+        })}
 
         {FeedBack({
           visible: isOpenFeedBack,
@@ -145,7 +173,7 @@ const Blog = (props) => {
                 padding: "20px 0",
                 height: "230px",
                 maxHeight: "235px",
-                marginBottom: "1%"
+                marginBottom: "1%",
               }}
             >
               <MainFeaturedPost
@@ -153,14 +181,24 @@ const Blog = (props) => {
                 responsiveObj={responsiveObj}
                 onHandleOpenDetailContainer={onHandleOpenDetailContainer}
               />
-              {/* <div style={{ flexGrow: "2" }} /> */}
-              {!responsiveObj.is_maxWidth_500px &&
+              {!responsiveObj.is_maxWidth_500px && (
                 <AuthorPost
-                  post={mainPosts}
+                  type="image"
+                  title="Từ khóa hot"
+                  data={authorList.image}
+                  navigateTime={3000}
                   responsiveObj={responsiveObj}
-                  onHandleOpenDetailContainer={onHandleOpenDetailContainer}
                 />
-              }
+              )}
+              {!responsiveObj.is_maxWidth_500px && (
+                <AuthorPost
+                  type="infor"
+                  title="Chuyên gia"
+                  data={authorList.author}
+                  navigateTime={3000}
+                  responsiveObj={responsiveObj}
+                />
+              )}
             </div>
 
             <Grid container spacing={4}>

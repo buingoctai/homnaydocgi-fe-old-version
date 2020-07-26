@@ -95,21 +95,26 @@ const FACEBOOK_DEV = {
   ADMIN_MESSENGER_ID: "3119991678020925",
 };
 
-const DEFAULT_TOPIC = ["Back End", "AI/ML/DL Research", "Psychology", "Personal View"];
+const DEFAULT_TOPIC = [
+  "Back End",
+  "AI/ML/DL Research",
+  "Psychology",
+  "Personal View",
+];
 
 const URL = [
   {
-    subMenu: "Trang Chủ",
-    uRL: "/home"
+    subMenu: "Nội dung",
+    uRL: "/home",
   },
   {
     subMenu: "Dữ liệu Crawl",
-    uRL: "/home/crawler"
+    uRL: "/home/crawler",
   },
   {
     subMenu: "Bots",
-    uRL: "/home/bots"
-  }
+    uRL: "/home/bots",
+  },
 ];
 
 export {
