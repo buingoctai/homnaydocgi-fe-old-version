@@ -15,16 +15,11 @@ import Main from "../../components/Main";
 import Footer from "../../components/Footer";
 import PostGrid from "../../components/PostGrid";
 import FeedBack from "./components/FeedBack";
-<<<<<<< HEAD
-import enhance from "./enhance";
+
 
 import AuthorPost from "./PostWrap/AuthorPost";
-import * as serviceWorker from '../../serviceWorker'
-import { render } from "@testing-library/react";
-=======
 import AuthorPost from "./PostWrap/AuthorPost";
 import enhance from "./enhance";
->>>>>>> 91cd517... adjust slideshow, add button back, adjust css
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -94,6 +89,7 @@ const Blog = (props) => {
     onSubmitFeedBack,
     // Push Notification
     onClickAskUserPermission,
+    _onClickSusbribeToReceiveNotification
   } = props;
   const classes = useStyles({ ...responsiveObj });
 
@@ -151,6 +147,11 @@ const Blog = (props) => {
             onClickSendSubscriptionToPushServer
           }
           onClickSendNotification={onClickSendNotification}
+
+          _onClickSusbribeToReceiveNotification={onClickAskUserPermission}
+          _onClickSusbribeToPushNotification={onClickSusbribeToPushNotification}
+          _onClickSendSubscriptionToPushServer={onClickSendSubscriptionToPushServer}
+          _onClickSendNotification={onClickSendNotification}
         />
         {isLoadingPage && (
           <div className={classes.totalContentLoadingWrap}>
@@ -173,7 +174,7 @@ const Blog = (props) => {
           visible: isOpenFeedBack,
           onSubmitFeedBack: onSubmitFeedBack,
         })}
-
+ 
         {!isLoadingPage && (
           <main>
             <div
@@ -252,6 +253,4 @@ const Blog = (props) => {
     </React.Fragment>
   );
 };
-
 export default enhance(Blog);
-serviceWorker.register()

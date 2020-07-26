@@ -42,4 +42,5 @@ ReactDOM.render(
   </Provider>,
   document.getElementById("root")
 );
-serviceWorker.unregister();
+serviceWorker.register();
+console.log(serviceWorker.createNotificationSubscription())

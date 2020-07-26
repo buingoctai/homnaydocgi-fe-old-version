@@ -86,7 +86,7 @@ const Header = (props) => {
   const [searchTxt, setSearchTxt] = useState("");
   const [hidingUserIcon, setHidingUserIcon] = useState(true);
 
-  const { onSearchArticle, title, currentUser, searchTxtOnHomePage } = props;
+  const { onSearchArticle, title, currentUser, searchTxtOnHomePage , _onClickSusbribeToReceiveNotification, _onClickSusbribeToPushNotification, _onClickSendSubscriptionToPushServer, _onClickSendNotification} = props;
   const classes = useStyles({ ...props, is_maxWidth_1000px, hidingUserIcon });
 
   const handleDeleteUser = () => {
@@ -173,7 +173,7 @@ const Header = (props) => {
           <>
             <Button
               size="small"
-              onClick={null}
+              onClick={_onClickSusbribeToReceiveNotification}
               className={classes.subcribeBtnWrap}
             >
               <NotificationsActiveIcon />
@@ -185,6 +185,24 @@ const Header = (props) => {
             >
               <PostAddIcon />
             </Button>
+            <Button
+              onClick={_onClickSusbribeToPushNotification}
+              title="Test push sw"
+              color="#black"
+              size="small"
+            />
+            <Button
+              onClick={_onClickSendSubscriptionToPushServer}
+              title="Test send sw"
+              color="#black"
+              size="small"
+            />
+            <Button
+              onClick={_onClickSendNotification}
+              title="Test send nofi"
+              color="#black"
+              size="small"
+            />
           </>
         )}
       </Toolbar>

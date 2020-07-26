@@ -69,13 +69,14 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withHandlers({
     // Push Notification
-    onClickAskUserPermission: (props) => {
+    onClickAskUserPermission: props => () => {
       const { setUserConsent } = props;
       serviceWorker.askUserPermission().then((consent) => {
+        console.log('User permission: ' + consent)
         setUserConsent(consent);
       });
     },
-    onClickSusbribeToPushNotification: (props) => {
+    onClickSusbribeToPushNotification: props => () => {
       const { setUserSubscription } = props;
       console.log("onClickSusbribeToPushNotification");
       console.log(
@@ -90,22 +91,29 @@ export default compose(
         })
         .catch(() => console.log("lỗi tạo push subcription"));
     },
-    onClickSendSubscriptionToPushServer: (props) => {
+    onClickSendSubscriptionToPushServer: props => () => {
       const { userSubscription, setPushServerSubscriptionId } = props;
+      
       axios
-        .post(`${process.env.REACT_APP_API}/user/subscription`, {
+        .post(`http://localhost:8080/user/subscription`, {
           data: userSubscription,
         })
         .then((res) => {
           setPushServerSubscriptionId(res.id);
+          console.log(res.id)
         })
-        .catch(() => console.log("lỗi gửi push subscription đến push server"));
+        // // .catch(() => console.log("lỗi gửi push subscription đến push server"));
+        .catch((err) => console.log(err));
     },
-    onClickSendNotification: (props) => {
+    onClickSendNotification: props => () => {
       const { pushServerSubscriptionId } = props;
       axios
         .get(
-          `${process.env.REACT_APP_API}/user/subscription/${pushServerSubscriptionId}`
+          `http://localhost:8080/user/subscription`, {
+            params: {
+              id: pushServerSubscriptionId
+            }
+          }
         )
         .catch((error) => {
           console.log("lỗi gửi thông báo");

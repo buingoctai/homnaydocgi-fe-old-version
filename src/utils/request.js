@@ -14,22 +14,22 @@ const HandleStatus = (response) => {
   if (status === 200 || status === 201 || status === 201) {
     return data;
   } else {
-    axios({
-      method: "post",
-      url: `https://graph.facebook.com/v6.0/me/messages?access_token=${FACEBOOK_DEV.PAGE_ACCESS_TOKEN}`,
-      data: {
-        recipient: { id: FACEBOOK_DEV.ADMIN_MESSENGER_ID },
-        message: { text: `Thông báo lỗi Nodejs Server: ${data}` },
-      },
-    })
-      .then(() => {
-        window.location.href = `${process.env.REACT_APP_URL}/exception?codeMessage=${status}`;
-        return;
-      })
-      .catch(() => {
-        window.location.href = `${process.env.REACT_APP_URL}/exception?codeMessage=${status}`;
-        return;
-      });
+    // axios({
+    //   method: "post",
+    //   url: `https://graph.facebook.com/v6.0/me/messages?access_token=${FACEBOOK_DEV.PAGE_ACCESS_TOKEN}`,
+    //   data: {
+    //     recipient: { id: FACEBOOK_DEV.ADMIN_MESSENGER_ID },
+    //     message: { text: `Thông báo lỗi Nodejs Server: ${data}` },
+    //   },
+    // })
+      // .then(() => {
+      //   window.location.href = `${process.env.REACT_APP_URL}/exception?codeMessage=${status}`;
+      //   return;
+      // })
+      // .catch(() => {
+      //   window.location.href = `${process.env.REACT_APP_URL}/exception?codeMessage=${status}`;
+      //   return;
+      // });
   }
 };
 axios.interceptors.request.use((config) => {
