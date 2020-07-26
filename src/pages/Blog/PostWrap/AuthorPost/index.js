@@ -106,6 +106,7 @@ const AuthorPost = (props) => {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     const content = [   {title: 'A1', description: 'Author1', button: 'Read more', image: 'red'},
                         {title: 'A2', description: 'Author2', button: 'Read more', image: 'blue'},
                         {title: 'A3', description: 'Author3', button: 'Read more', image: 'green'},
@@ -130,6 +131,8 @@ const AuthorPost = (props) => {
                 ))}
             </Slider>
 =======
+=======
+>>>>>>> 27c4daa... rebuild notification
     return data.map((item, index) => (
       <div key={index} style={{ background: "#C1C1C1" }}>
         <div>
