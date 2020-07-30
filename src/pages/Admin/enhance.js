@@ -6,17 +6,17 @@ import {
   asyncGetAllPost,
   asyncDeletePosts,
   asyncUpdatePosts,
+  asyncGetDetailPost,
 } from "./Store/actions";
 
-import { asyncGetDetailPost } from "../Blog/Store/actions";
+// import { asyncGetDetailPost } from "../Blog/Store/actions";
 import moment from "moment";
 
 const mapStateToProps = (state) => {
-  const { adminReducers, blogReducers } = state;
-  console.log(adminReducers, blogReducers);
+  const { adminReducers } = state;
   return {
     allPost: adminReducers.allPost,
-    detailPost: blogReducers.detailPost,
+    detailPost: adminReducers.detailPost,
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -40,8 +40,29 @@ export default compose(
   withState("selected", "setSelected", []),
   connect(mapStateToProps, mapDispatchToProps),
   withHandlers({
+    onUpdatingContent: (props) => ({
+      Author,
+      Title,
+      Topic,
+      SubmitDate,
+      ImageUrl,
+    }) => {
+      const { detailPost, setArticleData } = props;
+
+      setArticleData({
+        author: Author,
+        title: Title,
+        content: detailPost.Content,
+        topic: Topic,
+        submitDate: SubmitDate,
+        imageUrl: ImageUrl,
+      });
+    },
+  }),
+  withHandlers({
     onNavigateListArticle: async (props) => {
       const { setIsShowAddingForm, setIsLoadingTable } = props;
+
       await setIsLoadingTable(true);
       setTimeout(() => setIsLoadingTable(false), 3000);
       setTimeout(() => setIsShowAddingForm(false), 4000);
@@ -56,6 +77,7 @@ export default compose(
         updatePostsDispatch,
         getAllPostDispatch,
       } = props;
+
       if (selected.length === 0) {
         submitPostDispatch({
           ...articleData,
@@ -113,6 +135,7 @@ export default compose(
     },
     onDeleteArticle: (props) => (selected) => {
       const { setSelected, deletePostsDispatch, getAllPostDispatch } = props;
+
       deletePostsDispatch({ items: [...selected] })
         .then(() => {
           setSelected([]);
@@ -143,10 +166,10 @@ export default compose(
     },
     onEditArticle: (props) => (selected) => {
       const {
-        detailPost,
         allPost,
         setArticleData,
         getDetailPostDispatch,
+        onUpdatingContent,
       } = props;
       const selectedRows = allPost.data.filter((item) =>
         selected.includes(item.Id)
@@ -164,16 +187,7 @@ export default compose(
         } = selectedRows[0];
         getDetailPostDispatch({ id: Id })
           .then(() => {
-            console.log("content=", detailPost.Content);
-
-            setArticleData({
-              author: Author,
-              title: Title,
-              content: detailPost.Content,
-              topic: Topic,
-              submitDate: SubmitDate,
-              imageUrl: ImageUrl,
-            });
+            onUpdatingContent({ Author, Title, Topic, SubmitDate, ImageUrl });
           })
           .catch(() => {
             setArticleData({
@@ -200,6 +214,7 @@ export default compose(
   lifecycle({
     componentDidMount() {
       const { getAllPostDispatch } = this.props;
+
       getAllPostDispatch({
         paging: { pageIndex: 1, pageSize: 5 },
         orderList: { orderBy: "SubmitDate", orderType: "DESC" },

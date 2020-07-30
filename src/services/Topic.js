@@ -13,3 +13,10 @@ export const searchArticles = (param) => {
     data: { ...param },
   });
 };
+
+export const getSavedPosts = (param) => {
+  return request(`${process.env.REACT_APP_API}/blog/getSavedPosts`, {
+    method: "POST",
+    data: { ...param },
+  });
+};

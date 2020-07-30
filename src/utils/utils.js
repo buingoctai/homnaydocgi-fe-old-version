@@ -30,3 +30,34 @@ export const translateUrl = (param) => {
   const { uRL } = url;
   return uRL;
 };
+
+export const userDataCRUD = ({ action, data }) => {
+  if (!action) return;
+
+  switch (action) {
+    case "GET":
+      return JSON.parse(localStorage.getItem("userData"));
+    case "EDIT":
+      const currentData = JSON.parse(localStorage.getItem("userData"));
+
+      if (currentData) {
+        const updateData = { ...currentData, ...data };
+        localStorage.setItem("userData", JSON.stringify(updateData));
+        break;
+      }
+      localStorage.setItem("userData", JSON.stringify({ ...data }));
+      break;
+    case "DELETE":
+      localStorage.removeItem("userData");
+      break;
+    default:
+      return;
+  }
+};
+
+export const isBookMarkedPost = (postId) => {
+  const { postList = [] } = JSON.parse(localStorage.getItem("userData"));
+  if (postList.length === 0) return false;
+
+  return postList.includes(postId);
+};

@@ -74,10 +74,10 @@ const AddingForm = (props) => {
     helperText: "Độ dài tối đa là 100 ký tự",
   };
   const errContent = content &&
-    content.length > 5000 && {
+    content.length > 40000 && {
       error: true,
       id: "standard-error-helper-text",
-      helperText: "Độ dài tối đa là 5000 ký tự",
+      helperText: "Độ dài tối đa là 40000 ký tự",
     };
 
   return (

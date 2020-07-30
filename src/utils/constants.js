@@ -108,11 +108,7 @@ const URL = [
     uRL: "/home",
   },
   {
-    subMenu: "Dữ liệu Crawl",
-    uRL: "/home/crawler",
-  },
-  {
-    subMenu: "Bots",
+    subMenu: "Nghe Báo",
     uRL: "/home/bots",
   },
 ];

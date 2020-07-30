@@ -4,6 +4,8 @@ import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import ClearIcon from "@material-ui/icons/Clear";
+import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
+import BookmarkIcon from "@material-ui/icons/Bookmark";
 import Button from "@material-ui/core/Button";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
@@ -68,10 +70,16 @@ const useStyles = makeStyles((theme) => ({
     right: "-20px",
     padding: theme.spacing(2),
     color: theme.palette.text.secondary,
+    backgroundColor: "#FFFFED",
     textAlign: "center",
     position: "absolute",
     overflowY: "scroll",
     overflowX: "hidden",
+  },
+  titleBookMarkWrap: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
 }));
 
@@ -82,7 +90,10 @@ export default function DetailPost(props) {
     isOpenDetaiContainer,
     responsiveObj,
     loading,
+    isBookMarkedPost,
     onHandleOpenDetailContainer,
+    onSaveListPost,
+    onUnSaveListPost,
   } = props;
   const newContent = post.Content ? post.Content.split("\n") : [];
   const classes = useStyles({
@@ -98,7 +109,7 @@ export default function DetailPost(props) {
             ? `${classes.girdWrap} ${classes.largeGridWrap}`
             : `${classes.girdWrap} ${classes.smallGridWrap}`
         }
-        onBlur={() => console.log("on blur")}
+        onBlur={() => {}}
       >
         <Grid item xs={12} className={classes.itemGridWrap} key="itemGridWrap">
           {isOpenDetaiContainer && (
@@ -112,9 +123,26 @@ export default function DetailPost(props) {
           )}
 
           <Paper className={classes.paperWrap} key="itemGridWrap">
-            <Typography variant="h6" color="primary" key="title">
-              {showingPost.Title}
-            </Typography>
+            <div className={classes.titleBookMarkWrap}>
+              <Typography
+                variant="h6"
+                color="primary"
+                key="title"
+                style={{ flexGrow: "1" }}
+              >
+                {showingPost.Title}
+              </Typography>
+
+              {isBookMarkedPost ? (
+                <Button onClick={() => onUnSaveListPost(showingPost.Id)}>
+                  <BookmarkIcon />
+                </Button>
+              ) : (
+                <Button onClick={() => onSaveListPost(showingPost.Id)}>
+                  <BookmarkBorderIcon />
+                </Button>
+              )}
+            </div>
             <br />
             {loading ? (
               <div style={{ display: "flex", justifyContent: "center" }}>
@@ -124,34 +152,34 @@ export default function DetailPost(props) {
                 />
               </div>
             ) : (
-                <>
-                  <Typography
-                    paragraph={true}
-                    align="justify"
-                    color="textPrimary"
-                    key="subContent"
-                  >
-                    {newContent.length > 0 &&
-                      newContent.map((item) => (
-                        <>
-                          {item}
-                          <br />
-                        </>
-                      ))}
-                  </Typography>
-                  <div>
-                    <img
-                      src={showingPost.ImageUrl}
-                      alt="Ảnh"
-                      style={
-                        responsiveObj.is_maxWidth_500px
-                          ? { width: "70%" }
-                          : { width: "30%" }
-                      }
-                    />
-                  </div>
-                </>
-              )}
+              <>
+                <Typography
+                  paragraph={true}
+                  align="justify"
+                  color="textPrimary"
+                  key="subContent"
+                >
+                  {newContent.length > 0 &&
+                    newContent.map((item) => (
+                      <>
+                        {item}
+                        <br />
+                      </>
+                    ))}
+                </Typography>
+                <div>
+                  <img
+                    src={showingPost.ImageUrl}
+                    alt="Ảnh"
+                    style={
+                      responsiveObj.is_maxWidth_500px
+                        ? { width: "70%" }
+                        : { width: "30%" }
+                    }
+                  />
+                </div>
+              </>
+            )}
             <br />
             <br />
             <Typography

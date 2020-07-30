@@ -13,10 +13,11 @@ import Box from "@material-ui/core/Box";
 import MusicVideoIcon from "@material-ui/icons/MusicVideo";
 import VideoCallIcon from "@material-ui/icons/VideoCall";
 import ChatIcon from "@material-ui/icons/Chat";
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import TocIcon from '@material-ui/icons/Toc';
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import TocIcon from "@material-ui/icons/Toc";
+
 import ReadNews from "./components/ReadNews";
-import NotificationsIcon from '@material-ui/icons/Notifications';
+import NotificationsIcon from "@material-ui/icons/Notifications";
 import Header from "../../components/Header";
 import BarChart from "../../components/BarChart";
 import enhance from "./enhance";
@@ -77,19 +78,18 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    flexGrow: "0.5"
+    flexGrow: "0.5",
   },
   personalizedChartWrap: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    flexGrow: "1"
-
+    flexGrow: "1",
   },
   icon: {
     fontSize: "40px",
-    marginBottom: "50px"
+    marginBottom: "50px",
   },
   tabLabelWrap: {
     display: "flex",
@@ -112,6 +112,8 @@ const Bots = (props) => {
   };
 
   const {
+    userName,
+    postList,
     allArticle,
     currentAudioArticle,
     currentPageIndex,
@@ -131,7 +133,6 @@ const Bots = (props) => {
     setValue(index);
   };
 
-
   const onScroll = () => {
     // Khoảng cách từ đỉnh scroll bar đến đỉnh của browser
     const scrollTop = document.documentElement.scrollTop;
@@ -141,14 +142,13 @@ const Bots = (props) => {
     if (scrollTop === 0) {
       setHidingUserIcon(true);
     }
-  }
+  };
   useEffect(() => {
     window.addEventListener("scroll", onScroll);
     return () => {
       window.removeEventListener("scroll", onScroll);
-    }
+    };
   }, []);
-
 
   return (
     <React.Fragment>
@@ -156,14 +156,12 @@ const Bots = (props) => {
       <Container className={classes.container}>
         <Header
           title="HÔM NAY ĐỌC GÌ?"
-          currentUser={"userName"}
-          onSearchArticle={null}
+          currentUser={userName}
+          postList={postList}
         />
         <div className={classes.rootWrap}>
           <div className={classes.personalizedUserWrap}>
-            {!hidingUserIcon && (
-              <AccountCircleIcon className={classes.icon} />
-            )}
+            {!hidingUserIcon && <AccountCircleIcon className={classes.icon} />}
             <NotificationsIcon className={classes.icon} />
             <TocIcon className={classes.icon} />
           </div>

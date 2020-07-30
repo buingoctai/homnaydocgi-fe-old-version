@@ -10,7 +10,7 @@ import Bots from "../Bots";
 import Admin from "../Admin";
 import Exception from "../Exception";
 
-const App = (props) => {
+const App = () => {
   return (
     <div>
       <Helmet defaultTitle="HÔM NAY ĐỌC GÌ? | Cá nhân hóa thông tin người dùng cần đọc">

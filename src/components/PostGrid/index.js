@@ -23,10 +23,10 @@ const useStyles = makeStyles((theme) => ({
   itemWrap: {
     position: "relative",
     animationName: "$listAmination",
-    animationDuration: "4s",
-    transition: "transform 1s",
+    animationDuration: "3.5s",
+    transition: "transform 0.5s",
     "&:hover": {
-      transform: "scale(1.1)",
+      transform: "scale(1.05)",
     },
   },
   "@keyframes listAmination": {
@@ -123,6 +123,7 @@ const PostGrid = (props) => {
             <Paging
               currentPageIndex={currentPageIndex}
               totalRecord={totalRecord}
+              onChangePageIndex={() => console.log("")}
             />
           ) : (
             <GridListTile cols={3} className={classes.loadingWrap}>
@@ -132,7 +133,7 @@ const PostGrid = (props) => {
           {!isShowPaging && <div className={classes.spaceWrap} />}
         </GridList>
       </div>
-      <div className={classes.developingWrap}>ĐANG PHÁT TRIỂN</div>
+      <div className={classes.developingWrap} />
     </div>
   );
 };

@@ -6,10 +6,8 @@ import Slider from "react-animated-slider";
 import "react-animated-slider/build/horizontal.css";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
-
 import "./style.css";
 
-const { red, blue, green } = require("@material-ui/core/colors");
 const userStyles = makeStyles(() => ({
   container: {
     flexGrow: 1,
@@ -31,6 +29,8 @@ const userStyles = makeStyles(() => ({
     position: "sticky",
     fontSize: "20px",
     top: "5%",
+    marginTop: "0px",
+    marginBottom: "0px",
   },
   descriptionWrap: {
     position: "sticky",
@@ -42,21 +42,11 @@ const userStyles = makeStyles(() => ({
 const AuthorPost = (props) => {
   const { responsiveObj, type, title, data, navigateTime } = props;
   const classes = userStyles({ ...responsiveObj });
-  const content = [
-    { title: "A1", description: "Author1", button: "Read more", image: "red" },
-    { title: "A2", description: "Author2", button: "Read more", image: "blue" },
-    {
-      title: "A3",
-      description: "Author3",
-      button: "Read more",
-      image: "green",
-    },
-  ];
 
   const slideWrap = () => {
     if (type === "image") {
-      return data.map((item, index) => (
-        <div>
+      return data.map((item) => (
+        <div key={item}>
           <img src={item} width="100%" alt="" />
         </div>
       ));
@@ -65,12 +55,24 @@ const AuthorPost = (props) => {
     return data.map((item, index) => (
       <div key={index} style={{ background: "#C1C1C1" }}>
         <div>
+          <img
+            src={item.image}
+            alt="Pineapple"
+            width="50"
+            height="50"
+            style={{
+              filter: "grayscale(100%)",
+              borderRadius: "50%",
+              marginTop: "5PX",
+            }}
+          ></img>
           <h1 className={classes.titleWrap}>{item.name}</h1>
           <p className={classes.descriptionWrap}>{item.description}</p>
           <a
             className={["btn-more", classes.button].join(" ")}
             target="_blank"
             href={`https://www.facebook.com/search/top?q=+${item.name}`}
+            rel="noopener noreferrer"
           >
             Tìm kiếm trên facebook
           </a>

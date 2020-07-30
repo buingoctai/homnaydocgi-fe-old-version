@@ -1,6 +1,10 @@
 import { sagaMiddleware } from "../../../store/actions";
 import { SAVE_ALL_POST } from "./constants";
-import { getAllPostEffect, searchArticlesEffect } from "./sagas";
+import {
+  getAllPostEffect,
+  searchArticlesEffect,
+  getSavedPostsEffect,
+} from "./sagas";
 
 const getAllPost = (payload, resolve, reject) => {
   sagaMiddleware.run(getAllPostEffect, payload, resolve, reject);
@@ -26,5 +30,15 @@ const searchArticles = (payload, resolve, reject) => {
 export const asyncSearchArticles = (payload) => {
   return new Promise((resolve, reject) => {
     searchArticles(payload, resolve, reject);
+  });
+};
+
+const getSavedPosts = (payload, resolve, reject) => {
+  sagaMiddleware.run(getSavedPostsEffect, payload, resolve, reject);
+};
+
+export const asyncGetSavedPosts = (payload) => {
+  return new Promise((resolve, reject) => {
+    getSavedPosts(payload, resolve, reject);
   });
 };
