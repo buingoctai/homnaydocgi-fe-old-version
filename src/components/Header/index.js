@@ -231,7 +231,10 @@ const Header = (props) => {
                 <BookmarksIcon />
               </Badge>
             </Button>
-            <Button
+            <Button onClick={_onClickSusbribeToPushNotification>
+              Nofi
+            </Button>
+            {/* <Button
               onClick={_onClickSusbribeToPushNotification}
               title="Test push sw"
               color="#black"
@@ -248,7 +251,7 @@ const Header = (props) => {
               title="Test send nofi"
               color="#black"
               size="small"
-            />
+            /> */}
           </>
         )}
       </Toolbar>
