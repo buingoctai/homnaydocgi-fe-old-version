@@ -18,7 +18,6 @@ import FeedBack from "./components/FeedBack";
 
 
 import AuthorPost from "./PostWrap/AuthorPost";
-import AuthorPost from "./PostWrap/AuthorPost";
 import enhance from "./enhance";
 
 const useStyles = makeStyles((theme) => ({
