@@ -100,6 +100,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
+
 const Header = (props) => {
   const history = useHistory();
   const is_maxWidth_1000px = useMediaQuery("(max-width:1000px)");
@@ -152,6 +154,8 @@ const Header = (props) => {
       setHidingUserIcon(true);
     }
   };
+
+  const {_onClickSusbribeToPushNotification, _onClickSendSubscriptionToServer, _onClickSendNotification} = props;
 
   useEffect(() => {
     setTimeout(() => {
@@ -231,27 +235,24 @@ const Header = (props) => {
                 <BookmarksIcon />
               </Badge>
             </Button>
-            <Button onClick={_onClickSusbribeToPushNotification>
+            <Button 
+            onClick={_onClickSusbribeToPushNotification}
+            title="register for using sw"
+            >
               Nofi
             </Button>
-            {/* <Button
-              onClick={_onClickSusbribeToPushNotification}
-              title="Test push sw"
-              color="#black"
-              size="small"
-            />
-            <Button
-              onClick={_onClickSendSubscriptionToPushServer}
-              title="Test send sw"
-              color="#black"
-              size="small"
-            />
-            <Button
-              onClick={_onClickSendNotification}
-              title="Test send nofi"
-              color="#black"
-              size="small"
-            /> */}
+            <Button 
+            onClick={_onClickSendSubscriptionToServer}
+            title="send subscription to server"
+            >
+              SendtoServer
+            </Button>
+            <Button 
+            onClick={_onClickSendNotification}
+            title="server send nofi to client"
+            >
+              SendFromServer
+            </Button>
           </>
         )}
       </Toolbar>

@@ -1,14 +1,14 @@
 function receivePushNotification(event) {
   console.log('[Service Worker] Push Received.');
   // const { title, body } = event.data.json();
-  const { tag, url, title, text } = event.data.json();
+  // const { tag, url, title, text } = event.data.json();
   const options = {
-    data: url,
-    body: text,
+    data: 'url',
+    body: 'text',
     vibrate: [200, 100, 200],
-    tag: tag
+    tag: 'tag'
   };
-  event.waitUntil(self.registration.showNotification(title, options));
+  event.waitUntil(self.registration.showNotification('title', options));
 }
 
 function openPushNotification(event) {

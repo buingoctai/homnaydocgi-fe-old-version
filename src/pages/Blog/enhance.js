@@ -12,6 +12,9 @@ import {
   asyncGetAllTopic,
   saveAllPost,
 } from "./Store/actions";
+import axios from "axios";
+// Push Notification
+import * as serviceWorker from "../../serviceWorker";
 
 const mapStateToProps = (state) => {
   const { blogReducers } = state;
@@ -46,6 +49,10 @@ export default compose(
   withState("scrollCount", "setScrollCount", 0),
   withState("isOpenFeedBack", "setIsOpenFeedBack", false),
   withState("isOpenNotification", "setIsOpenNotification", false),
+  // Push Notification
+  withState("userConsent", "setUserConsent", [Notification.permission]),
+  withState("userSubscription", "setUserSubscription", null),
+  withState("pushServerSubscriptionId", "setPushServerSubscriptionId", ""),
   connect(mapStateToProps, mapDispatchToProps),
   withHandlers({
     onHandleScrollToBottom: (props) => () => {
@@ -141,6 +148,46 @@ export default compose(
       if (heightOnSroll >= realHeight - 100 && scrollTop) {
         onHandleScrollToBottom();
       }
+    },
+    _onClickSusbribeToPushNotification: (props) => () => {
+      const { setUserConsent, setUserSubscription} = props;
+
+      serviceWorker.askUserPermission().then((consent) => {
+        console.log('User permission: ' + consent)
+        setUserConsent(consent);
+
+        if (consent != 'granted')
+          return;
+        serviceWorker.createNotificationSubscription()
+        .then((subscrition) => {
+          setUserSubscription(subscrition);
+          console.log("Here are your subscrition object:");
+          console.log(subscrition);
+        })
+        .catch((err) => console.log('error: %s, code: %s', err.message, err.code));
+      });
+    },
+    _onClickSendSubscriptionToServer: (props) => () => {
+      const { userSubscription, setPushServerSubscriptionId } = props;
+      axios
+        .post(`http://localhost:8080/user/subscription`, {
+          data: userSubscription,
+        })
+        .then((res) => {
+          setPushServerSubscriptionId(res.id);
+          console.log(res.id)
+        })
+        .catch((err) => console.log('error: %s, code: %s', err.message, err.code));
+    },
+    _onClickSendNotification: (props) => () => {
+      const { pushServerSubscriptionId } = props;
+      axios
+        .get(`http://localhost:8080/user/subscription`, {
+          params: {
+            id: pushServerSubscriptionId
+          }
+        })
+        .catch((err) => console.log('error: %s, code: %s', err.message, err.code));
     },
   }),
   lifecycle({
