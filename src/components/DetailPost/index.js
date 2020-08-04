@@ -10,7 +10,7 @@ import Button from "@material-ui/core/Button";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
 const useStyles = makeStyles((theme) => ({
-  detailContainer: {
+  container: {
     width: "100%",
     height: "100%",
     top: "0",
@@ -31,25 +31,25 @@ const useStyles = makeStyles((theme) => ({
     from: { opacity: 0 },
     to: { opacity: 1 },
   },
-  girdWrap: {
+  grid__wrap: {
     height: "100%",
     padding: theme.spacing(9),
   },
-  largeGridWrap: {
+  large__grid_wrap: {
     width: "50%",
   },
-  smallGridWrap: {
+  small_grid_wrap: {
     width: (props) => (props.is_maxWidth_500px ? "130%" : "60%"),
     padding: (props) =>
       props.is_maxWidth_500px ? "60px 72px 10px 72px" : "none",
   },
-  itemGridWrap: {
+  item__grid__wrap: {
     height: "100%",
     overflow: "hidden",
     position: "relative",
     width: (props) => (props.is_maxWidth_500px ? "500px" : "none"),
   },
-  titleWrap: {
+  title__wrap: {
     width: "10px",
     top: "20px",
     height: "5px",
@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     backgroundColor: "#7C7C7C",
   },
-  paperWrap: {
+  paper__wrap: {
     width: (props) => (props.is_maxWidth_1000px ? "100%" : "none"),
     height: "100%",
     top: "0",
@@ -76,11 +76,15 @@ const useStyles = makeStyles((theme) => ({
     overflowY: "scroll",
     overflowX: "hidden",
   },
-  titleBookMarkWrap: {
+  title__bookmark__wrap: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
   },
+  content: {
+    color: 'rgba(41, 41, 41, 1)',
+    fontSize: '18px',
+  }
 }));
 
 export default function DetailPost(props) {
@@ -101,19 +105,19 @@ export default function DetailPost(props) {
   });
 
   return (
-    <div className={classes.detailContainer} id="detailContainer">
+    <div className={classes.container} id="detailContainer">
       <Grid
         container
         className={
           responsiveObj.is_minWidth_2000px
-            ? `${classes.girdWrap} ${classes.largeGridWrap}`
-            : `${classes.girdWrap} ${classes.smallGridWrap}`
+            ? `${classes.grid__wrap} ${classes.large__grid_wrap}`
+            : `${classes.grid__wrap} ${classes.small_grid_wrap}`
         }
-        onBlur={() => {}}
+        onBlur={() => { }}
       >
-        <Grid item xs={12} className={classes.itemGridWrap} key="itemGridWrap">
+        <Grid item xs={12} className={classes.item__grid__wrap} key="itemGridWrap">
           {isOpenDetaiContainer && (
-            <Paper className={classes.titleWrap}>
+            <Paper className={classes.title__wrap}>
               <Typography variant="body2" style={{ cursor: "pointer" }}>
                 <Button onClick={onHandleOpenDetailContainer}>
                   <ClearIcon />
@@ -122,8 +126,9 @@ export default function DetailPost(props) {
             </Paper>
           )}
 
-          <Paper className={classes.paperWrap} key="itemGridWrap">
-            <div className={classes.titleBookMarkWrap}>
+          <Paper className={classes.paper__wrap} key="itemGridWrap">
+            <div className={classes.title__bookmark__wrap
+            }>
               <Typography
                 variant="h6"
                 color="primary"
@@ -138,10 +143,10 @@ export default function DetailPost(props) {
                   <BookmarkIcon />
                 </Button>
               ) : (
-                <Button onClick={() => onSaveListPost(showingPost.Id)}>
-                  <BookmarkBorderIcon />
-                </Button>
-              )}
+                  <Button onClick={() => onSaveListPost(showingPost.Id)}>
+                    <BookmarkBorderIcon />
+                  </Button>
+                )}
             </div>
             <br />
             {loading ? (
@@ -152,34 +157,35 @@ export default function DetailPost(props) {
                 />
               </div>
             ) : (
-              <>
-                <Typography
-                  paragraph={true}
-                  align="justify"
-                  color="textPrimary"
-                  key="subContent"
-                >
-                  {newContent.length > 0 &&
-                    newContent.map((item) => (
-                      <>
-                        {item}
-                        <br />
-                      </>
-                    ))}
-                </Typography>
-                <div>
-                  <img
-                    src={showingPost.ImageUrl}
-                    alt="Ảnh"
-                    style={
-                      responsiveObj.is_maxWidth_500px
-                        ? { width: "70%" }
-                        : { width: "30%" }
-                    }
-                  />
-                </div>
-              </>
-            )}
+                <>
+                  <Typography
+                    paragraph={true}
+                    align="justify"
+                    color="textPrimary"
+                    key="subContent"
+                    className={classes.content}
+                  >
+                    {newContent.length > 0 &&
+                      newContent.map((item) => (
+                        <>
+                          {item}
+                          <br />
+                        </>
+                      ))}
+                  </Typography>
+                  <div>
+                    <img
+                      src={showingPost.ImageUrl}
+                      alt="Ảnh"
+                      style={
+                        responsiveObj.is_maxWidth_500px
+                          ? { width: "70%" }
+                          : { width: "30%" }
+                      }
+                    />
+                  </div>
+                </>
+              )}
             <br />
             <br />
             <Typography
