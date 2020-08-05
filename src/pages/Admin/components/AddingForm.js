@@ -212,14 +212,14 @@ const AddingForm = (props) => {
           <Button
             variant="contained"
             color="primary"
-            disabled={
-              !author ||
-              !title ||
-              !content ||
-              !topic ||
-              !imageUrl ||
-              !submitDate
-            }
+            // disabled={
+            //   !author ||
+            //   !title ||
+            //   !content ||
+            //   !topic ||
+            //   !imageUrl ||
+            //   !submitDate
+            // }
             onClick={onHandleSubmitArticle}
           >
             THÊM/SỬA

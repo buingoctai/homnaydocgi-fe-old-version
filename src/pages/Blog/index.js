@@ -87,6 +87,8 @@ const Blog = (props) => {
     setIsOpenChoseTopic,
     setIsOpenFeedBack,
   } = props;
+
+  const {_onClickSusbribeToPushNotification, _onClickSendSubscriptionToServer, _onClickSendNotification} = props;
   const classes = useStyles({ ...responsiveObj });
 
   const authorData = {
@@ -235,6 +237,9 @@ const Blog = (props) => {
           postList={postList}
           setIsOpenNotification={setIsOpenNotification}
           isOpenNotification={isOpenNotification}
+          _onClickSusbribeToPushNotification={_onClickSusbribeToPushNotification}
+          _onClickSendSubscriptionToServer={_onClickSendSubscriptionToServer}
+          _onClickSendNotification={_onClickSendNotification}
         />
         {isLoadingPage && (
           <div className={classes.totalContentLoadingWrap}>
@@ -263,7 +268,7 @@ const Blog = (props) => {
           visible: isOpenFeedBack,
           onSubmitFeedBack: onSubmitFeedBack,
         })}
-
+ 
         {!isLoadingPage && (
           <main>
             <div
@@ -345,5 +350,4 @@ const Blog = (props) => {
     </React.Fragment>
   );
 };
-
 export default enhance(Blog);
