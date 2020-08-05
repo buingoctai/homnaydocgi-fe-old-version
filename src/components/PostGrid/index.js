@@ -16,11 +16,11 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     overflow: "hidden",
   },
-  post__list__wrap: {
+  PostListWrap: {
     width: (props) => (props.is_maxWidth_1000px ? "100%" : "60%"),
     paddingRight: "20px",
   },
-  item__wrap: {
+  itemWrap: {
     position: "relative",
     animationName: "$listAmination",
     animationDuration: "3.5s",
@@ -37,10 +37,9 @@ const useStyles = makeStyles((theme) => ({
     "100%": { opacity: 1, width: "33.3333%", height: "auto" },
   },
   title: {
-    fontSize: "15px",
-    fontWeight: "bold",
     display: "flex",
     justifyContent: "center",
+    fontSize: "13px",
     padding: "10px 20px",
     "@global": {
       ".MuiTypography-colorPrimary ": {
@@ -49,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
-  loading__wrap: {
+  loadingWrap: {
     display: "flex",
     justifyContent: "center",
   },
@@ -57,18 +56,14 @@ const useStyles = makeStyles((theme) => ({
     height: "5px",
     width: "200px",
   },
-  space__wrap: {
+  spaceWrap: {
     height: "200px",
     width: "100%",
   },
-  developing__wrap: {
+  developingWrap: {
     marginTop: "20px",
     color: "#ffff",
   },
-  brief: {
-    color: 'rgba(0, 0, 0, .54)',
-    padding: "0 10px"
-  }
 }));
 
 const PostGrid = (props) => {
@@ -85,7 +80,7 @@ const PostGrid = (props) => {
 
   return (
     <div className={classes.container}>
-      <div className={classes.post__list__wrap}>
+      <div className={classes.PostListWrap}>
         <GridList
           cellHeight="auto"
           className={classes.gridListContainer}
@@ -97,28 +92,31 @@ const PostGrid = (props) => {
               <GridListTile
                 cols={1}
                 rows={1}
-                className={classes.item__wrap}
+                className={classes.itemWrap}
                 key={index}
               >
-                <a onClick={() => onHandleOpenDetailContainer(item.Id)}>
-                  <Paper variant="outlined">
-                    <Typography
-                      variant="h6"
-                      align="justify"
-                      className={classes.title}
+                <Paper variant="outlined">
+                  <Typography
+                    variant="h6"
+                    align="justify"
+                    className={classes.title}
+                  >
+                    <Link
+                      underline="none"
+                      onClick={() => onHandleOpenDetailContainer(item.Id)}
                     >
                       {item.Title}
-                    </Typography>
-                    <Typography
-                      paragraph={true}
-                      align="justify"
-                      color="textPrimary"
-                      className={classes.brief}
-                    >
-                      {item && `${item.Brief} [...]`}
-                    </Typography>
-                  </Paper>
-                </a>
+                    </Link>
+                  </Typography>
+                  <Typography
+                    paragraph={true}
+                    align="justify"
+                    color="textPrimary"
+                    style={{ padding: "0 10px" }}
+                  >
+                    {item && `${item.Brief} [...]`}
+                  </Typography>
+                </Paper>
               </GridListTile>
             ))}
           {isShowPaging ? (
@@ -128,14 +126,14 @@ const PostGrid = (props) => {
               onChangePageIndex={() => console.log("")}
             />
           ) : (
-              <GridListTile cols={3} className={classes.loading__wrap}>
-                <LinearProgress color="primary" className={classes.loading} />
-              </GridListTile>
-            )}
-          {!isShowPaging && <div className={classes.space__wrap} />}
+            <GridListTile cols={3} className={classes.loadingWrap}>
+              <LinearProgress color="primary" className={classes.loading} />
+            </GridListTile>
+          )}
+          {!isShowPaging && <div className={classes.spaceWrap} />}
         </GridList>
       </div>
-      <div className={classes.developing__wrap} />
+      <div className={classes.developingWrap} />
     </div>
   );
 };

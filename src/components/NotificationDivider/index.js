@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     justifyContent: "flex-end",
     width: "100%",
-    paddingRight: "230px",
+    paddingRight: "100px",
     marginTop: "5px",
   },
   listWrap: {

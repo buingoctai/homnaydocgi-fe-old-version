@@ -5,14 +5,14 @@ import Link from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles(() => ({
-  container: {
+  mainPostContainer: {
     flexGrow: 1,
     position: "relative",
     display: "flex",
     flexDirection: "column",
     height: "fix-content",
   },
-  image__wrap: {
+  imageWrap: {
     // width: (props) => (props.is_maxWidth_500px ? "100%" : "50%"),
     width: "100%",
     position: "relative",
@@ -21,14 +21,15 @@ const useStyles = makeStyles(() => ({
       transform: "scale(1.05)",
     },
   },
-  title__wrap: {
+  titleWrap: {
     position: "absolute",
     bottom: "8px",
     left: "16px",
     width: "50%",
   },
   title: {
-    fontSize: "15px", fontWeight: "bold",
+    fontSize: "20px",
+    color: "#ffff",
   },
 }));
 
@@ -37,28 +38,31 @@ export default function MainFeaturedPost(props) {
   const classes = useStyles({ ...responsiveObj });
 
   return (
-
-    <div className={classes.container}>
-      <a onClick={() => onHandleOpenDetailContainer(post.Id)}>
-        <span style={{ fontSize: "20px", fontWeight: "bold", color: "#551A99" }}>
-          Nội dung mới nhất
+    <div className={classes.mainPostContainer}>
+      <span style={{ fontSize: "20px", fontWeight: "bold", color: "#551A99" }}>
+        Nội dung mới nhất
       </span>
-        <div className={classes.image__wrap}>
-          <img src={post.ImageUrl} width="200px" height="170px" alt="" />
-        </div>
-        <div className={classes.title__wrap}>
-          <Typography
-            component="h6"
-            variant="h3"
-            color="inherit"
-            gutterBottom
-            className={classes.title}
+      <div className={classes.imageWrap}>
+        <img src={post.ImageUrl} width="200px" height="170px" alt="" />
+      </div>
+      <div className={classes.titleWrap}>
+        <Typography
+          component="h6"
+          variant="h3"
+          color="inherit"
+          gutterBottom
+          className={classes.title}
+        >
+          <Link
+            underline="none"
+            onClick={() => onHandleOpenDetailContainer(post.Id)}
+            style={{ color: "#ffff" }}
           >
+            {" "}
             {`${post.Title && post.Title}`}
-
-          </Typography>
-        </div>
-      </a>
+          </Link>
+        </Typography>
+      </div>
     </div>
   );
 }
