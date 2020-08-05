@@ -108,7 +108,7 @@ export default function DrawerMenu() {
             <ListItemIcon>
               <FacebookIcon color="primary" />
             </ListItemIcon>
-            <ListItemText>Liên hệ</ListItemText>
+            <ListItemText>Tài đẹp trai</ListItemText>
           </Link>
         </ListItem>
         <ListItem button key={"text"}>
