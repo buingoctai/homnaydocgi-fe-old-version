@@ -150,11 +150,11 @@ export default compose(
       }
     },
     _onClickSusbribeToPushNotification: (props) => () => {
-      const { setUserConsent, setUserSubscription} = props;
+      // const { setUserConsent, setUserSubscription} = props;
 
       serviceWorker.askUserPermission().then((consent) => {
         console.log('User permission: ' + consent)
-        setUserConsent(consent);
+        // setUserConsent(consent);
 
         if (consent != 'granted')
           return;
@@ -163,32 +163,40 @@ export default compose(
           setUserSubscription(subscrition);
           console.log("Here are your subscrition object:");
           console.log(subscrition);
+          axios
+            .post(`http://localhost:8080/notifi/subscription`, {
+              data: JSON.stringify(subscrition),
+            })
+            .then((res) => {
+              console.log(res.body)
+            })
+            .catch((err) => console.log('error: %s, code: %s', err.message, err.code));
         })
         .catch((err) => console.log('error: %s, code: %s', err.message, err.code));
       });
     },
-    _onClickSendSubscriptionToServer: (props) => () => {
-      const { userSubscription, setPushServerSubscriptionId } = props;
-      axios
-        .post(`http://localhost:8080/user/subscription`, {
-          data: userSubscription,
-        })
-        .then((res) => {
-          setPushServerSubscriptionId(res.id);
-          console.log(res.id)
-        })
-        .catch((err) => console.log('error: %s, code: %s', err.message, err.code));
-    },
-    _onClickSendNotification: (props) => () => {
-      const { pushServerSubscriptionId } = props;
-      axios
-        .get(`http://localhost:8080/user/subscription`, {
-          params: {
-            id: pushServerSubscriptionId
-          }
-        })
-        .catch((err) => console.log('error: %s, code: %s', err.message, err.code));
-    },
+    // _onClickSendSubscriptionToServer: (props) => () => {
+    //   const { userSubscription, setPushServerSubscriptionId } = props;
+    //   axios
+    //     .post(`http://localhost:8080/notifi/subscription`, {
+    //       data: userSubscription,
+    //     })
+    //     .then((res) => {
+    //       setPushServerSubscriptionId(res.id);
+    //       console.log(res.id)
+    //     })
+    //     .catch((err) => console.log('error: %s, code: %s', err.message, err.code));
+    // },
+    // _onClickSendNotification: (props) => () => {
+    //   const { pushServerSubscriptionId } = props;
+    //   axios
+    //     .get(`http://localhost:8080/notifi/subscription`, {
+    //       params: {
+    //         id: pushServerSubscriptionId
+    //       }
+    //     })
+    //     .catch((err) => console.log('error: %s, code: %s', err.message, err.code));
+    // },
   }),
   lifecycle({
     componentDidMount() {

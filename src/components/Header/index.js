@@ -155,7 +155,7 @@ const Header = (props) => {
     }
   };
 
-  const {_onClickSusbribeToPushNotification, _onClickSendSubscriptionToServer, _onClickSendNotification} = props;
+  const {_onClickSusbribeToPushNotification} = props;
 
   useEffect(() => {
     setTimeout(() => {
@@ -240,18 +240,6 @@ const Header = (props) => {
             title="register for using sw"
             >
               Nofi
-            </Button>
-            <Button 
-            onClick={_onClickSendSubscriptionToServer}
-            title="send subscription to server"
-            >
-              SendtoServer
-            </Button>
-            <Button 
-            onClick={_onClickSendNotification}
-            title="server send nofi to client"
-            >
-              SendFromServer
             </Button>
           </>
         )}
