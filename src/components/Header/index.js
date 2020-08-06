@@ -155,7 +155,7 @@ const Header = (props) => {
     }
   };
 
-  const {_onClickSusbribeToPushNotification} = props;
+  const { _onClickSusbribeToPushNotification } = props;
 
   useEffect(() => {
     setTimeout(() => {
@@ -235,12 +235,12 @@ const Header = (props) => {
                 <BookmarksIcon />
               </Badge>
             </Button>
-            <Button 
+            {/* <Button 
             onClick={_onClickSusbribeToPushNotification}
             title="register for using sw"
             >
               Nofi
-            </Button>
+            </Button> */}
           </>
         )}
       </Toolbar>
