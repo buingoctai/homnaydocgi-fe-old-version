@@ -43,7 +43,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "tsc": "tsc",
-    "sw": "cat src/sw.js >> build/service-worker.js"
+    "sw": "cat build/sw.js >> build/service-worker.js"
   },
   "eslintConfig": {
     "extends": "react-app"
