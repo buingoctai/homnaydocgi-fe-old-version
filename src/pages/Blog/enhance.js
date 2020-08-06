@@ -105,7 +105,7 @@ export default compose(
           setPostList([...selectedTopics]);
           userDataCRUD({ action: "EDIT", data: savedData });
         })
-        .catch(() => {});
+        .catch(() => { });
     },
     onSubmitFeedBack: (props) => (feedback) => {
       const {
@@ -121,8 +121,8 @@ export default compose(
           id_msg_user: "",
           message: `${userName}: ${feedback}`,
         })
-          .then(({ message }) => {})
-          .catch(() => {});
+          .then(({ message }) => { })
+          .catch(() => { });
       } else {
         setScrollCount(0);
       }
@@ -150,29 +150,31 @@ export default compose(
       }
     },
     _onClickSusbribeToPushNotification: (props) => () => {
-      // const { setUserConsent, setUserSubscription} = props;
+      const { setUserConsent, setUserSubscription } = props;
 
       serviceWorker.askUserPermission().then((consent) => {
         console.log('User permission: ' + consent)
-        // setUserConsent(consent);
+        setUserConsent(consent);
 
         if (consent != 'granted')
           return;
         serviceWorker.createNotificationSubscription()
-        .then((subscrition) => {
-          setUserSubscription(subscrition);
-          console.log("Here are your subscrition object:");
-          console.log(subscrition);
-          axios
-            .post(`http://localhost:8080/notifi/subscription`, {
-              data: JSON.stringify(subscrition),
-            })
-            .then((res) => {
-              console.log(res.body)
-            })
-            .catch((err) => console.log('error: %s, code: %s', err.message, err.code));
-        })
-        .catch((err) => console.log('error: %s, code: %s', err.message, err.code));
+          .then((subscrition) => {
+            setUserSubscription(subscrition);
+            console.log("Here are your subscrition object:");
+            console.log(subscrition);
+
+
+            axios
+              .post(`http://localhost:8080/notifi/subscription`, {
+                data: JSON.stringify(subscrition),
+              })
+              .then((res) => {
+                console.log(res.body)
+              })
+              .catch((err) => console.log('error: %s, code: %s', err.message, err.code));
+          })
+          .catch((err) => console.log('error: %s, code: %s', err.message, err.code));
       });
     },
     // _onClickSendSubscriptionToServer: (props) => () => {
@@ -213,7 +215,7 @@ export default compose(
         setTopic,
         setPostList,
       } = this.props;
-
+      this.props._onClickSusbribeToPushNotification();
       window.addEventListener("scroll", this.props.onScroll);
       window.addEventListener("click", function (e) {
         if (
@@ -242,7 +244,7 @@ export default compose(
           .then(() => {
             getGetAllTopicDispatch();
           })
-          .catch(() => {});
+          .catch(() => { });
       } else {
         setTopic([...topic]);
 
