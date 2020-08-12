@@ -5,29 +5,44 @@ import { CartesianGrid, XAxis, YAxis, Tooltip, Legend, BarChart, Bar } from 'rec
 const Chart = () => {
     const data = [
         {
-            "name": 'T.Trẻ',
+            "name": "Quản trị",
+            "Lượt Xem": 2780,
+
+        },
+        {
+            "name": "Kỹ năng mềm",
+            "Lượt Xem": 2785,
+
+        },
+        {
+            "name": 'Công nghệ',
             "Lượt Xem": 4000,
 
         },
         {
-            "name": "T.Niên",
+            "name": "Tâm lý",
             "Lượt Xem": 3000,
 
         },
         {
-            "name": "CafeBiz",
+            "name": "Triết",
             "Lượt Xem": 2000,
 
         },
         {
-            "name": "TechInsight",
-            "Lượt Xem": 2780,
+            "name": "Xã hội",
+            "Lượt Xem": 2790,
+
+        },
+        {
+            "name": "Thể thao",
+            "Lượt Xem": 2720,
 
         },
     ]
     return (
 
-        <BarChart width={150} height={200} data={data}>
+        <BarChart width={500} height={400} data={data}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
             <YAxis dataKey="Lượt Xem" />

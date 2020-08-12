@@ -71,7 +71,7 @@ export default compose(
 
       setIsShowPaging(false);
       getAllPostDispatch({
-        paging: { pageIndex: currentPageIndex + 1, pageSize: 3 },
+        paging: { pageIndex: currentPageIndex + 1, pageSize: 6 },
         orderList: { orderBy: "SubmitDate", orderType: "DESC" },
       })
         .then((response) => {
@@ -166,7 +166,7 @@ export default compose(
 
 
             axios
-              .post(`http://localhost:8080/notifi/subscription`, {
+              .post(`${process.env.REACT_APP_API}/notifi/subscription`, {
                 data: JSON.stringify(subscrition),
               })
               .then((res) => {
@@ -215,7 +215,6 @@ export default compose(
         setTopic,
         setPostList,
       } = this.props;
-      this.props._onClickSusbribeToPushNotification();
       window.addEventListener("scroll", this.props.onScroll);
       window.addEventListener("click", function (e) {
         if (
@@ -254,7 +253,7 @@ export default compose(
       }
 
       getAllPostDispatch({
-        paging: { pageIndex: currentPageIndex, pageSize: 3 },
+        paging: { pageIndex: currentPageIndex, pageSize: 6 },
         orderList: { orderBy: "SubmitDate", orderType: "DESC" },
       })
         .then((response) => {

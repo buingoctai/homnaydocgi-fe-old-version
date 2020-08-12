@@ -59,11 +59,11 @@ const useStyles = makeStyles({
 
 export default function FeaturedPost(props) {
   const classes = useStyles();
-  const { post, onHandleOpenDetailContainer } = props;
+  const { post, widthCol, onHandleOpenDetailContainer } = props;
 
   return post.data
     ? post.data.map((post, index) => (
-      <Grid item xs={12} md={12} key={index} className={classes.container}>
+      <Grid item xs={widthCol} md={widthCol} key={index} className={classes.container}>
         <Link
           to={{ pathname: "/home/topic", topic: post.Topic }}
           style={{ textDecoration: "none" }}
