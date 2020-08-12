@@ -1,29 +1,30 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add web-push
+  C:\Program Files\nodejs\node.exe C:\Users\LAP13002-local\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add @bit/bondz.react-epic-spinners.scaling-squares-spinner
 
 PATH: 
-  C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\nodejs\;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\Git\cmd;C:\Users\vqb97\AppData\Local\Programs\Python\Python38-32\Scripts\;C:\Users\vqb97\AppData\Local\Programs\Python\Python38-32\;C:\Users\vqb97\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files (x86)\SDCC\bin;C:\Python27;C:\Users\vqb97\AppData\Roaming\npm;C:\Users\vqb97\AppData\Local\Yarn\bin;C:\Program Files\Docker Toolbox;C:\Program Files\heroku\bin;C:\Users\vqb97\AppData\Local\Programs\Microsoft VS Code\bin
+  C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\110\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\120\Tools\Binn\ManagementStudio\;C:\Program Files (x86)\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\120\DTS\Binn\;C:\Program Files\Microsoft SQL Server\120\DTS\Binn\;C:\Users\LAP13002-local\AppData\Local\Microsoft\WindowsApps;;C:\Users\LAP13002-local\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\LAP13002-local\AppData\Roaming\npm;C:\Program Files\heroku\bin
 
 Yarn version: 
-  1.19.2
+  1.22.4
 
 Node version: 
-  12.13.1
+  14.4.0
 
 Platform: 
   win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@material-ui/icons/-/icons-4.9.1.tgz: ESOCKETTIMEDOUT
-      at ClientRequest.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:141213:19)
-      at Object.onceWrapper (events.js:299:28)
-      at ClientRequest.emit (events.js:210:5)
-      at TLSSocket.emitRequestTimeout (_http_client.js:690:9)
-      at Object.onceWrapper (events.js:299:28)
-      at TLSSocket.emit (events.js:210:5)
-      at TLSSocket.Socket._onTimeout (net.js:469:8)
-      at listOnTimeout (internal/timers.js:531:17)
-      at processTimers (internal/timers.js:475:7)
+  Error: https://registry.yarnpkg.com/@bit%2fbondz.react-epic-spinners.scaling-squares-spinner: Not found
+      at Request.params.callback [as _callback] (C:\Users\LAP13002-local\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:66987:18)
+      at Request.self.callback (C:\Users\LAP13002-local\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:140748:22)
+      at Request.emit (events.js:315:20)
+      at Request.<anonymous> (C:\Users\LAP13002-local\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141720:10)
+      at Request.emit (events.js:315:20)
+      at IncomingMessage.<anonymous> (C:\Users\LAP13002-local\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141642:12)
+      at Object.onceWrapper (events.js:421:28)
+      at IncomingMessage.emit (events.js:327:22)
+      at endReadableNT (_stream_readable.js:1224:12)
+      at processTicksAndRejections (internal/process/task_queues.js:84:21)
 
 npm manifest: 
   {
@@ -39,9 +40,10 @@ npm manifest:
       "@testing-library/react": "^9.3.2",
       "@testing-library/user-event": "^7.1.2",
       "axios": "^0.19.2",
+      "dotenv": "^8.2.0",
       "immutable": "^4.0.0-rc.12",
       "material-design-icons": "^3.0.1",
-      "moment": "2.18.1",
+      "moment": "^2.27.0",
       "react": "^16.12.0",
       "react-animated-slider": "^2.0.0",
       "react-app-rewire-less": "^2.1.3",
@@ -66,11 +68,11 @@ npm manifest:
     },
     "scripts": {
       "start": "react-scripts start",
-      "build": "rm -rf build/ && react-scripts build && npm run-script sw",
+      "build": "rm -rf build && react-scripts build && npm run-script sw",
       "test": "react-scripts test",
       "eject": "react-scripts eject",
       "tsc": "tsc",
-      "sw": "cat src/sw.js >> build/service-worker.js"
+      "sw": "cat build/sw.js >> build/service-worker.js"
     },
     "eslintConfig": {
       "extends": "react-app"
@@ -92,7 +94,7 @@ npm manifest:
     },
     "engines": {
       "npm": "6.4.1",
-      "node": "12.13.1"
+      "node": "14.4.0"
     }
   }
 
