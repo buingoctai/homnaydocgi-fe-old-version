@@ -28,33 +28,20 @@ const useStyles = makeStyles({
   card: {
     display: "flex",
   },
-  card__detail: {
+  cardDetails: {
     flex: 1,
     backgroundColor: "#fafafa",
-    "@global": {
-      ".MuiCardContent-root": {
-        paddingBottom: "0px",
-        paddingTop: "5px"
-      }
-    }
   },
-  card__media: {
+  cardMedia: {
     width: 160,
   },
-  topic__name_wrap: {
+  topicNameWrap: {
     fontSize: "12px",
     fontWeight: "bold",
     marginBottom: "5px",
     color: "#757575",
     marginLeft: "15px",
   },
-  title: {
-    marginBottom: "5px",
-    marginTop: "5px",
-  },
-  brief: {
-    color: 'rgba(0, 0, 0, .54)',
-  }
 });
 
 export default function FeaturedPost(props) {
@@ -63,48 +50,48 @@ export default function FeaturedPost(props) {
 
   return post.data
     ? post.data.map((post, index) => (
-      <Grid item xs={widthCol} md={widthCol} key={index} className={classes.container}>
-        <Link
-          to={{ pathname: "/home/topic", topic: post.Topic }}
-          style={{ textDecoration: "none" }}
-        >
-          <span className={classes.topic__name_wrap}>
-            {translatePostGroupTitle(post.Topic)}
-          </span>
-        </Link>
-        <a onClick={() => onHandleOpenDetailContainer(post.Id)}>
+        <Grid item xs={12} md={12} key={index} className={classes.container}>
+          <Link
+            to={{ pathname: "/home/topic", topic: post.Topic }}
+            style={{ textDecoration: "none" }}
+          >
+            <span className={classes.topicNameWrap}>
+              {translatePostGroupTitle(post.Topic)}
+            </span>
+          </Link>
+
           <CardActionArea>
             <Card className={classes.card}>
-              <div className={classes.card__detail}>
+              <div className={classes.cardDetails}>
                 <CardContent>
                   <Typography
                     component="h2"
                     variant="h6"
                     style={{ fontSize: "15px", fontWeight: "bold" }}
                   >
-                    <h4 className={classes.title}>{post && post.Title}</h4>
+                    <a onClick={() => onHandleOpenDetailContainer(post.Id)}>
+                      {post && post.Title}
+                    </a>
                   </Typography>
                   <Typography variant="subtitle2" color="textSecondary">
                     {post && moment(post.SubmitDate).format("DD-MM-YYYY")}
                   </Typography>
-                  <Typography variant="subtitle2" paragraph className={classes.brief}>
+                  <Typography variant="subtitle2" paragraph>
                     {post && `${post.Brief}...`}
                   </Typography>
                 </CardContent>
               </div>
               <Hidden xsDown>
                 <CardMedia
-                  className={classes.card__media}
+                  className={classes.cardMedia}
                   image={post.ImageUrl}
                   title={post.imageTitle}
                 />
               </Hidden>
             </Card>
           </CardActionArea>
-        </a>
-
-      </Grid>
-    ))
+        </Grid>
+      ))
     : null;
 }
 
