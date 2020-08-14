@@ -12,8 +12,9 @@ import {
   asyncGetAllTopic,
   saveAllPost,
 } from "./Store/actions";
-import axios from "axios";
+// import axios from "axios";
 // Push Notification
+import { asyncSaveSubcription, asyncGetAllSubcriptions } from "../../store/actions";
 import * as serviceWorker from "../../serviceWorker";
 
 const mapStateToProps = (state) => {
@@ -158,47 +159,26 @@ export default compose(
 
         if (consent != 'granted')
           return;
-        serviceWorker.createNotificationSubscription()
-          .then((subscrition) => {
-            setUserSubscription(subscrition);
+        const subscription = async () => {
+          const sub = await serviceWorker.getUserSubscription();
+          if (sub != null || sub != undefined)
+            return;
+          serviceWorker.createNotificationSubscription()
+          .then((sub) => {
+            setUserSubscription(sub);
             console.log("Here are your subscrition object:");
-            console.log(subscrition);
+            console.log(sub);
+            asyncSaveSubcription(JSON.stringify(sub))
 
-
-            axios
-              .post(`http://localhost:8080/notifi/subscription`, {
-                data: JSON.stringify(subscrition),
-              })
-              .then((res) => {
-                console.log(res.body)
-              })
-              .catch((err) => console.log('error: %s, code: %s', err.message, err.code));
           })
-          .catch((err) => console.log('error: %s, code: %s', err.message, err.code));
+          .catch((err) => console.log(err));
+        }
+        subscription();
       });
     },
-    // _onClickSendSubscriptionToServer: (props) => () => {
-    //   const { userSubscription, setPushServerSubscriptionId } = props;
-    //   axios
-    //     .post(`http://localhost:8080/notifi/subscription`, {
-    //       data: userSubscription,
-    //     })
-    //     .then((res) => {
-    //       setPushServerSubscriptionId(res.id);
-    //       console.log(res.id)
-    //     })
-    //     .catch((err) => console.log('error: %s, code: %s', err.message, err.code));
-    // },
-    // _onClickSendNotification: (props) => () => {
-    //   const { pushServerSubscriptionId } = props;
-    //   axios
-    //     .get(`http://localhost:8080/notifi/subscription`, {
-    //       params: {
-    //         id: pushServerSubscriptionId
-    //       }
-    //     })
-    //     .catch((err) => console.log('error: %s, code: %s', err.message, err.code));
-    // },
+    _onClickSendNotification: (props) => () => {
+      asyncGetAllSubcriptions()
+    },
   }),
   lifecycle({
     componentDidMount() {
@@ -215,7 +195,7 @@ export default compose(
         setTopic,
         setPostList,
       } = this.props;
-      this.props._onClickSusbribeToPushNotification();
+      // this.props._onClickSusbribeToPushNotification();
       window.addEventListener("scroll", this.props.onScroll);
       window.addEventListener("click", function (e) {
         if (

@@ -167,12 +167,10 @@ export async function createNotificationSubscription() {
 export function getUserSubscription() {
   //wait for service worker installation to be ready, and then
   return navigator.serviceWorker.ready
-    .then(function (serviceWorker) {
-      const r = serviceWorker.pushManager.getSubscription();
-      console.log("r=", r);
-      return r;
+    .then(function(serviceWorker) {
+      return serviceWorker.pushManager.getSubscription();
     })
-    .then(function (pushSubscription) {
+    .then(function(pushSubscription) {
       return pushSubscription;
     });
 }
