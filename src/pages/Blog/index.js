@@ -140,7 +140,7 @@ const Blog = (props) => {
           setIsOpenNotification={setIsOpenNotification}
           isOpenNotification={isOpenNotification}
           _onClickSusbribeToPushNotification={_onClickSusbribeToPushNotification}
-          _onClickSendSubscriptionToServer={_onClickSendSubscriptionToServer}
+          // _onClickSendSubscriptionToServer={_onClickSendSubscriptionToServer}
           _onClickSendNotification={_onClickSendNotification}
         />
         {isLoadingPage && (

@@ -16,12 +16,11 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     overflow: "hidden",
   },
-  post__list__wrap: {
-    width: "100%",
-    display: "flex",
-    flexDirection: "row",
+  PostListWrap: {
+    width: (props) => (props.is_maxWidth_1000px ? "100%" : "60%"),
+    paddingRight: "20px",
   },
-  item__wrap: {
+  itemWrap: {
     position: "relative",
     animationName: "$listAmination",
     animationDuration: "1s",
@@ -40,10 +39,9 @@ const useStyles = makeStyles((theme) => ({
     "100%": { opacity: 1, width: "33.3333%", height: "auto" },
   },
   title: {
-    fontSize: "15px",
-    fontWeight: "bold",
     display: "flex",
     justifyContent: "center",
+    fontSize: "13px",
     padding: "10px 20px",
     "@global": {
       ".MuiTypography-colorPrimary ": {
@@ -52,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
-  loading__wrap: {
+  loadingWrap: {
     display: "flex",
     justifyContent: "center",
   },
@@ -60,25 +58,14 @@ const useStyles = makeStyles((theme) => ({
     height: "5px",
     width: "200px",
   },
-  space__wrap: {
+  spaceWrap: {
     height: "200px",
     width: "100%",
   },
-  developing__wrap: {
+  developingWrap: {
     marginTop: "20px",
     color: "#ffff",
   },
-  brief: {
-    color: 'rgba(0, 0, 0, .54)',
-    padding: "0 10px"
-  },
-
-  gridListContainer: {
-    width: (props) => (props.is_maxWidth_1000px ? "100%" : 'calc(100%/4)'),
-    display: 'flex',
-    flexDirection: 'column',
-    margin: '0px 0px !important'
-  }
 }));
 
 const PostGrid = (props) => {
@@ -96,50 +83,45 @@ const PostGrid = (props) => {
 
   return (
     <div className={classes.container}>
-      <div>
-        <div className={classes.post__list__wrap}>
-          {columnDataList.length > 0 && columnDataList.map((item, index) => (
-            <GridList
-              cellHeight="auto"
-              className={classes.gridListContainer}
-              cols={1}
-              spacing={20}
-            >
-              {
-                item.map((item, index) => (
-                  <GridListTile
-                    cols={1}
-                    rows={1}
-                    className={classes.item__wrap}
-                    key={index}
+      <div className={classes.PostListWrap}>
+        <GridList
+          cellHeight="auto"
+          className={classes.gridListContainer}
+          cols={colsNumber}
+          spacing={20}
+        >
+          {posts.length > 0 &&
+            posts.map((item, index) => (
+              <GridListTile
+                cols={1}
+                rows={1}
+                className={classes.itemWrap}
+                key={index}
+              >
+                <Paper variant="outlined">
+                  <Typography
+                    variant="h6"
+                    align="justify"
+                    className={classes.title}
                   >
-                    <a onClick={() => onHandleOpenDetailContainer(item.Id)}>
-                      <Paper variant="outlined">
-                        <Typography
-                          variant="h6"
-                          align="justify"
-                          className={classes.title}
-                        >
-                          {item.Title}
-                        </Typography>
-                        <Typography
-                          paragraph={true}
-                          align="justify"
-                          color="textPrimary"
-                          className={classes.brief}
-                        >
-                          {item && `${item.Brief} [...]`}
-                        </Typography>
-                      </Paper>
-                    </a>
-                  </GridListTile>
-                ))}
-
-            </GridList>
-          ))}
-
-        </div>
-        <div>
+                    <Link
+                      underline="none"
+                      onClick={() => onHandleOpenDetailContainer(item.Id)}
+                    >
+                      {item.Title}
+                    </Link>
+                  </Typography>
+                  <Typography
+                    paragraph={true}
+                    align="justify"
+                    color="textPrimary"
+                    style={{ padding: "0 10px" }}
+                  >
+                    {item && `${item.Brief} [...]`}
+                  </Typography>
+                </Paper>
+              </GridListTile>
+            ))}
           {isShowPaging ? (
             <Paging
               currentPageIndex={currentPageIndex}
@@ -147,15 +129,14 @@ const PostGrid = (props) => {
               onChangePageIndex={() => console.log("")}
             />
           ) : (
-              <GridListTile cols={3} className={classes.loading__wrap}>
-                <LinearProgress color="primary" className={classes.loading} />
-              </GridListTile>
-            )}
-          {!isShowPaging && <div className={classes.space__wrap} />}
-        </div>
+            <GridListTile cols={3} className={classes.loadingWrap}>
+              <LinearProgress color="primary" className={classes.loading} />
+            </GridListTile>
+          )}
+          {!isShowPaging && <div className={classes.spaceWrap} />}
+        </GridList>
       </div>
-
-      <div className={classes.developing__wrap} />
+      <div className={classes.developingWrap} />
     </div>
   );
 };

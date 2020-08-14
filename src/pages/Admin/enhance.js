@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import { compose, withHandlers, withState, lifecycle } from "recompose";
-import axios from "axios";
+import { asyncGetAllSubcriptions } from "../../store/actions";
 
 import {
   asyncSubmitPost,
@@ -103,10 +103,7 @@ export default compose(
               .catch(() => {
                 // setIsLoadingPage(false);
               });
-            // here
-            axios
-              .get(`${process.env.REACT_APP_API}/notifi/subscription`)
-              .catch((err) => console.log('error: %s, code: %s', err.message, err.code));
+              asyncGetAllSubcriptions();
           })
           .catch((err) => {
             console.log(err);
