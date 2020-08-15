@@ -217,7 +217,8 @@ export default compose(
         setUserName,
         setTopic,
         setPostList,
-      } = this.prop;
+      } = this.props;
+
       window.addEventListener("scroll", this.props.onScroll);
       window.addEventListener("click", function (e) {
         if (
