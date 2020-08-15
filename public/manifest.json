@@ -1,6 +1,9 @@
 {
-  "short_name": "Hôm Nay Đọc Gì?",
-  "name": "Xây dựng cây thông tin cá nhân hóa người dùng",
+  "manifest_version": 2,
+  "name": "tao lao bi dao",
+  "author": "Hu Chen",
+  "version": "1.0.1",
+  "description": "Replace new tab screen with GitHub trending projects.",
   "icons": [
     {
       "src": "favicon.ico",
@@ -18,8 +21,10 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "permissions": [
+    "storage"
+  ]
 }

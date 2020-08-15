@@ -7,7 +7,7 @@ import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import Paper from "@material-ui/core/Paper";
 import LinearProgress from "@material-ui/core/LinearProgress";
-
+import { determinateColumnData } from "../../utils/utils";
 const useStyles = makeStyles((theme) => ({
   container: {
     padding: "20px 20px",
@@ -16,30 +16,34 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     overflow: "hidden",
   },
-  PostListWrap: {
-    width: (props) => (props.is_maxWidth_1000px ? "100%" : "60%"),
-    paddingRight: "20px",
+  post__list__wrap: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
   },
-  itemWrap: {
+  item__wrap: {
     position: "relative",
     animationName: "$listAmination",
-    animationDuration: "3.5s",
-    transition: "transform 0.5s",
+    animationDuration: "1s",
+    transition: "transform 0.25s",
     "&:hover": {
-      transform: "scale(1.05)",
+      transform: "scale(1.01)",
     },
+    padding: "5px 5px !important"
+
   },
   "@keyframes listAmination": {
-    "0%": { opacity: 0, width: "20%", height: "20%" },
-    "25%": { opacity: 0.2, width: "25%", height: "20%" },
-    "50%": { opacity: 0.5, width: "25%", height: "auto" },
-    "75%": { opacity: 0.7, width: "25%", height: "auto" },
+    "0%": { opacity: 0, width: "6.66666%", height: "20%" },
+    "25%": { opacity: 0, width: "13.33332%", height: "30%" },
+    "50%": { opacity: 0, width: "19.99998%", height: "40%" },
+    "75%": { opacity: 0, width: "26.66664%", height: "50%" },
     "100%": { opacity: 1, width: "33.3333%", height: "auto" },
   },
   title: {
+    fontSize: "15px",
+    fontWeight: "bold",
     display: "flex",
     justifyContent: "center",
-    fontSize: "13px",
     padding: "10px 20px",
     "@global": {
       ".MuiTypography-colorPrimary ": {
@@ -48,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
-  loadingWrap: {
+  loading__wrap: {
     display: "flex",
     justifyContent: "center",
   },
@@ -56,14 +60,25 @@ const useStyles = makeStyles((theme) => ({
     height: "5px",
     width: "200px",
   },
-  spaceWrap: {
+  space__wrap: {
     height: "200px",
     width: "100%",
   },
-  developingWrap: {
+  developing__wrap: {
     marginTop: "20px",
     color: "#ffff",
   },
+  brief: {
+    color: 'rgba(0, 0, 0, .54)',
+    padding: "0 10px"
+  },
+
+  gridListContainer: {
+    width: (props) => (props.is_maxWidth_1000px ? "100%" : 'calc(100%/4)'),
+    display: 'flex',
+    flexDirection: 'column',
+    margin: '0px 0px !important'
+  }
 }));
 
 const PostGrid = (props) => {
@@ -75,50 +90,56 @@ const PostGrid = (props) => {
     responsiveObj,
     onHandleOpenDetailContainer,
   } = props;
-  const colsNumber = responsiveObj.is_maxWidth_1000px ? 1 : 3;
+  const isMobileScreen = responsiveObj.is_maxWidth_1000px;
   const classes = useStyles({ ...responsiveObj });
+  const { columnDataList } = determinateColumnData({ screenSize: isMobileScreen ? 'mobile' : 'medium', posts });
 
   return (
     <div className={classes.container}>
-      <div className={classes.PostListWrap}>
-        <GridList
-          cellHeight="auto"
-          className={classes.gridListContainer}
-          cols={colsNumber}
-          spacing={20}
-        >
-          {posts.length > 0 &&
-            posts.map((item, index) => (
-              <GridListTile
-                cols={1}
-                rows={1}
-                className={classes.itemWrap}
-                key={index}
-              >
-                <Paper variant="outlined">
-                  <Typography
-                    variant="h6"
-                    align="justify"
-                    className={classes.title}
+      <div>
+        <div className={classes.post__list__wrap}>
+          {columnDataList.length > 0 && columnDataList.map((item, index) => (
+            <GridList
+              cellHeight="auto"
+              className={classes.gridListContainer}
+              cols={1}
+              spacing={20}
+            >
+              {
+                item.map((item, index) => (
+                  <GridListTile
+                    cols={1}
+                    rows={1}
+                    className={classes.item__wrap}
+                    key={index}
                   >
-                    <Link
-                      underline="none"
-                      onClick={() => onHandleOpenDetailContainer(item.Id)}
-                    >
-                      {item.Title}
-                    </Link>
-                  </Typography>
-                  <Typography
-                    paragraph={true}
-                    align="justify"
-                    color="textPrimary"
-                    style={{ padding: "0 10px" }}
-                  >
-                    {item && `${item.Brief} [...]`}
-                  </Typography>
-                </Paper>
-              </GridListTile>
-            ))}
+                    <a onClick={() => onHandleOpenDetailContainer(item.Id)}>
+                      <Paper variant="outlined">
+                        <Typography
+                          variant="h6"
+                          align="justify"
+                          className={classes.title}
+                        >
+                          {item.Title}
+                        </Typography>
+                        <Typography
+                          paragraph={true}
+                          align="justify"
+                          color="textPrimary"
+                          className={classes.brief}
+                        >
+                          {item && `${item.Brief} [...]`}
+                        </Typography>
+                      </Paper>
+                    </a>
+                  </GridListTile>
+                ))}
+
+            </GridList>
+          ))}
+
+        </div>
+        <div>
           {isShowPaging ? (
             <Paging
               currentPageIndex={currentPageIndex}
@@ -126,14 +147,15 @@ const PostGrid = (props) => {
               onChangePageIndex={() => console.log("")}
             />
           ) : (
-            <GridListTile cols={3} className={classes.loadingWrap}>
-              <LinearProgress color="primary" className={classes.loading} />
-            </GridListTile>
-          )}
-          {!isShowPaging && <div className={classes.spaceWrap} />}
-        </GridList>
+              <GridListTile cols={3} className={classes.loading__wrap}>
+                <LinearProgress color="primary" className={classes.loading} />
+              </GridListTile>
+            )}
+          {!isShowPaging && <div className={classes.space__wrap} />}
+        </div>
       </div>
-      <div className={classes.developingWrap} />
+
+      <div className={classes.developing__wrap} />
     </div>
   );
 };
