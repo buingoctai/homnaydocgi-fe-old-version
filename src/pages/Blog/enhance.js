@@ -12,6 +12,9 @@ import {
   asyncGetAllTopic,
   saveAllPost,
 } from "./Store/actions";
+import axios from "axios";
+// Push Notification
+import * as serviceWorker from "../../serviceWorker";
 
 const mapStateToProps = (state) => {
   const { blogReducers } = state;
@@ -46,6 +49,10 @@ export default compose(
   withState("scrollCount", "setScrollCount", 0),
   withState("isOpenFeedBack", "setIsOpenFeedBack", false),
   withState("isOpenNotification", "setIsOpenNotification", false),
+  // Push Notification
+  withState("userConsent", "setUserConsent", [Notification.permission]),
+  withState("userSubscription", "setUserSubscription", null),
+  withState("pushServerSubscriptionId", "setPushServerSubscriptionId", ""),
   connect(mapStateToProps, mapDispatchToProps),
   withHandlers({
     onHandleScrollToBottom: (props) => () => {
@@ -64,7 +71,7 @@ export default compose(
 
       setIsShowPaging(false);
       getAllPostDispatch({
-        paging: { pageIndex: currentPageIndex + 1, pageSize: 3 },
+        paging: { pageIndex: currentPageIndex + 1, pageSize: 6 },
         orderList: { orderBy: "SubmitDate", orderType: "DESC" },
       })
         .then((response) => {
@@ -98,7 +105,7 @@ export default compose(
           setPostList([...selectedTopics]);
           userDataCRUD({ action: "EDIT", data: savedData });
         })
-        .catch(() => {});
+        .catch(() => { });
     },
     onSubmitFeedBack: (props) => (feedback) => {
       const {
@@ -114,8 +121,8 @@ export default compose(
           id_msg_user: "",
           message: `${userName}: ${feedback}`,
         })
-          .then(({ message }) => {})
-          .catch(() => {});
+          .then(({ message }) => { })
+          .catch(() => { });
       } else {
         setScrollCount(0);
       }
@@ -142,6 +149,56 @@ export default compose(
         onHandleScrollToBottom();
       }
     },
+    _onClickSusbribeToPushNotification: (props) => () => {
+      const { setUserConsent, setUserSubscription } = props;
+
+      serviceWorker.askUserPermission().then((consent) => {
+        console.log('User permission: ' + consent)
+        setUserConsent(consent);
+
+        if (consent != 'granted')
+          return;
+        serviceWorker.createNotificationSubscription()
+          .then((subscrition) => {
+            setUserSubscription(subscrition);
+            console.log("Here are your subscrition object:");
+            console.log(subscrition);
+
+
+            axios
+              .post(`${process.env.REACT_APP_API}/notifi/subscription`, {
+                data: JSON.stringify(subscrition),
+              })
+              .then((res) => {
+                console.log(res.body)
+              })
+              .catch((err) => console.log('error: %s, code: %s', err.message, err.code));
+          })
+          .catch((err) => console.log('error: %s, code: %s', err.message, err.code));
+      });
+    },
+    // _onClickSendSubscriptionToServer: (props) => () => {
+    //   const { userSubscription, setPushServerSubscriptionId } = props;
+    //   axios
+    //     .post(`http://localhost:8080/notifi/subscription`, {
+    //       data: userSubscription,
+    //     })
+    //     .then((res) => {
+    //       setPushServerSubscriptionId(res.id);
+    //       console.log(res.id)
+    //     })
+    //     .catch((err) => console.log('error: %s, code: %s', err.message, err.code));
+    // },
+    // _onClickSendNotification: (props) => () => {
+    //   const { pushServerSubscriptionId } = props;
+    //   axios
+    //     .get(`http://localhost:8080/notifi/subscription`, {
+    //       params: {
+    //         id: pushServerSubscriptionId
+    //       }
+    //     })
+    //     .catch((err) => console.log('error: %s, code: %s', err.message, err.code));
+    // },
   }),
   lifecycle({
     componentDidMount() {
@@ -157,9 +214,8 @@ export default compose(
         setUserName,
         setTopic,
         setPostList,
-      } = this.props;
-
-      // window.addEventListener("scroll", this.props.onScroll);
+      } = this.prop
+      window.addEventListener("scroll", this.props.onScroll);
       window.addEventListener("click", function (e) {
         if (
           document.getElementById("notiDivider") &&
@@ -187,7 +243,7 @@ export default compose(
           .then(() => {
             getGetAllTopicDispatch();
           })
-          .catch(() => {});
+          .catch(() => { });
       } else {
         setTopic([...topic]);
 
@@ -197,7 +253,7 @@ export default compose(
       }
 
       getAllPostDispatch({
-        paging: { pageIndex: currentPageIndex, pageSize: 3 },
+        paging: { pageIndex: currentPageIndex, pageSize: 6 },
         orderList: { orderBy: "SubmitDate", orderType: "DESC" },
       })
         .then((response) => {
