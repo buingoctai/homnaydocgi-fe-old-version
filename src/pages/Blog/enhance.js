@@ -159,7 +159,7 @@ export default compose(
         setPostList,
       } = this.props;
 
-      window.addEventListener("scroll", this.props.onScroll);
+      // window.addEventListener("scroll", this.props.onScroll);
       window.addEventListener("click", function (e) {
         if (
           document.getElementById("notiDivider") &&
