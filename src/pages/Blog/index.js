@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
-import ScalingSquaresSpinner from '@bit/bondz.react-epic-spinners.scaling-squares-spinner';
+import ScalingSquaresSpinner from "@bit/bondz.react-epic-spinners.scaling-squares-spinner";
 
 import NotificationDivider from "../../components/NotificationDivider";
 import TopicOption from "./components/TopicOption";
@@ -18,9 +18,8 @@ import PostGrid from "../../components/PostGrid";
 import FeedBack from "./components/FeedBack";
 import AuthorPost from "./PostWrap/AuthorPost";
 import { AUTHOR_LIST } from "../../utils/constants";
-import { Chart } from '@bit/primefaces.primereact.chart';
+import { Chart } from "@bit/primefaces.primereact.chart";
 import enhance from "./enhance";
-
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -38,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "1%",
   },
   featuredContent: {
-    display: 'flex'
+    display: "flex",
   },
 
   featureGrid: {
@@ -51,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   width1Col: {
-    width: "50%"
+    width: "50%",
   },
   width2Col: {
     // width: "100%"
@@ -114,17 +113,25 @@ const Blog = (props) => {
     setIsOpenFeedBack,
   } = props;
 
-  const { _onClickSusbribeToPushNotification, _onClickSendSubscriptionToServer, _onClickSendNotification } = props;
+  const {
+    _onClickSusbribeToPushNotification,
+    _onClickSendSubscriptionToServer,
+    _onClickSendNotification,
+  } = props;
 
   const data = {
-    labels: ['Kiến thức chuyên môn', 'Kiến thức ngoài chuyên môn', 'Kỹ năng mềm'],
+    labels: [
+      "Kiến thức chuyên môn",
+      "Kiến thức ngoài chuyên môn",
+      "Kỹ năng mềm",
+    ],
     datasets: [
       {
         data: [500, 300, 100],
-        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-        hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
-      }
-    ]
+        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+        hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+      },
+    ],
   };
 
   const classes = useStyles({ ...responsiveObj });
@@ -139,16 +146,15 @@ const Blog = (props) => {
           postList={postList}
           setIsOpenNotification={setIsOpenNotification}
           isOpenNotification={isOpenNotification}
-          _onClickSusbribeToPushNotification={_onClickSusbribeToPushNotification}
+          _onClickSusbribeToPushNotification={
+            _onClickSusbribeToPushNotification
+          }
           _onClickSendSubscriptionToServer={_onClickSendSubscriptionToServer}
           _onClickSendNotification={_onClickSendNotification}
         />
         {isLoadingPage && (
           <div className={classes.totalContentLoadingWrap}>
-            <ScalingSquaresSpinner
-              color='#000000'
-              size='100'
-            />
+            <ScalingSquaresSpinner color="#000000" size="100" />
           </div>
         )}
 
@@ -156,7 +162,9 @@ const Blog = (props) => {
           <NotificationDivider
             setIsOpenChoseTopic={setIsOpenChoseTopic}
             setIsOpenFeedBack={setIsOpenFeedBack}
-            _onClickSusbribeToPushNotification={_onClickSusbribeToPushNotification}
+            _onClickSusbribeToPushNotification={
+              _onClickSusbribeToPushNotification
+            }
           />
         )}
         {TopicOption({
@@ -217,7 +225,11 @@ const Blog = (props) => {
             </div> */}
 
             <div className={classes.featuredContent}>
-              <Grid container spacing={4} className={`${classes.featureGrid} ${classes.width2Col}`}>
+              <Grid
+                container
+                spacing={4}
+                className={`${classes.featureGrid} ${classes.width2Col}`}
+              >
                 <FeaturedPost
                   key="featured post"
                   post={featuredPosts}
@@ -257,7 +269,7 @@ const Blog = (props) => {
 
         {/*-----------------------------------Nhóm thông báo-----------------------------------------------*/}
       </Container>
-      <Footer description="Mọi sao chép nội dung bài viết không ghi rõ nguồn đều vi phạm quyền sở hữu" />
+      <Footer description="Tham gia cùng đội/nhóm phát triển sản phẩm - Liên hệ Bùi Ngọc Tài Zalo 0983 053 600" />
     </React.Fragment>
   );
 };

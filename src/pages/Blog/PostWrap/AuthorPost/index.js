@@ -19,6 +19,11 @@ const userStyles = makeStyles(() => ({
     textAlign: "center",
     marginLeft: "2%",
     cursor: "pointer",
+    "@global": {
+      ".slider": {
+        borderRadius: "5px",
+      },
+    },
   },
   button: {
     position: "absolute",

@@ -4,13 +4,14 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
+import favicon from "../../../src/";
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="textSecondary" align="center">
+    <Typography variant="body2" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+      <Link color="aliceblue" href="https://material-ui.com/">
+        https://www.homnaydocgi.com
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -18,12 +19,25 @@ function Copyright() {
   );
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   footer: {
-    backgroundColor: theme.palette.background.paper,
     // marginTop: theme.spacing(8),
-    padding: theme.spacing(6, 0)
-  }
+    padding: theme.spacing(6, 0),
+    "@global": {
+      ".MuiContainer-maxWidthLg": {
+        width: "90%",
+        boxShadow: "none",
+        backgroundColor: "#595959",
+        borderRadius: "5px",
+      },
+      ".MuiTypography-subtitle1": {
+        color: "aliceblue",
+      },
+      ".MuiTypography-body2": {
+        color: "aliceblue",
+      },
+    },
+  },
 }));
 
 export default function Footer(props) {
@@ -36,7 +50,7 @@ export default function Footer(props) {
         <Typography
           variant="subtitle1"
           align="center"
-          color="textSecondary"
+          color="aliceblue"
           component="p"
         >
           {description}
@@ -49,5 +63,5 @@ export default function Footer(props) {
 
 Footer.propTypes = {
   description: PropTypes.string,
-  title: PropTypes.string
+  title: PropTypes.string,
 };

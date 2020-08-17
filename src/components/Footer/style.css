@@ -1,0 +1,40 @@
+.FooterOuter {
+  align-items: center;
+  color: #8855ff;
+  display: flex;
+  justify-content: center;
+  padding: 1em 2em 2em 2em;
+  overflow: hidden;
+}
+
+.FooterOuter .FooterWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.FooterOuter .FooterWrapper .FooterContent.left {
+  text-align: left;
+}
+
+.FooterOuter .FooterWrapper .FooterContent.center {
+  text-align: center;
+}
+
+.FooterOuter .FooterWrapper .FooterContent.right {
+  text-align: right;
+}
+
+.FooterOuter .FooterWrapper .FooterContent .FooterLogo {
+  width: 10em;
+}
+
+.FooterOuter .FooterWrapper .FooterContent .FooterLink {
+  display: block;
+  text-decoration: none;
+}
+
+@media (max-width: 599px) {
+  .FooterOuter {
+    font-size: 90%;
+  }
+}
