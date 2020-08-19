@@ -7,6 +7,7 @@ import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import Paper from "@material-ui/core/Paper";
 import LinearProgress from "@material-ui/core/LinearProgress";
+
 import { determinateColumnData } from "../../utils/utils";
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -29,8 +30,7 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       transform: "scale(1.01)",
     },
-    padding: "5px 5px !important"
-
+    padding: "5px 5px !important",
   },
   "@keyframes listAmination": {
     "0%": { opacity: 0, width: "6.66666%", height: "20%" },
@@ -69,16 +69,16 @@ const useStyles = makeStyles((theme) => ({
     color: "#ffff",
   },
   brief: {
-    color: 'rgba(0, 0, 0, .54)',
-    padding: "0 10px"
+    color: "rgba(0, 0, 0, .54)",
+    padding: "0 10px",
   },
 
   gridListContainer: {
-    width: (props) => (props.is_maxWidth_1000px ? "100%" : 'calc(100%/4)'),
-    display: 'flex',
-    flexDirection: 'column',
-    margin: '0px 0px !important'
-  }
+    width: (props) => (props.is_maxWidth_1000px ? "100%" : "calc(100%/4)"),
+    display: "flex",
+    flexDirection: "column",
+    margin: "0px 0px !important",
+  },
 }));
 
 const PostGrid = (props) => {
@@ -92,21 +92,24 @@ const PostGrid = (props) => {
   } = props;
   const isMobileScreen = responsiveObj.is_maxWidth_1000px;
   const classes = useStyles({ ...responsiveObj });
-  const { columnDataList } = determinateColumnData({ screenSize: isMobileScreen ? 'mobile' : 'medium', posts });
+  const { columnDataList } = determinateColumnData({
+    screenSize: isMobileScreen ? "mobile" : "medium",
+    posts,
+  });
 
   return (
     <div className={classes.container}>
       <div>
         <div className={classes.post__list__wrap}>
-          {columnDataList.length > 0 && columnDataList.map((item, index) => (
-            <GridList
-              cellHeight="auto"
-              className={classes.gridListContainer}
-              cols={1}
-              spacing={20}
-            >
-              {
-                item.map((item, index) => (
+          {columnDataList.length > 0 &&
+            columnDataList.map((item, index) => (
+              <GridList
+                cellHeight="auto"
+                className={classes.gridListContainer}
+                cols={1}
+                spacing={20}
+              >
+                {item.map((item, index) => (
                   <GridListTile
                     cols={1}
                     rows={1}
@@ -134,10 +137,8 @@ const PostGrid = (props) => {
                     </a>
                   </GridListTile>
                 ))}
-
-            </GridList>
-          ))}
-
+              </GridList>
+            ))}
         </div>
         <div>
           {isShowPaging ? (
@@ -147,10 +148,10 @@ const PostGrid = (props) => {
               onChangePageIndex={() => console.log("")}
             />
           ) : (
-              <GridListTile cols={3} className={classes.loading__wrap}>
-                <LinearProgress color="primary" className={classes.loading} />
-              </GridListTile>
-            )}
+            <GridListTile cols={3} className={classes.loading__wrap}>
+              <LinearProgress color="primary" className={classes.loading} />
+            </GridListTile>
+          )}
           {!isShowPaging && <div className={classes.space__wrap} />}
         </div>
       </div>

@@ -87,6 +87,7 @@ export default compose(
         })
           .then(({ message }) => {
             alert(message);
+            sendNotificationDispatch({ title: articleData.title });
             setArticleData({
               author: "",
               title: "",
@@ -106,7 +107,6 @@ export default compose(
                 // setIsLoadingPage(false);
               });
             // here
-            sendNotificationDispatch();
           })
           .catch((err) => {
             console.log(err);

@@ -257,7 +257,9 @@ const Blog = (props) => {
 
         {/*-----------------------------------Nhóm thông báo-----------------------------------------------*/}
       </Container>
-      <Footer description="Tham gia cùng đội/nhóm phát triển sản phẩm - Liên hệ Bùi Ngọc Tài Zalo 0983 053 600" />
+      {!isLoadingPage && (
+        <Footer description="Tham gia cùng đội/nhóm phát triển sản phẩm - Liên hệ Bùi Ngọc Tài Zalo 0983 053 600" />
+      )}
     </React.Fragment>
   );
 };

@@ -166,7 +166,6 @@ export default compose(
         serviceWorker
           .createNotificationSubscription()
           .then((subscrition) => {
-            console.log("subscrition", subscrition);
             subscribePageDispatch(subscrition)
               .then((res) => {
                 userDataCRUD({ action: "EDIT", data: { ...res } });

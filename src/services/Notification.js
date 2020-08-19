@@ -17,11 +17,12 @@ export const unSubscribePage = (params) => {
   );
 };
 
-export const sendNotification = () => {
+export const sendNotification = (params) => {
   return request(
     `${process.env.REACT_APP_API}/notification/sendNotificationToAll`,
     {
-      method: "GET",
+      method: "POST",
+      data: params,
     }
   );
 };
