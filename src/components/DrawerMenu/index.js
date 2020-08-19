@@ -9,9 +9,11 @@ import ListItemText from "@material-ui/core/ListItemText";
 import MenuIcon from "@material-ui/icons/Menu";
 import RadioIcon from "@material-ui/icons/Radio";
 import SubjectIcon from "@material-ui/icons/Subject";
+import AddToHomeScreenIcon from "@material-ui/icons/AddToHomeScreen";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import LinkedInIcon from "@material-ui/icons/LinkedIn";
-import { translateUrl } from "../../utils/utils";
+import Button from "@material-ui/core/Button";
+import { translateUrl, userDataCRUD } from "../../utils/utils";
 const useStyles = makeStyles({
   container: {
     "@global": {
@@ -53,9 +55,14 @@ const useStyles = makeStyles({
   },
 });
 
-export default function DrawerMenu() {
+const DrawerMenu = (props) => {
+  const { onSubscribePage } = props;
   const classes = useStyles();
   const [isOpen, setIsOpen] = React.useState(false);
+  userDataCRUD({ action: "EDIT", data: {} });
+  const { subscriptionId = "" } = userDataCRUD({
+    action: "GET",
+  });
 
   const toggleDrawer = (open) => (event) => {
     if (
@@ -97,7 +104,22 @@ export default function DrawerMenu() {
             </Link>
           </ListItem>
         ))}
+
         <ListItem button key={"text"}>
+          <a
+            // style={{ textDecoration: "none" }}
+            onClick={onSubscribePage}
+            to=""
+          >
+            <ListItemIcon>
+              <AddToHomeScreenIcon color="primary" />
+            </ListItemIcon>
+            <ListItemText style={{ color: "#551A8B", textAlign: "center" }}>
+              {subscriptionId ? "Bỏ Theo Dõi" : "Theo Dõi"}
+            </ListItemText>
+          </a>
+        </ListItem>
+        {/* <ListItem button key={"text"}>
           <Link
             style={{ textDecoration: "none" }}
             onClick={() =>
@@ -110,8 +132,8 @@ export default function DrawerMenu() {
             </ListItemIcon>
             <ListItemText>Liên hệ</ListItemText>
           </Link>
-        </ListItem>
-        <ListItem button key={"text"}>
+        </ListItem> */}
+        {/* <ListItem button key={"text"}>
           <Link
             style={{ textDecoration: "none" }}
             onClick={() =>
@@ -127,7 +149,7 @@ export default function DrawerMenu() {
             </ListItemIcon>
             <ListItemText>Linkedin</ListItemText>
           </Link>
-        </ListItem>
+        </ListItem> */}
       </List>
     </div>
   );
@@ -147,4 +169,6 @@ export default function DrawerMenu() {
       </Drawer>
     </React.Fragment>
   );
-}
+};
+
+export default DrawerMenu;

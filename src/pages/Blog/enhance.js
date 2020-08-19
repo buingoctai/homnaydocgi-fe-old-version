@@ -4,17 +4,17 @@ import { DEFAULT_TOPIC } from "../../utils/constants";
 import { userDataCRUD } from "../../utils/utils";
 import OpenDetaiPostHandler from "../../components/HOC/OpenDetaiPostHandler";
 import UserDataHandler from "../../components/HOC/UserDataHandler";
+import * as serviceWorker from "../../serviceWorker";
 import {
   asyncGetMainPosts,
   asyncGetFeaturedPosts,
   asyncGetAllPost,
   asyncSuggestSubscribeNotifiByBot,
   asyncGetAllTopic,
+  asyncSubscribePage,
+  asyncUnSubscribePage,
   saveAllPost,
 } from "./Store/actions";
-import axios from "axios";
-// Push Notification
-import * as serviceWorker from "../../serviceWorker";
 
 const mapStateToProps = (state) => {
   const { blogReducers } = state;
@@ -32,6 +32,8 @@ const mapDispatchToProps = (dispatch) => {
       asyncSuggestSubscribeNotifiByBot(payload),
     saveAllPostDispatch: (payload) => dispatch(saveAllPost(payload)),
     getGetAllTopicDispatch: (payload) => asyncGetAllTopic(payload),
+    subscribePageDispatch: (payload) => asyncSubscribePage(payload),
+    unSubscribePageDispatch: (payload) => asyncUnSubscribePage(payload),
   };
 };
 export default compose(
@@ -49,10 +51,6 @@ export default compose(
   withState("scrollCount", "setScrollCount", 0),
   withState("isOpenFeedBack", "setIsOpenFeedBack", false),
   withState("isOpenNotification", "setIsOpenNotification", false),
-  // Push Notification
-  withState("userConsent", "setUserConsent", [Notification.permission]),
-  withState("userSubscription", "setUserSubscription", null),
-  withState("pushServerSubscriptionId", "setPushServerSubscriptionId", ""),
   connect(mapStateToProps, mapDispatchToProps),
   withHandlers({
     onHandleScrollToBottom: (props) => () => {
@@ -105,7 +103,7 @@ export default compose(
           setPostList([...selectedTopics]);
           userDataCRUD({ action: "EDIT", data: savedData });
         })
-        .catch(() => { });
+        .catch(() => {});
     },
     onSubmitFeedBack: (props) => (feedback) => {
       const {
@@ -121,8 +119,8 @@ export default compose(
           id_msg_user: "",
           message: `${userName}: ${feedback}`,
         })
-          .then(({ message }) => { })
-          .catch(() => { });
+          .then(({ message }) => {})
+          .catch(() => {});
       } else {
         setScrollCount(0);
       }
@@ -149,56 +147,37 @@ export default compose(
         onHandleScrollToBottom();
       }
     },
-    _onClickSusbribeToPushNotification: (props) => () => {
-      const { setUserConsent, setUserSubscription } = props;
+    onSubscribePage: (props) => () => {
+      const { subscribePageDispatch, unSubscribePageDispatch } = props;
+      const { subscriptionId } = userDataCRUD({
+        action: "GET",
+      });
 
-      serviceWorker.askUserPermission().then((consent) => {
-        console.log('User permission: ' + consent)
-        setUserConsent(consent);
-
-        if (consent != 'granted')
-          return;
-        serviceWorker.createNotificationSubscription()
-          .then((subscrition) => {
-            setUserSubscription(subscrition);
-            console.log("Here are your subscrition object:");
-            console.log(subscrition);
-
-
-            axios
-              .post(`${process.env.REACT_APP_API}/notifi/subscription`, {
-                data: JSON.stringify(subscrition),
-              })
-              .then((res) => {
-                console.log(res.body)
-              })
-              .catch((err) => console.log('error: %s, code: %s', err.message, err.code));
+      if (Notification.permission === "granted" && subscriptionId) {
+        unSubscribePageDispatch({ subscriptionId })
+          .then(() => {
+            userDataCRUD({ action: "EDIT", data: { subscriptionId: "" } });
           })
-          .catch((err) => console.log('error: %s, code: %s', err.message, err.code));
+          .catch(() => console.log("err"));
+        return;
+      }
+      serviceWorker.askUserPermission().then((consent) => {
+        if (consent != "granted") return;
+        serviceWorker
+          .createNotificationSubscription()
+          .then((subscrition) => {
+            console.log("subscrition", subscrition);
+            subscribePageDispatch(subscrition)
+              .then((res) => {
+                userDataCRUD({ action: "EDIT", data: { ...res } });
+              })
+              .catch();
+          })
+          .catch((err) =>
+            console.log("error: %s, code: %s", err.message, err.code)
+          );
       });
     },
-    // _onClickSendSubscriptionToServer: (props) => () => {
-    //   const { userSubscription, setPushServerSubscriptionId } = props;
-    //   axios
-    //     .post(`http://localhost:8080/notifi/subscription`, {
-    //       data: userSubscription,
-    //     })
-    //     .then((res) => {
-    //       setPushServerSubscriptionId(res.id);
-    //       console.log(res.id)
-    //     })
-    //     .catch((err) => console.log('error: %s, code: %s', err.message, err.code));
-    // },
-    // _onClickSendNotification: (props) => () => {
-    //   const { pushServerSubscriptionId } = props;
-    //   axios
-    //     .get(`http://localhost:8080/notifi/subscription`, {
-    //       params: {
-    //         id: pushServerSubscriptionId
-    //       }
-    //     })
-    //     .catch((err) => console.log('error: %s, code: %s', err.message, err.code));
-    // },
   }),
   lifecycle({
     componentDidMount() {
@@ -243,7 +222,7 @@ export default compose(
           .then(() => {
             getGetAllTopicDispatch();
           })
-          .catch(() => { });
+          .catch(() => {});
       } else {
         setTopic([...topic]);
 

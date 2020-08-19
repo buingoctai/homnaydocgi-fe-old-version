@@ -13,6 +13,8 @@ import {
   suggestSubscribeNotifiByBotEffect,
   getDetailPostEffect,
   getAllTopicEffect,
+  subscribePageEffect,
+  unSubscribePageEffect,
 } from "./sagas";
 
 const getMainPosts = (payload, resolve, reject) => {
@@ -60,12 +62,7 @@ export const asyncSuggestSubscribeNotifiByBot = (payload) => {
 };
 
 const getDetailPost = (payload, resolve, reject) => {
-  sagaMiddleware.run(
-    getDetailPostEffect,
-    payload,
-    resolve,
-    reject
-  );
+  sagaMiddleware.run(getDetailPostEffect, payload, resolve, reject);
 };
 
 export const asyncGetDetailPost = (payload) => {
@@ -75,12 +72,7 @@ export const asyncGetDetailPost = (payload) => {
 };
 
 const getAllTopic = (payload, resolve, reject) => {
-  sagaMiddleware.run(
-    getAllTopicEffect,
-    payload,
-    resolve,
-    reject
-  );
+  sagaMiddleware.run(getAllTopicEffect, payload, resolve, reject);
 };
 
 export const asyncGetAllTopic = (payload) => {
@@ -89,6 +81,23 @@ export const asyncGetAllTopic = (payload) => {
   });
 };
 
+const subscribePage = (payload, resolve, reject) => {
+  sagaMiddleware.run(subscribePageEffect, payload, resolve, reject);
+};
+export const asyncSubscribePage = (payload) => {
+  return new Promise((resolve, reject) => {
+    subscribePage(payload, resolve, reject);
+  });
+};
+
+const unSubscribePage = (payload, resolve, reject) => {
+  sagaMiddleware.run(unSubscribePageEffect, payload, resolve, reject);
+};
+export const asyncUnSubscribePage = (payload) => {
+  return new Promise((resolve, reject) => {
+    unSubscribePage(payload, resolve, reject);
+  });
+};
 
 export const saveMainPosts = (payload) => {
   return {

@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ListDividers(props) {
   const classes = useStyles();
-  const { setIsOpenChoseTopic, setIsOpenFeedBack, _onClickSusbribeToPushNotification } = props;
+  const { setIsOpenChoseTopic, setIsOpenFeedBack } = props;
 
   return (
     <div className={classes.container}>
@@ -63,12 +63,6 @@ export default function ListDividers(props) {
             <ListItemText primary="Cảm ơn bạn đã ghé thăm website!" />
           </ListItem>
           <Divider />
-          <ListItem button divider>
-            <ListItemText
-              primary="Đăng ký nhận thông báo"
-              onClick={_onClickSusbribeToPushNotification}
-            />
-          </ListItem>
           <Divider />
           <ListItem button divider>
             <ListItemText

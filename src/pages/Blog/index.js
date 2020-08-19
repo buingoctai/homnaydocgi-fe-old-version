@@ -108,15 +108,10 @@ const Blog = (props) => {
     onSubmitFeedBack,
     onSaveListPost,
     onUnSaveListPost,
+    onSubscribePage,
     setIsOpenNotification,
     setIsOpenChoseTopic,
     setIsOpenFeedBack,
-  } = props;
-
-  const {
-    _onClickSusbribeToPushNotification,
-    _onClickSendSubscriptionToServer,
-    _onClickSendNotification,
   } = props;
 
   const data = {
@@ -146,11 +141,7 @@ const Blog = (props) => {
           postList={postList}
           setIsOpenNotification={setIsOpenNotification}
           isOpenNotification={isOpenNotification}
-          _onClickSusbribeToPushNotification={
-            _onClickSusbribeToPushNotification
-          }
-          _onClickSendSubscriptionToServer={_onClickSendSubscriptionToServer}
-          _onClickSendNotification={_onClickSendNotification}
+          onSubscribePage={onSubscribePage}
         />
         {isLoadingPage && (
           <div className={classes.totalContentLoadingWrap}>
@@ -162,9 +153,6 @@ const Blog = (props) => {
           <NotificationDivider
             setIsOpenChoseTopic={setIsOpenChoseTopic}
             setIsOpenFeedBack={setIsOpenFeedBack}
-            _onClickSusbribeToPushNotification={
-              _onClickSusbribeToPushNotification
-            }
           />
         )}
         {TopicOption({

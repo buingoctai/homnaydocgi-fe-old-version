@@ -1,5 +1,6 @@
 import { call, put } from "redux-saga/effects";
 import { submitPost, deletePosts, updatePosts } from "../../../services/Admin";
+import { sendNotification } from "../../../services/Notification";
 import { getAllPost, getDetailPost } from "../../../services/Blog";
 import { saveAllPost, saveDetailPost } from "./actions";
 
@@ -44,10 +45,15 @@ function* getDetailPostEffect(payload, resolve, reject) {
   }
 }
 
+function* sendNotificationEffect(payload, resolve, reject) {
+  yield call(sendNotification, payload);
+  resolve();
+}
 export {
   submitPosteEffect,
   getAllPostEffect,
   deletePostsEffect,
   updatePostsEffect,
   getDetailPostEffect,
+  sendNotificationEffect,
 };

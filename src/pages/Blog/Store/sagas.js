@@ -8,7 +8,7 @@ import {
   getDetailPost,
   getAllTopic,
 } from "../../../services/Blog";
-
+import { subscribePage, unSubscribePage } from "../../../services/Notification";
 import {
   saveMainPosts,
   saveFeaturedPosts,
@@ -22,9 +22,10 @@ function* getMainPostsEffect(payload, resolve, reject) {
   if (response) {
     yield put(saveMainPosts({ ...response }));
     resolve();
-  } else {
-    reject("Error calling api");
+    return;
   }
+
+  reject("Error calling api");
 }
 
 function* getFeaturedPostsEffect(payload, resolve, reject) {
@@ -33,9 +34,9 @@ function* getFeaturedPostsEffect(payload, resolve, reject) {
   if (response) {
     yield put(saveFeaturedPosts({ ...response }));
     resolve();
-  } else {
-    reject("Error calling api");
+    return;
   }
+  reject("Error calling api");
 }
 
 function* getAllPostEffect(payload, resolve, reject) {
@@ -43,9 +44,9 @@ function* getAllPostEffect(payload, resolve, reject) {
 
   if (response) {
     resolve(response);
-  } else {
-    reject("Error calling api");
+    return;
   }
+  reject("Error calling api");
 }
 
 function* suggestSubscribeNotifiByBotEffect(payload, resolve, reject) {
@@ -53,9 +54,9 @@ function* suggestSubscribeNotifiByBotEffect(payload, resolve, reject) {
 
   if (response) {
     resolve(response);
-  } else {
-    reject("Error calling api");
+    return;
   }
+  reject("Error calling api");
 }
 
 function* getDetailPostEffect(payload, resolve, reject) {
@@ -64,9 +65,9 @@ function* getDetailPostEffect(payload, resolve, reject) {
 
   if (response) {
     resolve(response);
-  } else {
-    reject("Error calling api");
+    return;
   }
+  reject("Error calling api");
 }
 
 function* getAllTopicEffect(payload, resolve, reject) {
@@ -75,9 +76,23 @@ function* getAllTopicEffect(payload, resolve, reject) {
 
   if (response) {
     resolve(response);
-  } else {
-    reject("Error calling api");
+    return;
   }
+  reject("Error calling api");
+}
+
+function* subscribePageEffect(payload, resolve, reject) {
+  const response = yield call(subscribePage, payload);
+
+  if (response) {
+    resolve(response);
+  }
+  reject("Error calling api");
+}
+
+function* unSubscribePageEffect(payload, resolve, reject) {
+  yield call(unSubscribePage, payload);
+  resolve("");
 }
 
 export {
@@ -87,4 +102,6 @@ export {
   suggestSubscribeNotifiByBotEffect,
   getDetailPostEffect,
   getAllTopicEffect,
+  subscribePageEffect,
+  unSubscribePageEffect,
 };

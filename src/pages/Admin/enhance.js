@@ -1,6 +1,5 @@
 import { connect } from "react-redux";
 import { compose, withHandlers, withState, lifecycle } from "recompose";
-import axios from "axios";
 
 import {
   asyncSubmitPost,
@@ -8,6 +7,7 @@ import {
   asyncDeletePosts,
   asyncUpdatePosts,
   asyncGetDetailPost,
+  asyncSendNotification,
 } from "./Store/actions";
 
 // import { asyncGetDetailPost } from "../Blog/Store/actions";
@@ -27,6 +27,7 @@ const mapDispatchToProps = (dispatch) => {
     deletePostsDispatch: (payload) => asyncDeletePosts(payload),
     updatePostsDispatch: (payload) => asyncUpdatePosts(payload),
     getDetailPostDispatch: (payload) => asyncGetDetailPost(payload),
+    sendNotificationDispatch: (payload) => asyncSendNotification(payload),
   };
 };
 export default compose(
@@ -77,6 +78,7 @@ export default compose(
         submitPostDispatch,
         updatePostsDispatch,
         getAllPostDispatch,
+        sendNotificationDispatch,
       } = props;
 
       if (selected.length === 0) {
@@ -104,9 +106,7 @@ export default compose(
                 // setIsLoadingPage(false);
               });
             // here
-            axios
-              .get(`${process.env.REACT_APP_API}/notifi/subscription`)
-              .catch((err) => console.log('error: %s, code: %s', err.message, err.code));
+            sendNotificationDispatch();
           })
           .catch((err) => {
             console.log(err);
@@ -135,7 +135,7 @@ export default compose(
                 // setIsLoadingPage(false);
               });
           })
-          .catch(() => { });
+          .catch(() => {});
       }
     },
     onDeleteArticle: (props) => (selected) => {

@@ -12,12 +12,12 @@
 
 const isLocalhost = Boolean(
   window.location.hostname === "localhost" ||
-  // [::1] is the IPv6 localhost address.
-  window.location.hostname === "[::1]" ||
-  // 127.0.0.0/8 are considered localhost for IPv4.
-  window.location.hostname.match(
-    /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
-  )
+    // [::1] is the IPv6 localhost address.
+    window.location.hostname === "[::1]" ||
+    // 127.0.0.0/8 are considered localhost for IPv4.
+    window.location.hostname.match(
+      /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
+    )
 );
 
 export function register(config) {
@@ -29,7 +29,6 @@ export function register(config) {
       // Our service worker won't work if PUBLIC_URL is on a different origin
       // from what our page is served on. This might happen if a CDN is used to
       // serve assets; see https://github.com/facebook/create-react-app/issues/2374
-
 
       return;
     }
@@ -63,7 +62,6 @@ function registerValidSW(swUrl, config) {
   navigator.serviceWorker
     .register(swUrl)
     .then((registration) => {
-      console.log("in serviceWorker, registration=", registration);
       registration.onupdatefound = () => {
         const installingWorker = registration.installing;
         if (installingWorker == null) {
@@ -77,7 +75,7 @@ function registerValidSW(swUrl, config) {
               // content until all client tabs are closed.
               console.log(
                 "New content is available and will be used when all " +
-                "tabs for this page are closed. See https://bit.ly/CRA-PWA."
+                  "tabs for this page are closed. See https://bit.ly/CRA-PWA."
               );
 
               // Execute callback
@@ -169,7 +167,6 @@ export function getUserSubscription() {
   return navigator.serviceWorker.ready
     .then(function (serviceWorker) {
       const r = serviceWorker.pushManager.getSubscription();
-      console.log("r=", r);
       return r;
     })
     .then(function (pushSubscription) {

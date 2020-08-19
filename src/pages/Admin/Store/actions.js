@@ -6,6 +6,7 @@ import {
   deletePostsEffect,
   updatePostsEffect,
   getDetailPostEffect,
+  sendNotificationEffect,
 } from "./sagas";
 
 const submitPost = (payload, resolve, reject) => {
@@ -51,9 +52,20 @@ export const asyncUpdatePosts = (payload) => {
 const getDetailPost = (payload, resolve, reject) => {
   sagaMiddleware.run(getDetailPostEffect, payload, resolve, reject);
 };
+
 export const asyncGetDetailPost = (payload) => {
   return new Promise((resolve, reject) => {
     getDetailPost(payload, resolve, reject);
+  });
+};
+
+const sendNotification = (payload, resolve, reject) => {
+  sagaMiddleware.run(sendNotificationEffect, payload, resolve, reject);
+};
+
+export const asyncSendNotification = (payload) => {
+  return new Promise((resolve, reject) => {
+    sendNotification(payload, resolve, reject);
   });
 };
 
