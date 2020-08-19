@@ -40,11 +40,14 @@
     "typescript": "^3.8.3"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "dev": "react-scripts start",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "tsc": "tsc",
-    "sw": "cat build/sw.js >> build/service-worker.js"
+    "sw": "cat build/sw.js >> build/service-worker.js",
+    "start": "serve -s build",
+    "build": "react-scripts build",
+    "heroku-postbuild": "npm run build"
   },
   "eslintConfig": {
     "extends": "react-app"
